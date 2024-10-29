@@ -1,0 +1,106 @@
+.create-container-page{
+  visibility: hidden;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom:0;
+  z-index: 999;
+  overflow:hidden;
+  
+}
+.create-container{
+  position: absolute;
+  width: 1200px;
+  height:600px;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  background-color: #fff5e5;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 0px;
+  z-index: 1000;
+}
+.create-container-header{
+  position: absolute;
+  top:0;
+  left:0;
+  right: 0;;
+  border-bottom:1px solid #d3cdc2;
+  text-align: center;
+  padding:10px;
+  font-size: 23px;
+  color:var(--text-color);
+}
+.create-container-body{
+  background-color: var(--accent-color);
+  font-size: 20px;
+  padding:10px 20px;
+  border-radius: 30px;
+  color:white;
+
+}
+
+.create-image{
+  width:250px;
+  border-radius: 10px;
+}
+.xmark{
+  position: absolute;
+  z-index: 1000;
+  top:25px;
+  right:25px;
+  color:var(--text-color);
+  cursor: pointer;
+}
+#create-input{
+  display: none;
+}
+label{
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  cursor: pointer;
+}
+.post-submit-container{
+  margin-top:10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+
+}
+.post-submit-caption{
+  width: 300px;
+  background-color: transparent;
+  border:none;
+  border-bottom:2px solid var(--text-color);
+  padding:5px 10px;
+  outline: none;
+  font-family: 'Itim';
+  color:var(--text-color);
+}
+select{
+  background-color: #fff5e5;
+  border: none;
+  color:var(--text-color);
+  border-bottom: 2px solid var(--text-color);
+  padding:5px 10px;
+  font-family:'Itim';
+
+}
+
+.post-submit-button{
+  background-color: var(--accent-color);
+  color:white;
+  border:none;
+  padding:5px;
+  font-family:'Itim';
+  border-radius: 5px;;
+}

@@ -1,0 +1,58 @@
+:root{
+  --body-padding:187.125px;
+  --text-color:#114085;
+  --accent-color:#FFB74D;
+  --header-height:72px;
+  --messagesFriendsSelector-width: 375px; 
+}
+
+
+.body-default{
+  padding-left: var(--body-padding);
+  padding-top:var(--header-height);
+  display: block;
+  font-family: 'Itim';
+  margin: 0;
+  min-width: 320px;
+  min-height: 100%;
+  background-color: #ffefd8;
+  overflow-y:scroll;
+}
+.body-signIn{
+  padding:0;
+  margin:0;
+  display: block;
+  font-family: 'Itim';
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #ffefd8;
+}
+.body-settings{
+  padding:0px 500px;
+  background-color: #ffefd8;
+  font-family: 'Itim';
+}
+.body-home{
+  padding-top:var(--header-height);
+  display: flex;
+  justify-content: center;
+  font-family: 'Itim';
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #ffefd8;
+}
+p{
+  margin:0;
+}
+
+.drop-down-settings{
+  padding:10px 0px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.drop-down-settings div{
+  font-size: 19px;
+}

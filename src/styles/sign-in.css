@@ -1,0 +1,132 @@
+
+.sign-in-page{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sign-in-container{
+  display: flex;
+  
+
+}
+
+.sign-in-welcome{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width:600px;
+  height:600px;
+  row-gap: 260px;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  text-align: center;
+  padding:70px 0px;
+}
+
+.sign-in-welcome h1{
+  color:var(--text-color);
+  font-size: 110px;
+  line-height: 1.1;
+  font-weight: 400;
+  
+}
+.sign-in-page p{
+  color:var(--text-color);
+  font-size: 24px;
+}
+.link{
+  color:var(--accent-color);
+  font-size: 22px;
+  display: block;
+  margin-top: 10px;
+  cursor: pointer;
+  display: inline-block;
+}
+.link:hover{
+  text-decoration: underline ;
+  text-decoration-color: #ffbe5d;
+}
+.sign-in-welcome .link{
+  margin: 0;
+}
+.sign-in-input{
+  width: 600px;
+  height: 600px;
+  box-sizing: border-box;
+  background-color: var(--text-color);
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  text-align: left;
+  padding: 80px 50px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 65px;
+}
+
+.sign-in-input input{
+  box-sizing: border-box;
+  padding: 0px 20px;
+  width: 430px;
+  height:50px;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Itim';
+  font-size: 15px;
+
+}
+.sign-in-username-input{
+  margin-top:20px;
+}
+.sign-in-input input:focus{
+  outline:none;
+
+}
+.sign-in-input p{
+  color: white;
+  margin-bottom: 10px;
+}
+
+.login-button{
+  width: 430px;
+  border: none;
+  height: 50px;
+  padding: 0;
+  border-radius: 10px;
+  background-color: var(--accent-color);
+  color: white;
+  font-family: 'Itim';
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 0px;
+}
+.login-button:hover{
+  background-color: #ffbe5d;
+}
+
+.sign-in-password-input{
+  position: relative;
+}
+.eye{
+  color: var(--text-color);
+  position:absolute;
+  top:35%;
+  right:80px;
+  cursor: pointer;
+}
+
+
+.sign-in-error{
+  display: none;
+}
+.sign-in-error p{
+  color: red;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 400;
+margin-left: 5px;
+margin-top:5px;
+}
