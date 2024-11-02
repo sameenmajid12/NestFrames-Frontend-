@@ -19,9 +19,31 @@ function Header({sideBarFull, setSideBarFull}) {
         document.body.removeEventListener('mousedown',handleVisibility);
       };
     },[]);
+    
   const { user,setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [dropDownVisible, setDropDownVisible] = useState(false);
+  const [createContainerVisibility, setCreateContainerVisbility] = useState(false);
+  useEffect(()=>{
+    const container = document.querySelector('.create-container-page');
+    if(createContainerVisibility){
+      container.classList.add('visible');
+      container.addEventListener('wheel',(event)=>{
+        event.preventDefault();
+      })
+    }
+    else{
+      container.classList.remove('visible');
+      container.removeEventListener('wheel',(event)=>{
+        event.preventDefault();
+      })
+    }
+    return ()=>{
+      container.removeEventListener('wheel',(event)=>{
+        event.preventDefault();
+      })
+    }
+  },[createContainerVisibility])
   function changeSideBar(){
     const sideBarFullVisible = !sideBarFull;
     setSideBarFull(sideBarFullVisible);
@@ -39,7 +61,9 @@ function Header({sideBarFull, setSideBarFull}) {
       }
       
     }
-    
+    const toggleCreateContainer=()=>{
+      setCreateContainerVisbility(prevVisibility => !prevVisibility)
+    }
   return (
     <>
       <div className="header-container">
@@ -77,15 +101,14 @@ function Header({sideBarFull, setSideBarFull}) {
               <div className="drop-down-setting">
                 <div onClick={()=>{
                   setDropDownVisible(false);
-                  document.querySelector('.create-container-page').style.visibility='visible';
-                  document.body.style.overflowY = 'hidden'
-
+                  toggleCreateContainer();
                 }}className="drop-down-setting-section">
                   <i className="fa-solid fa-circle-plus"></i>
                   <p>
                     Create
                   </p>
-                  <Create/>
+                  {createContainerVisibility!==undefined?<Create visibility={createContainerVisibility}/>:''}
+                  
                 </div>
                 <div onClick={()=>{
                   navigate(`/${user.username}`)

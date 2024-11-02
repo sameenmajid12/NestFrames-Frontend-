@@ -1,17 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import '../../../styles/photos.css'
 import { Outlet, Link } from 'react-router-dom';
+import { UserContext } from '../../UserContext';
 function Photos(){
+  const [photos, setPhotos] = useState([]);
+  const [active, setActive] = useState(JSON.parse(localStorage.getItem('activePhotosTab'))||'Photos');
   useEffect(()=>{
     document.body.className = 'body-default';
+    getPhotos();
   },[]);
   
-  const [active, setActive] = useState(JSON.parse(localStorage.getItem('activePhotosTab'))||'Photos');
   useEffect(()=>{
     localStorage.setItem('activePhotosTab',JSON.stringify(active))
   },[active]);
- 
- 
+  
+  const { user } = useContext(UserContext)
+  async function getPhotos(){
+    const photos = await fetch(`http://localhost:3002/photos/${user._id}`);
+    const photoSrcs = await photos.json();
+    setPhotos(photoSrcs);
+  }
+
   return (
     <div 
     className="gallery-page-container">
@@ -49,7 +58,7 @@ function Photos(){
           </div>
       </div>
       
-      <Outlet/>
+      <Outlet context={{photos:photos}}/>
     </div>
   )
 }

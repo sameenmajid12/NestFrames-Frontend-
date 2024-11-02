@@ -9,8 +9,9 @@
   top: 0;
   bottom:0;
   z-index: 999;
-  overflow:hidden;
-  
+}
+.visible{
+  visibility:visible;
 }
 .create-container{
   position: absolute;
@@ -38,6 +39,7 @@
   padding:10px;
   font-size: 23px;
   color:var(--text-color);
+  z-index:101
 }
 .create-container-body{
   background-color: var(--accent-color);
@@ -103,4 +105,16 @@ select{
   padding:5px;
   font-family:'Itim';
   border-radius: 5px;;
+}
+.create-exit{
+  position:absolute;
+  top:14px;
+  right:17px;
+  font-size:23px;
+  color:var(--text-color);
+  z-index:111;
+  cursor:pointer;
+}
+.create-exit:hover{
+  color:#113f85cb
 }
