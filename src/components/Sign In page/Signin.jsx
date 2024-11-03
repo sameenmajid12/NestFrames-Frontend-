@@ -13,9 +13,8 @@ function Signin() {
   }, []);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {user,setUser} = useContext(UserContext)
+  const {setUser} = useContext(UserContext)
   const [passwordVisibility,setPasswordVisibility] = useState(false);
-  const home = "Home";
   const handlePasswordChange = ({ target }) => {
     setPassword(target.value);
   };
@@ -35,6 +34,7 @@ function Signin() {
       if (response.status === 200) {
         const json = await response.json();
         setUser(json);
+        console.log(json);
         localStorage.setItem('user', JSON.stringify(json));
         navigate("/");
       } else {

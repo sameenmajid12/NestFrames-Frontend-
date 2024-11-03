@@ -1,86 +1,68 @@
-import { useContext, useState,useEffect } from "react";
+import { useContext, useState, useEffect, useMemo } from "react";
 import { UserContext } from "../../UserContext";
 import Add from "./Add";
-import Create from '../Main/Create.jsx'
+import Create from '../Main/Create.jsx';
+import AddPfp from "./AddPfp.jsx";
+
 function ProfileInfo({ profile }) {
   const { user } = useContext(UserContext);
   const [profileData, setProfileData] = useState({
-    fullname:"",
+    fullname: "",
     username: "",
-    friends:''
+    friends: ""
   });
-  const isUser = compareToUser();
-  const isFriend = checkFriend();
-  const isPending = checkPending();
-  const [profileStatus, setProfileStatus] = useState()
-  useEffect(()=>{
-    if(profile){
+  const [addPfpVisibility, setAddPfpVisibility] = useState(false);
+
+  useEffect(() => {
+    if (profile) {
       setProfileData(profile);
     }
-  },[profile])
-  function compareToUser() {
-    if (profileData.username === user.username) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  }, [profile]);
 
-  function checkFriend(){
-    let isFriend = false;
-      
-    user.friends.forEach((friend)=>{ 
-      if(friend.username === profileData.username)
-      {
-        isFriend = true;
-      }
-    })
-    return isFriend;
-  }
-  function checkPending(){
-    let isPending = false;
-
-    user.friendRequestsReceived.forEach((request)=>{
-      if(request.username===profileData.username){
-        isPending = true;
-      }
-    })
-    return isPending;
-  }
+  const isUser = useMemo(() => profileData.username === user.username, [profileData.username, user.username]);
+  const isFriend = useMemo(() => user.friends.some(friend => friend.username === profileData.username), [user.friends, profileData.username]);
+  const isPending = useMemo(() => user.friendRequestsReceived.some(request => request.username === profileData.username), [user.friendRequestsReceived, profileData.username]);
 
   return (
+    <>
+    {addPfpVisibility && <AddPfp setVisibility={setAddPfpVisibility}/>}
     <div className="profile-info-container">
-      <img className="profile-images" src="./assets/me.jpg"></img>
+      {profile.profilePic ? (
+        <img onClick={()=> setAddPfpVisibility(true)} className="profile-images" src={profile.profilePic.fileUrl} alt="Profile" />
+      ) : (
+        <div onClick={() => setAddPfpVisibility(true)}>
+          <img className="profile-images" src="./assets/default-avatar.png" alt="Default Avatar" />
+        </div>
+      )}
       <div className="profile-info">
         <div className="profile-name">
           <div className="profile-header">
-            <h1>{isUser?user.fullname:profileData.fullname}</h1>
+            <h1>{isUser ? user.fullname : profileData.fullname}</h1>
             <div className="profile-buttons">
               {isUser ? (
                 <>
                   <button className="profile-button">Edit Profile</button>
-                  <button onClick={()=>{
-                  document.querySelector('.create-container-page').style.visibility='visible';
-                  document.body.style.overflowY = 'hidden'
-
-                }} className="profile-button">Create Post</button>
-                  <Create/>
+                  <button className="profile-button">Create Post</button>
                 </>
               ) : (
                 <>
                   <button className="profile-button">Message</button>
-                  {isFriend?<button className="profile-button">Friend<i className={"fa-solid fa-chevron-down sort-button-arrowDown"} style={{color:'white'}} ></i></button>:isPending?<button className="profile-button">Requested</button>:<Add/>}
+                  {isFriend ? (
+                    <button className="profile-button">Friend<i className={"fa-solid fa-chevron-down sort-button-arrowDown"} style={{ color: 'white' }}></i></button>
+                  ) : isPending ? (
+                    <button className="profile-button">Requested</button>
+                  ) : (
+                    <Add />
+                  )}
                 </>
               )}
               <button className="profile-button options-button">
-                    <i className="fa-solid fa-ellipsis-vertical fa-xl" style={{color:'#333'}}></i>
-                  </button>
+                <i className="fa-solid fa-ellipsis-vertical fa-xl" style={{ color: '#333' }}></i>
+              </button>
             </div>
           </div>
-
           <p>@{profileData.username}</p>
         </div>
-
         <div className="profile-about">
           <p>Long Island | RU'27</p>
         </div>
@@ -90,6 +72,7 @@ function ProfileInfo({ profile }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

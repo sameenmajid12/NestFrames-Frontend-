@@ -42,7 +42,7 @@ function FriendRequests(){
           return (
             <div key={index} className={FriendsCSS.request}>
               <div className={FriendsCSS.requestUserInfo}>
-                <img className={FriendsCSS.requestUserImage} src="./assets/athena.jpg" alt="User" />
+                <img className={FriendsCSS.requestUserImage} src={request.profilePic?request.profilePic.fileUrl:'../assets/default-avatar.png'}/>
                 <div>
                   <h2 className={FriendsCSS.name}>{request.fullname}</h2>
                   <p className={FriendsCSS.username} data-username={request.username}>@{request.username}</p>

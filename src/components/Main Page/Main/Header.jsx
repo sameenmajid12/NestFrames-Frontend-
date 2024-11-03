@@ -90,14 +90,14 @@ function Header({ sideBarFull, setSideBarFull }) {
             onClick={() => setDropDownVisible(!dropDownVisible)}
             ref={profileImageRef}
             className="header-profile-image"
-            src="./assets/me.jpg"
+            src={user.profilePic?user.profilePic.fileUrl:'./assets/default-avatar.png'}
             alt="Profile"
           />
           {dropDownVisible && (
             <div ref={dropDownRef} className="image-drop-down-container">
               <div className="drop-down-profile">
                 <div className="drop-down-profile-info">
-                  <img src="./assets/me.jpg" alt="Profile Thumbnail" />
+                  <img src={user.profilePic?user.profilePic.fileUrl:'./assets/default-avatar.png'} alt="Profile Thumbnail" />
                   <div>
                     <h2>{user.fullname}</h2>
                     <p>{`@${user.username}`}</p>

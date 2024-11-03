@@ -20,7 +20,7 @@ a{
   width: 250px;
   border-radius: 150px;
   display: inline-block;
-  border:1px solid var(--text-color);
+  cursor: pointer;
 }
 .profile-info{
   display: inline-flex;
@@ -193,3 +193,94 @@ a{
 
 
 
+.add-pfp-page-container{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom:0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-pfp-page-body{
+  background-color: #FFEFD8;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  align-items: center;
+  padding-top:20px;
+  padding-right:20px;
+  padding-left:20px;
+  border:2px solid #b9b2a3
+}
+.add-pfp-image{
+  display:flex;
+  flex-direction: column;
+  padding:30px;
+  padding-top:10px;
+  row-gap: 20px;
+  position: relative;
+}
+.add-pfp-image img{
+  width:200px;
+  border-radius:50%;
+  border:2px solid #d3cdc2;
+}
+.add-pfp-image button{
+  background-color: var(--accent-color);
+  border:none;
+  color:white;
+  padding:7px 0;
+  border-radius: 20px;
+  font-size:17px;
+  font-family: 'Itim';
+  cursor: pointer;
+}
+.add-pfp-image button:hover{
+  background-color: #ffbf60;
+}
+.add-pfp-image-back{
+  position: absolute;
+  top:10px;
+  left:10px;
+  color:var(--text-color);
+  font-size:19px;
+  cursor: pointer;
+}
+.add-pfp-page-body h1{
+  width:100%;
+  text-align:center;
+  padding-bottom:20px;
+  font-size:30px;
+  margin:0;
+  border-bottom:1px solid #d3cdc2;
+}
+.add-pfp-page-body label{
+  width: 100%;
+}
+.add-pfp-page-body-item{
+  display:block;
+  width:100%;
+  text-align: center;
+  color:var(--accent-color);
+  padding:15px 0;
+  cursor: pointer;
+  font-size:20px;
+}
+
+.add-pfp-page-body-item:last-child{
+  border-top:1px solid #d3cdc2;
+}
+.add-pfp-page-body-item:hover{
+  color:#ffbf60e7;
+}
+
+.add-pfp-page-body input{
+  display:none;
+}

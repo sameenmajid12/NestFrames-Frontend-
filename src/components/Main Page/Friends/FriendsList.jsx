@@ -4,12 +4,18 @@ import FriendsCSS from '../../../styles/friends.module.css'
 
 function FriendsList(){
   const {user} = useContext(UserContext);
-  const friends = user.friends;
+  console.log(user);
+  const friends = user?.friends || [];
+  
+  if (!friends || !friends.length) {
+    return <p>Loading friends...</p>;
+  }
+
   return(
     friends.map((friend, index)=>{
     return(
     <div key={index} className={FriendsCSS.friend}>
-      <img className={FriendsCSS.friendImage} src='./assets/me.jpg'></img>
+      <img className={FriendsCSS.friendImage} src={friend.profilePic?friend.profilePic.fileUrl:'./assets/default-avatar.png'}></img>
       <div className={FriendsCSS.friendInfo}>
         <div>
           <h1 className={FriendsCSS.friendName}>{friend.fullname}</h1>
