@@ -1,5 +1,4 @@
 .create-container-page{
-  visibility: hidden;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0,0,0,0.5);
@@ -10,9 +9,7 @@
   bottom:0;
   z-index: 999;
 }
-.visible{
-  visibility:visible;
-}
+
 .create-container{
   position: absolute;
   width: 1200px;
@@ -51,7 +48,7 @@
 }
 
 .create-image{
-  width:250px;
+  width:350px;
   border-radius: 10px;
 }
 .xmark{
