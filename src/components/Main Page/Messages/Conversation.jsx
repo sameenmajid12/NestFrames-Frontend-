@@ -3,6 +3,7 @@ import MessagesCSS from "../../../styles/messages.module.css";
 import { useOutletContext, useParams } from "react-router-dom";
 import { useEffect } from "react";
 function Conversation() {
+  console.log('conversation')
   const [loaded, setLoaded] = useState(false);
   const [message, setMessage] = useState("");
   const conversationContainer = useRef(null);
@@ -14,6 +15,7 @@ function Conversation() {
     user,
     setMessageThreads,
   } = useOutletContext();
+  console.log(conversation);
   const [messageList, setMessageList] = useState([]);
   if (!conversation) {
     if (conversationId) {
@@ -66,6 +68,7 @@ function Conversation() {
   let userUsername;
   let receiverUsername;
   let receiverName;
+  let receiverProfilePicUrl;
   if (conversation) {
     userUsername = user.username;
     receiverUsername =
@@ -75,9 +78,13 @@ function Conversation() {
     receiverName =
       conversation[
         `user${conversation.user1.username === userUsername ? 2 : 1}`
-      ].fullname
+      ].fullname;
+    receiverProfilePicUrl =
+      conversation[
+        `user${conversation.user1.username === userUsername ? 2 : 1}`
+      ].profilePic;
   }
-
+  console.log(receiverProfilePicUrl)
   const handleMessage = (e) => setMessage(e.target.value);
   const sendMessage = async () => {
     if (message) {
@@ -135,7 +142,7 @@ function Conversation() {
           if (message.sentBy === user._id) {
             return (
               <div
-                key={message._id || `sender-${index}`} 
+                key={message._id || `sender-${index}`}
                 className={MessagesCSS.senderMessage}
               >
                 <p>{message.text}</p>
@@ -144,7 +151,7 @@ function Conversation() {
           } else {
             return (
               <div
-                key={message._id || `receiver-${index}`} 
+                key={message._id || `receiver-${index}`}
                 className={MessagesCSS.receiverMessage}
               >
                 {nextMessageUser === message.sentBy ? (
@@ -164,8 +171,12 @@ function Conversation() {
                 ) : (
                   <>
                     <img
-                      key={`image-${index}`} 
-                      src="../assets/me.jpg"
+                      key={`image-${index}`}
+                      src={
+                        receiverProfilePicUrl
+                          ? receiverProfilePicUrl.fileUrl
+                          : "./assets/default-avatar.png"
+                      }
                       alt="receiver"
                     />
                     <div
@@ -194,21 +205,9 @@ function Conversation() {
       <input></input>
       <p>POop</p>
       <div>
-        <input>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        </input>
+        <input></input>
       </div>
     </div>
-    
   );
 }
 

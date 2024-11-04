@@ -146,7 +146,13 @@ function Messages() {
               className={MessagesCSS.conversations}
             >
               <div className={MessagesCSS.conversationReceiverInfo}>
-                <img src='./assets/me.jpg'></img>
+                <img src={
+                  conversation[
+                    conversation.user1.username === user.username
+                    ? 'user2'
+                    : 'user1'
+                  ].profilePic.fileUrl
+                }></img>
                 <div className={MessagesCSS.conversationUserInfo}>
                   <p className={MessagesCSS.conversationUserInfoReceiverUsername}>
                     {

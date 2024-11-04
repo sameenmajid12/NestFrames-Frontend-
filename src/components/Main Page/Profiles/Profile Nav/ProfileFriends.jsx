@@ -22,7 +22,7 @@ function ProfileFriends() {
             <div className="profile-friend-image">
               <img
                 className="profile-friend-imageSrc"
-                src="../assets/brady.jpg"
+                src={friend.profilePic?friend.profilePic.fileUrl:'./assets/default-avatar.png'}
               />
               <div className="profile-friend-slideContainer">
                 

@@ -28,10 +28,10 @@ function ProfileInfo({ profile }) {
     {addPfpVisibility && <AddPfp setVisibility={setAddPfpVisibility}/>}
     <div className="profile-info-container">
       {profile.profilePic ? (
-        <img onClick={()=> setAddPfpVisibility(true)} className="profile-images" src={profile.profilePic.fileUrl} alt="Profile" />
+        <img onClick={()=> {isUser?setAddPfpVisibility(true):''}} className="profile-images" src={profile.profilePic.fileUrl} alt="Profile" />
       ) : (
-        <div onClick={() => setAddPfpVisibility(true)}>
-          <img className="profile-images" src="./assets/default-avatar.png" alt="Default Avatar" />
+        <div onClick={() => {isUser?setAddPfpVisibility(true):''}}>
+          <img className="profile-images" src="./assets/default-avatar.png" alt="Default Avatar"/>
         </div>
       )}
       <div className="profile-info">

@@ -13,14 +13,14 @@ function Signin() {
   }, []);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {setUser} = useContext(UserContext)
-  const [passwordVisibility,setPasswordVisibility] = useState(false);
+  const { setUser } = useContext(UserContext);
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
   const handlePasswordChange = ({ target }) => {
     setPassword(target.value);
   };
-  const handleEyeClick=()=>{
-    setPasswordVisibility(!passwordVisibility)
-  }
+  const handleEyeClick = () => {
+    setPasswordVisibility(!passwordVisibility);
+  };
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -34,14 +34,12 @@ function Signin() {
       if (response.status === 200) {
         const json = await response.json();
         setUser(json);
-        console.log(json);
-        localStorage.setItem('user', JSON.stringify(json));
+        localStorage.setItem("user", JSON.stringify(json));
         navigate("/");
       } else {
-         document.querySelector('.sign-in-error').style.display = 'block';
-         setPassword('');
+        document.querySelector(".sign-in-error").style.display = "block";
+        setPassword("");
         throw new Error("Wrong password");
-       
       }
     } catch (error) {
       console.log(error);
@@ -72,22 +70,29 @@ function Signin() {
             <p>Password</p>
             <div className="sign-in-password-input">
               <input
-              type={passwordVisibility?'text':'password'}
-              value={password}
+                type={passwordVisibility ? "text" : "password"}
+                value={password}
                 className="password-input"
                 onChange={handlePasswordChange}
               ></input>
-              <i onClick={handleEyeClick}
-              className={`fa-solid ${passwordVisibility?'fa-eye':'fa-eye-slash'} eye`}></i>
-              
+              <i
+                onClick={handleEyeClick}
+                className={`fa-solid ${
+                  passwordVisibility ? "fa-eye" : "fa-eye-slash"
+                } eye`}
+              ></i>
             </div>
             <div className="sign-in-error">
-              <i className="fa-solid fa-circle-exclamation" style={{color: "#ff0000"}}></i>
-              <p className="sign-in-error-message">Wrong email or password. Try again</p>
+              <i
+                className="fa-solid fa-circle-exclamation"
+                style={{ color: "#ff0000" }}
+              ></i>
+              <p className="sign-in-error-message">
+                Wrong email or password. Try again
+              </p>
             </div>
-            
-            <span className="link">Forgot your password?</span>
 
+            <span className="link">Forgot your password?</span>
           </div>
           <div>
             <Link to="/">
