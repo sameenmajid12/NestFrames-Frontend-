@@ -5,18 +5,15 @@ function AddPfp({ setVisibility }) {
   const [imageFile, setImageFile] = useState(null);
   const [filePresent, setFilePresent] = useState(false);
   const {user} = useContext(UserContext);
+  const handleWheel = (e) => {
+    e.preventDefault();
+  };
   useEffect(() => {
     document.body.addEventListener(
-      "wheel",
-      (e) => {
-        e.preventDefault();
-      },
-      { passive: false }
+      "wheel",handleWheel,{passive:false}
     );
     return () => {
-      document.body.removeEventListener("wheel", (e) => {
-        e.preventDefault();
-      });
+      document.body.removeEventListener("wheel", handleWheel);
     };
   }, []);
   const imageInputChange = (e) => {

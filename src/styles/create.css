@@ -1,7 +1,7 @@
 .create-container-page{
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0,0,0,0.5);
+  background-color: #00000080;
   position: fixed;
   left: 0;
   right: 0;
@@ -68,40 +68,74 @@ label{
   column-gap: 20px;
   cursor: pointer;
 }
-.post-submit-container{
+.post-upload-container{
   margin-top:10px;
   display: flex;
-  flex-direction: column;
-  row-gap: 10px;
+  flex-direction: row;
+  column-gap: 30px;
 
 }
-.post-submit-caption{
+.post-upload-image{
+  width:400px;
+  border-radius: 15px;
+}
+.post-upload-details{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.post-upload-tag-input{
   width: 300px;
   background-color: transparent;
-  border:none;
-  border-bottom:2px solid var(--text-color);
-  padding:5px 10px;
+  border:2px solid #d3cdc2;
+  padding:10px 15px;
   outline: none;
   font-family: 'Itim';
   color:var(--text-color);
+  border-radius: 10px;;
 }
-select{
-  background-color: #fff5e5;
-  border: none;
+.post-upload-caption-input{
+  width: 300px;
+  background-color: transparent;
+  border:2px solid #d3cdc2;
+  padding:10px 15px;
+  padding-bottom:50px;
+  outline: none;
+  font-family: 'Itim';
   color:var(--text-color);
-  border-bottom: 2px solid var(--text-color);
-  padding:5px 10px;
+  border-radius: 10px;
+}
+.post-upload-privacy{
+  background-color: transparent;
+  border: 2px solid #d3cdc2;
+  padding:10px 15px;
+  display: flex;
+  justify-content: space-between;
+  color:var(--text-color);
+  border-radius: 10px;
+}
+.post-upload-album-select{
+  width:300px;
+  background-color: transparent;
+  color:#757575;
+  border: 2px solid #d3cdc2;
+  padding:10px 15px;
   font-family:'Itim';
-
+  border-radius: 10px;
+  box-sizing: content-box;
+  appearance: none;
+  outline:none;
 }
 
-.post-submit-button{
+
+.post-upload-button{
   background-color: var(--accent-color);
   color:white;
   border:none;
-  padding:5px;
+  padding:10px;
   font-family:'Itim';
-  border-radius: 5px;;
+  border-radius: 10px;;
 }
 .create-exit{
   position:absolute;

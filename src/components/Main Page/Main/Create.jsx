@@ -1,20 +1,20 @@
-import React, { useState, useContext } from 'react';
-import '../../../styles/create.css';
-import { UserContext } from '../../UserContext';
+import React, { useState, useContext } from "react";
+import "../../../styles/create.css";
+import { UserContext } from "../../UserContext";
 
 function Create({ visibility, setVisibility }) {
   const { user } = useContext(UserContext);
   const [filePresent, setFilePresent] = useState(false);
   const [file, setFile] = useState(null);
-  
+
   const uploadFile = () => {
     if (file) {
       const formData = new FormData();
-      formData.append('file', file);
-      formData.append('userId', user._id);
-      fetch('http://localhost:3002/photos/upload', {
-        method: 'POST',
-        body: formData
+      formData.append("file", file);
+      formData.append("userId", user._id);
+      fetch("http://localhost:3002/photos/upload", {
+        method: "POST",
+        body: formData,
       });
       setFilePresent(false);
     }
@@ -25,7 +25,7 @@ function Create({ visibility, setVisibility }) {
       setFilePresent(true);
       setFile(e.target.files[0]);
       const imageUrl = URL.createObjectURL(e.target.files[0]);
-      document.querySelector('.create-image').src = imageUrl;
+      document.querySelector(".create-image").src = imageUrl;
     }
   };
 
@@ -39,24 +39,48 @@ function Create({ visibility, setVisibility }) {
           className="fa-solid fa-multiply create-exit"
         ></i>
         <div className="create-container-header">Create New Post</div>
-        <img className="create-image" src="./assets/Poop.png" alt="Preview" />
+
         {filePresent ? (
-          <div className="post-submit-container">
-            <input
-              placeholder="Enter Caption"
-              className="post-submit-caption"
-              type="text"
-            />
-            <select>
-              <option disabled selected>Select Album</option>
-              <option>Summer 24</option>
-            </select>
-            <button onClick={uploadFile} className="post-submit-button">
-              Submit
-            </button>
+          <div className="post-upload-container">
+            <img className="post-upload-image" src={URL.createObjectURL(file)}></img>
+            <div className="post-upload-details">
+              <div>
+                <p>Albums</p>
+                <select className="post-upload-album-select">
+                  <option disabled selected>
+                    Select Album
+                  </option>
+                  <option>Summer 24</option>
+                </select>
+              </div>
+              <div>
+                <p>Caption</p>
+                <input className="post-upload-caption-input" placeholder="Enter Caption" type="text" />
+              </div>
+              <div>
+                <p>Tagged</p>
+                <input className="post-upload-tag-input" placeholder="Tag friends" type="text"></input>
+              </div>
+              <div>
+                <p>Privacy</p>
+                <div className="post-upload-privacy">
+                  <p>Public</p>
+                  <div>toggle</div>
+                </div>
+              </div>
+
+              <button onClick={uploadFile} className="post-upload-button">
+                Post
+              </button>
+            </div>
           </div>
         ) : (
           <div className="create-container-body">
+            <img
+              className="create-image"
+              src="./assets/Poop.png"
+              alt="Preview"
+            />
             <input
               onChange={fileInputChange}
               type="file"
@@ -68,7 +92,7 @@ function Create({ visibility, setVisibility }) {
               <div>
                 <i
                   className="fa-solid fa-circle-plus fa-2x"
-                  style={{ color: 'white' }}
+                  style={{ color: "white" }}
                 ></i>
               </div>
             </label>

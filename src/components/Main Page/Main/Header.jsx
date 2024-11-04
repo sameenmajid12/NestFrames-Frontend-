@@ -12,7 +12,8 @@ function Header({ sideBarFull, setSideBarFull }) {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [dropDownVisible, setDropDownVisible] = useState(false);
-  const [createContainerVisibility, setCreateContainerVisibility] = useState(false);
+  const [createContainerVisibility, setCreateContainerVisibility] =
+    useState(false);
 
   const handleVisibility = (e) => {
     if (
@@ -77,11 +78,17 @@ function Header({ sideBarFull, setSideBarFull }) {
   return (
     <>
       {createContainerVisibility && (
-        <Create visibility={createContainerVisibility} setVisibility={toggleCreateContainer} />
+        <Create
+          visibility={createContainerVisibility}
+          setVisibility={toggleCreateContainer}
+        />
       )}
       <div className="header-container">
         <div className="left-header-container">
-          <i onClick={changeSideBar} className="fa-solid fa-bars-staggered menu-bars"></i>
+          <i
+            onClick={changeSideBar}
+            className="fa-solid fa-bars-staggered menu-bars"
+          ></i>
           <img className="logo" src="./assets/BOO.png" alt="Logo" />
         </div>
         <SearchBar />
@@ -90,15 +97,29 @@ function Header({ sideBarFull, setSideBarFull }) {
             onClick={() => setDropDownVisible(!dropDownVisible)}
             ref={profileImageRef}
             className="header-profile-image"
-            src={user?user.profilePic?user.profilePic.fileUrl:'./assets/default-avatar.png':''}
+            src={
+              user
+                ? user.profilePic
+                  ? user.profilePic.fileUrl
+                  : "./assets/default-avatar.png"
+                : ""
+            }
             alt="Profile"
           />
           {dropDownVisible && (
             <div ref={dropDownRef} className="image-drop-down-container">
               <div className="drop-down-profile">
                 <div className="drop-down-profile-info">
-                  <img             src={user?user.profilePic?user.profilePic.fileUrl:'./assets/default-avatar.png':''}
- alt="Profile Thumbnail" />
+                  <img
+                    src={
+                      user
+                        ? user.profilePic
+                          ? user.profilePic.fileUrl
+                          : "./assets/default-avatar.png"
+                        : ""
+                    }
+                    alt="Profile Thumbnail"
+                  />
                   <div>
                     <h2>{user.fullname}</h2>
                     <p>{`@${user.username}`}</p>

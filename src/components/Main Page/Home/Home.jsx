@@ -8,9 +8,6 @@ function Home(){
   const navigate=useNavigate();
   useEffect(()=>{
     document.body.className = 'body-home';
-    if(user===null){
-      navigate('/Sign-in');
-    }
     return ()=>{
       document.body.className = '';
     }
