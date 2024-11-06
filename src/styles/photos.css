@@ -92,3 +92,128 @@
 .photos:hover{
   filter: brightness(100%);
 }
+
+.albums-container{
+  box-sizing: border-box;
+  margin-top:20px;
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 15px ;
+  row-gap: 15px;
+}
+.album-add{
+  aspect-ratio: 1/1;
+  border-radius:10px;
+  background-color: rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+}
+
+.album-plus-background{
+  width:50px;
+  height:50px;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  border-radius:30px;
+  background-color: var(--accent-color);
+}
+.album-add i{
+  font-size:30px;
+  color:white;
+}
+.album-add p{
+  color:var(--text-color);
+  font-size:22px;
+}
+
+.create-album-page{
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000080;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom:0;
+    z-index: 999;
+}
+
+.create-album-container{
+  position: absolute;
+  width: 500px;
+  height:800px;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  background-color: #fff5e5;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  
+  row-gap: 20px;
+  z-index: 1000;
+}
+.create-album-header{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  padding:12px 0px;
+  border-bottom:1px solid #d3cdc2;
+  position: relative;
+}
+.create-album-header p{
+  color:var(--text-color);
+  font-size:20px;
+}
+.create-album-close{
+  color:var(--text-color);
+  position:absolute;
+  right:20px;
+  font-size:20px;
+  top:15px;
+  cursor:pointer;
+}
+.create-album-close:hover{
+  color:#113f85cb
+}
+
+.create-album-body{
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+}
+
+
+.create-album-picture-placeholder{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width:300px;
+  height:300px;
+  background-color:rgba(0,0,0,0.2);
+  border-radius: 20px;;
+}
+.create-album-picture-placeholder p{
+  color:var(--text-color);
+  font-size:20px;
+}
+.create-album-picture-placeholder label{
+  display:flex;
+  flex-direction: column;
+}
+.create-album-plus-container{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  width:50px;
+  height:50px;
+  background-color: var(--accent-color);
+}
+#create-album-cover-input{
+  display: none;
+}
