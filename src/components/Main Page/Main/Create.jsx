@@ -6,7 +6,8 @@ function Create({ visibility, setVisibility }) {
   const { user } = useContext(UserContext);
   const [filePresent, setFilePresent] = useState(false);
   const [file, setFile] = useState(null);
-
+  const [postData, setPostData] = useState({});
+  const [isPublic, setIsPublic] = useState(true);
   const uploadFile = () => {
     if (file) {
       const formData = new FormData();
@@ -28,24 +29,29 @@ function Create({ visibility, setVisibility }) {
       document.querySelector(".create-image").src = imageUrl;
     }
   };
-
-  if (!visibility) return null; // Only render if visibility is true
+  const toggleSwitch = () => {
+    setIsPublic((prevPrivacy) => !prevPrivacy);
+  };
+  if (!visibility) return null;
 
   return (
     <div className="create-container-page">
       <div className="create-container">
         <i
-          onClick={() => setVisibility(false)} // Close when clicked
+          onClick={() => setVisibility(false)}
           className="fa-solid fa-multiply create-exit"
         ></i>
         <div className="create-container-header">Create New Post</div>
 
         {filePresent ? (
           <div className="post-upload-container">
-            <img className="post-upload-image" src={URL.createObjectURL(file)}></img>
+            <img
+              className="post-upload-image"
+              src={URL.createObjectURL(file)}
+            ></img>
             <div className="post-upload-details">
               <div>
-                <p>Albums</p>
+                <p className="post-upload-input-headers">Albums</p>
                 <select className="post-upload-album-select">
                   <option disabled selected>
                     Select Album
@@ -54,18 +60,37 @@ function Create({ visibility, setVisibility }) {
                 </select>
               </div>
               <div>
-                <p>Caption</p>
-                <input className="post-upload-caption-input" placeholder="Enter Caption" type="text" />
+                <p className="post-upload-input-headers">Caption</p>
+                <input
+                  className="post-upload-caption-input"
+                  placeholder="Enter Caption"
+                  type="text"
+                />
               </div>
               <div>
-                <p>Tagged</p>
-                <input className="post-upload-tag-input" placeholder="Tag friends" type="text"></input>
+                <p className="post-upload-input-headers">Tagged</p>
+                <input
+                  className="post-upload-tag-input"
+                  placeholder="Tag friends"
+                  type="text"
+                ></input>
               </div>
               <div>
-                <p>Privacy</p>
+                <p className="post-upload-input-headers">Privacy</p>
                 <div className="post-upload-privacy">
-                  <p>Public</p>
-                  <div>toggle</div>
+                  <p id="post-upload-privacy-setting">{isPublic?'Public':'Private'}</p>
+                  <div
+                    onClick={toggleSwitch}
+                    className={`post-upload-toggle ${
+                      isPublic ? "" : "toggle-background-off"
+                    }`}
+                  >
+                    <div
+                      className={`post-upload-toggle-switch ${
+                        isPublic ? "" : "toggle-switch-off"
+                      }`}
+                    ></div>
+                  </div>
                 </div>
               </div>
 

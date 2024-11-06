@@ -76,8 +76,10 @@ label{
 
 }
 .post-upload-image{
-  width:400px;
+  max-width: 600px;
+  height:400px;
   border-radius: 15px;
+  object-fit:cover
 }
 .post-upload-details{
   display: flex;
@@ -106,19 +108,26 @@ label{
   color:var(--text-color);
   border-radius: 10px;
 }
+.post-upload-input-headers{
+  color:var(--text-color);
+}
+.post-upload-caption-input::placeholder, .post-upload-tag-input::placeholder{
+  color:#114085B3;
+}
 .post-upload-privacy{
   background-color: transparent;
   border: 2px solid #d3cdc2;
   padding:10px 15px;
   display: flex;
   justify-content: space-between;
-  color:var(--text-color);
+  align-items: center;
+  color:#114085B3;
   border-radius: 10px;
 }
 .post-upload-album-select{
   width:300px;
   background-color: transparent;
-  color:#757575;
+  color:#114085B3;
   border: 2px solid #d3cdc2;
   padding:10px 15px;
   font-family:'Itim';
@@ -149,3 +158,33 @@ label{
 .create-exit:hover{
   color:#113f85cb
 }
+
+.post-upload-toggle{
+  width:45px;
+  height:25px;
+  border-radius: 20px;
+  background-color: var(--accent-color);
+  position:relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+}
+.post-upload-toggle.toggle-background-off{
+  background-color: rgb(255, 42, 42);
+}
+.post-upload-toggle-switch{
+  width:18px;
+  height:18px;
+  background-color: white;
+  border-radius: 50px;
+  position: absolute;
+  left:3px;
+  top:3px;
+  box-shadow:2px 0px 2px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+}
+.post-upload-toggle-switch.toggle-switch-off{
+  transform: translateX(21px);
+  box-shadow: -2px 0px 2px rgba(0,0,0,0.2);
+}
+
