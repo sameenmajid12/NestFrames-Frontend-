@@ -5,11 +5,11 @@ function AlbumContent(){
   const {user} = useContext(UserContext)
   const [createAlbumVisibility, setCreateAlbumVisibility] = useState(false);
   const showCreateAlbum = ()=>{
-    setCreateAlbumVisibility(true);
+    setCreateAlbumVisibility(prevVisibility=>!prevVisibility);
   }
   return(
     <>
-      {createAlbumVisibility && <CreateAlbum setVisibility={setCreateAlbumVisibility}/>}
+      {createAlbumVisibility && <CreateAlbum setVisibility={showCreateAlbum}/>}
       <div className="albums-container">
         <div className="album-add">
           <div className="album-plus-background">
