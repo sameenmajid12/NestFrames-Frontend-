@@ -292,6 +292,7 @@
   display:none;
 }
 .create-album-photos-container{
+  position:relative;
   width:300px;
   display: flex;
   justify-content: space-between;
@@ -325,4 +326,24 @@
   border:none;
   font-size:17px;
   border-radius:10px;
+}
+
+.create-album-photo-upload img{
+  width:100%;
+}
+
+.create-album-photo-next, .create-album-photo-previous{
+  position:absolute;
+  top:50%;
+  transform: translateY(-50%);
+  color:var(--text-color);
+  font-size:20px;
+  cursor: pointer;
+}
+
+.create-album-photo-next{
+  right:-25px;
+}
+.create-album-photo-previous{
+  left:-25px;
 }

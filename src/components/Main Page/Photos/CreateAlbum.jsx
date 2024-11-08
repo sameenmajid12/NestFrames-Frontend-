@@ -1,7 +1,21 @@
 import { useEffect, useState } from "react";
 
 function CreateAlbum({ setVisibility }) {
-  
+  useEffect(()=>{
+    const albumName = document.querySelector('.create-album-name');
+    const removePlaceholder = ()=>{
+      albumName.placeholder = "";
+    }
+    const restorePlaceholder = ()=>{
+      albumName.placeholder = "Album name"
+    }
+    albumName.addEventListener('focus', removePlaceholder);
+    albumName.addEventListener('blur', restorePlaceholder);
+    return ()=>{
+      albumName.removeEventListener('focus', removePlaceholder);
+      albumName.removeEventListener('blur', restorePlaceholder);
+    }
+  },[])
   const [coverPhoto, setCoverPhoto] = useState(null);
   const [albumPhotos, setAlbumPhotos] = useState([]);
   const [albumPhotoIteration, setAlbumPhotoIteration] = useState(0);
@@ -22,8 +36,15 @@ function CreateAlbum({ setVisibility }) {
       const photoUrl = URL.createObjectURL(photo);
       setAlbumPhotos(prevPhotos=>[...prevPhotos,photoUrl]);
       setAlbumPhotoIteration(prevCount=>prevCount++)
-      console.log(photoUrl);
+      console.log(albumPhotos.length);
+      console.log(albumPhotoClickerCount);
     }
+  }
+  const iterateToNextPhoto = ()=>{
+      setAlbumPhotoClickerCount(prevCount=>prevCount+1);
+  }
+  const iterationToPreviousPhoto =()=>{
+    setAlbumPhotoClickerCount(prevCount=>prevCount-1);
   }
   const createAlbum = ()=>{
 
@@ -87,7 +108,7 @@ function CreateAlbum({ setVisibility }) {
           <div className="create-album-photos-container">
             <div className="create-album-photo-upload">
               {albumPhotos.length > 0 ? (
-                <img src={albumPhotos[0 + albumPhotoIteration]}></img>
+                <img src={albumPhotos[0 + albumPhotoClickerCount]}></img>
               ) : (
                 <div className="create-album-photo-plus-container">
                   <i
@@ -98,8 +119,8 @@ function CreateAlbum({ setVisibility }) {
               )}
             </div>
             <div className="create-album-photo-upload">
-              {albumPhotos.length > 0 ? (
-                <img src={albumPhotos[1 + albumPhotoIteration]}></img>
+              {albumPhotos.length > 1 ? (
+                <img src={albumPhotos[1 + albumPhotoClickerCount]}></img>
               ) : (
                 <div className="create-album-photo-plus-container">
                   <i
@@ -110,8 +131,8 @@ function CreateAlbum({ setVisibility }) {
               )}
             </div>
             <div className="create-album-photo-upload">
-              {albumPhotos.length > 0 ? (
-                <img src={albumPhotos[2 + albumPhotoIteration]}></img>
+              {albumPhotos.length > 2 ? (
+                <img src={albumPhotos[2 + albumPhotoClickerCount]}></img>
               ) : (
                 <div className="create-album-photo-plus-container">
                   <i
@@ -121,10 +142,16 @@ function CreateAlbum({ setVisibility }) {
                 </div>
               )}
             </div>
-            {albumPhotos.length>2?
-            <div className="create-album-photo-next">
-              
+            {albumPhotos.length>3 && albumPhotoClickerCount<albumPhotos.length-3?
+            <div onClick={iterateToNextPhoto} className="create-album-photo-next">
+              <i className="fa-solid fa-chevron-right"></i>
             </div>:''}
+            {albumPhotoClickerCount>0?
+              <div onClick={iterationToPreviousPhoto} className="create-album-photo-previous">
+                <i className="fa-solid fa-chevron-left">
+                </i>
+              </div>:''
+            }
           </div>
           <button className="create-album-button">Create</button>
         </div>
