@@ -17,8 +17,8 @@ function CreateAlbum({ setVisibility }) {
     }
   },[])
   const [coverPhoto, setCoverPhoto] = useState(null);
+  const [albumName, setAlbumName] = useState(null);
   const [albumPhotos, setAlbumPhotos] = useState([]);
-  const [albumPhotoIteration, setAlbumPhotoIteration] = useState(0);
   const [albumPhotoClickerCount, setAlbumPhotoClickerCount] = useState(0);
   const uploadCover = (e) => {
     if (e.target.files) {
@@ -46,9 +46,13 @@ function CreateAlbum({ setVisibility }) {
   const iterationToPreviousPhoto =()=>{
     setAlbumPhotoClickerCount(prevCount=>prevCount-1);
   }
+  const nameInputChange = (e)=>{
+    setAlbumName(e.target.value)
+  }
   const createAlbum = ()=>{
 
   }
+
   return (
     <div className="create-album-page">
       <div className="create-album-container">
@@ -92,6 +96,8 @@ function CreateAlbum({ setVisibility }) {
             className="create-album-name"
             placeholder="Album name"
             type="text"
+            value={albumName}
+            onChange={nameInputChange}
           />
           <div className="create-album-tag-container">
             <i className="fa-solid fa-user-group"></i>
