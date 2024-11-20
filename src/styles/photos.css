@@ -280,6 +280,9 @@
   box-sizing: border-box;
   cursor:pointer;
 }
+.create-album-tag-container:hover p, .create-album-upload-photos-container:hover p{
+  color:#113f85c9;
+}
 .create-album-tag-container i, .create-album-upload-photos-container i{
   color:var(--accent-color);
 }
@@ -327,6 +330,7 @@
   border:none;
   font-size:17px;
   border-radius:10px;
+  cursor: pointer;
 }
 
 .create-album-photo-upload img{

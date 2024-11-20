@@ -39,14 +39,21 @@
   z-index:101
 }
 .create-container-body{
-  background-color: var(--accent-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent;
   font-size: 20px;
   padding:10px 20px;
   border-radius: 30px;
   color:white;
 
 }
-
+.create-container-body label{
+  background-color: var(--accent-color);
+  padding:10px 30px;
+  border-radius: 50px;;
+}
 .create-image{
   width:350px;
   border-radius: 10px;
