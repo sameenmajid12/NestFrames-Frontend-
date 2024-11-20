@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 function CreateAlbum({ setVisibility }) {
   useEffect(()=>{
     const albumName = document.querySelector('.create-album-name');
@@ -15,7 +15,8 @@ function CreateAlbum({ setVisibility }) {
       albumName.removeEventListener('focus', removePlaceholder);
       albumName.removeEventListener('blur', restorePlaceholder);
     }
-  },[])
+  },[]);
+  const navigate = useNavigate();
   const [coverPhoto, setCoverPhoto] = useState(null);
   const [albumName, setAlbumName] = useState(null);
   const [albumPhotos, setAlbumPhotos] = useState([]);
@@ -36,8 +37,6 @@ function CreateAlbum({ setVisibility }) {
       const photoUrl = URL.createObjectURL(photo);
       setAlbumPhotos(prevPhotos=>[...prevPhotos,photoUrl]);
       setAlbumPhotoIteration(prevCount=>prevCount++)
-      console.log(albumPhotos.length);
-      console.log(albumPhotoClickerCount);
     }
   }
   const iterateToNextPhoto = ()=>{
@@ -49,8 +48,29 @@ function CreateAlbum({ setVisibility }) {
   const nameInputChange = (e)=>{
     setAlbumName(e.target.value)
   }
-  const createAlbum = ()=>{
-
+  const createAlbum = async()=>{
+    if(!albumName){
+      return;
+    }
+    const album = {
+      name:albumName,
+      coverPhoto:coverPhoto,
+      photos:albumPhotos,
+      users:[]
+    }
+    const response = await fetch('http://localhost:3002/Albums/Create',{
+      method:"POST",
+      headers:{
+        "Content-type":"application/json"
+      },
+      body:JSON.stringify(album)
+    }
+    )
+    const data = await response.json();
+    if(data){
+      setVisibility(false);
+      navigate(`${data._id}`);
+    }
   }
 
   return (
@@ -101,7 +121,7 @@ function CreateAlbum({ setVisibility }) {
           />
           <div className="create-album-tag-container">
             <i className="fa-solid fa-user-group"></i>
-            <p>Tag Friends</p>
+            <p>Add Friends</p>
           </div>
           <div className="create-album-upload-photos-container">
             <input onChange={uploadPhoto } id="create-album-photos-input" type="file" multiple accept="image/*"></input>
@@ -159,7 +179,7 @@ function CreateAlbum({ setVisibility }) {
               </div>:''
             }
           </div>
-          <button className="create-album-button">Create</button>
+          <button onClick={createAlbum} className="create-album-button">Create</button>
         </div>
       </div>
     </div>
