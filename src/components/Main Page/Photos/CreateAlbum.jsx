@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../UserContext";
 function CreateAlbum({ setVisibility }) {
+  const {user} = useContext(UserContext);
+  console.log(user);
   useEffect(()=>{
     const albumName = document.querySelector('.create-album-name');
     const removePlaceholder = ()=>{
@@ -20,12 +23,12 @@ function CreateAlbum({ setVisibility }) {
   const [coverPhoto, setCoverPhoto] = useState(null);
   const [albumName, setAlbumName] = useState(null);
   const [albumPhotos, setAlbumPhotos] = useState([]);
+  const [photoUrls, setPhotoUrls] = useState([]);
   const [albumPhotoClickerCount, setAlbumPhotoClickerCount] = useState(0);
   const uploadCover = (e) => {
     if (e.target.files) {
       const photo = e.target.files[0];
-      const photoUrl = URL.createObjectURL(photo);
-      setCoverPhoto(photoUrl);
+      setCoverPhoto(photo);
     }
   };
   const removeCover = () => {
@@ -35,8 +38,8 @@ function CreateAlbum({ setVisibility }) {
     if(e.target.files){
       const photo = e.target.files[0];
       const photoUrl = URL.createObjectURL(photo);
-      setAlbumPhotos(prevPhotos=>[...prevPhotos,photoUrl]);
-      setAlbumPhotoIteration(prevCount=>prevCount++)
+      setPhotoUrls(prevUrls=>[...prevUrls,photoUrl]);
+      setAlbumPhotos(prevPhotos=>[...prevPhotos,photo]);
     }
   }
   const iterateToNextPhoto = ()=>{
@@ -52,18 +55,17 @@ function CreateAlbum({ setVisibility }) {
     if(!albumName){
       return;
     }
-    const album = {
-      name:albumName,
-      coverPhoto:coverPhoto,
-      photos:albumPhotos,
-      users:[]
-    }
+    const formData = new FormData();
+    formData.append('coverPhoto', coverPhoto);
+    formData.append('albumName', albumName);
+    albumPhotos.forEach(photo=>{
+      formData.append('photos',photo);
+    })
+    formData.append('userId', user._id);
+    console.log(formData);
     const response = await fetch('http://localhost:3002/Albums/Create',{
       method:"POST",
-      headers:{
-        "Content-type":"application/json"
-      },
-      body:JSON.stringify(album)
+      body:formData
     }
     )
     const data = await response.json();
@@ -86,7 +88,7 @@ function CreateAlbum({ setVisibility }) {
         <div className="create-album-body">
           {coverPhoto ? (
             <div className="create-album-cover-photo-container">
-              <img className="create-album-cover-photo" src={coverPhoto}></img>
+              <img className="create-album-cover-photo" src={URL.createObjectURL(coverPhoto)}></img>
               <div className="cover-photo-remove-container">
                 <i
                   onClick={removeCover}
@@ -133,8 +135,8 @@ function CreateAlbum({ setVisibility }) {
           </div>
           <div className="create-album-photos-container">
             <div className="create-album-photo-upload">
-              {albumPhotos.length > 0 ? (
-                <img src={albumPhotos[0 + albumPhotoClickerCount]}></img>
+              {photoUrls.length > 0 ? (
+                <img src={photoUrls[0 + albumPhotoClickerCount]}></img>
               ) : (
                 <div className="create-album-photo-plus-container">
                   <i
@@ -145,8 +147,8 @@ function CreateAlbum({ setVisibility }) {
               )}
             </div>
             <div className="create-album-photo-upload">
-              {albumPhotos.length > 1 ? (
-                <img src={albumPhotos[1 + albumPhotoClickerCount]}></img>
+              {photoUrls.length > 1 ? (
+                <img src={photoUrls[1 + albumPhotoClickerCount]}></img>
               ) : (
                 <div className="create-album-photo-plus-container">
                   <i
@@ -157,8 +159,8 @@ function CreateAlbum({ setVisibility }) {
               )}
             </div>
             <div className="create-album-photo-upload">
-              {albumPhotos.length > 2 ? (
-                <img src={albumPhotos[2 + albumPhotoClickerCount]}></img>
+              {photoUrls.length > 2 ? (
+                <img src={photoUrls[2 + albumPhotoClickerCount]}></img>
               ) : (
                 <div className="create-album-photo-plus-container">
                   <i
@@ -168,7 +170,7 @@ function CreateAlbum({ setVisibility }) {
                 </div>
               )}
             </div>
-            {albumPhotos.length>3 && albumPhotoClickerCount<albumPhotos.length-3?
+            {photoUrls.length>3 && albumPhotoClickerCount<photoUrls.length-3?
             <div onClick={iterateToNextPhoto} className="create-album-photo-next">
               <i className="fa-solid fa-chevron-right"></i>
             </div>:''}

@@ -280,14 +280,18 @@
   box-sizing: border-box;
   cursor:pointer;
 }
-.create-album-tag-container:hover p, .create-album-upload-photos-container:hover p{
-  color:#113f85c9;
-}
+
 .create-album-tag-container i, .create-album-upload-photos-container i{
   color:var(--accent-color);
 }
 .create-album-tag-container p, .create-album-upload-photos-container p{
   color:var(--text-color);
+}
+.create-album-tag-container:hover p, .create-album-upload-photos-container:hover p{
+  color:#113f85c9;
+}
+.create-album-tag-container i, .create-album-upload-photos-container i{
+  color:var(--accent-color);
 }
 .create-album-upload-photos-container label{
   column-gap:8px;
