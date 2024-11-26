@@ -15,6 +15,7 @@ function Signin() {
   const [password, setPassword] = useState("");
   const { setUser } = useContext(UserContext);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const [error, setError] = useState(false);
   const handlePasswordChange = ({ target }) => {
     setPassword(target.value);
   };
@@ -37,9 +38,8 @@ function Signin() {
         localStorage.setItem("user", JSON.stringify(json));
         navigate("/");
       } else {
-        document.querySelector(".sign-in-error").style.display = "block";
+        setError(true);
         setPassword("");
-        throw new Error("Wrong password");
       }
     } catch (error) {
       console.log(error);
@@ -49,57 +49,76 @@ function Signin() {
     <div className="sign-in-page">
       <div className="sign-in-container">
         <div className="sign-in-welcome">
-          <h1>Sign in</h1>
-          <div>
-            <p>Need an account?</p>
-            <Link to="/Register">
-              <span className="link">Register</span>
-            </Link>
-          </div>
+          <img className="sign-in-logo" src="./assets/BOO.png"></img>
+          <img className="sign-in-image" src="/assets/Sign In Image.png"></img>
         </div>
         <div className="sign-in-input">
-          <div className="sign-in-username-input">
-            <p className="input-header">Email or Username</p>
-            <input
-              onChange={({ target }) => {
-                setUsername(target.value);
-              }}
-            ></input>
+          <div className="sign-in-header">
+            <h1>Welcome!</h1>
+            <p>Login to continute</p>
           </div>
-          <div className="sign-in-password-container">
-            <p>Password</p>
-            <div className="sign-in-password-input">
+          <div className="sign-in-input-body">
+            <div className="sign-in-username-input">
+              <p className="input-header">Email or Username</p>
               <input
-                type={passwordVisibility ? "text" : "password"}
-                value={password}
-                className="password-input"
-                onChange={handlePasswordChange}
+                onChange={({ target }) => {
+                  setUsername(target.value);
+                }}
               ></input>
-              <i
-                onClick={handleEyeClick}
-                className={`fa-solid ${
-                  passwordVisibility ? "fa-eye" : "fa-eye-slash"
-                } eye`}
-              ></i>
             </div>
-            <div className="sign-in-error">
-              <i
-                className="fa-solid fa-circle-exclamation"
-                style={{ color: "#ff0000" }}
-              ></i>
-              <p className="sign-in-error-message">
-                Wrong email or password. Try again
+            <div className="sign-in-password-container">
+              <p className="input-header">Password</p>
+              <div className="sign-in-password-input">
+                <input
+                  type={passwordVisibility ? "text" : "password"}
+                  value={password}
+                  className="password-input"
+                  onChange={handlePasswordChange}
+                ></input>
+                <i
+                  onClick={handleEyeClick}
+                  className={`fa-solid ${
+                    passwordVisibility ? "fa-eye" : "fa-eye-slash"
+                  } eye`}
+                ></i>
+              </div>
+
+              <span className="link">Forgot your password?</span>
+            </div>
+            <div className="sign-in-buttons">
+              <div>
+                <button onClick={handleSubmit} className="login-button">
+                  Login
+                </button>
+                {error && (
+                  <div className="sign-in-error">
+                    <i
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "#ff0000" }}
+                    ></i>
+                    <p className="sign-in-error-message">
+                      Wrong email or password. Try again
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="sign-in-or">
+                <span>or</span>
+              </div>
+              <button onClick={handleSubmit} className="sign-in-google-button">
+                <div className="sign-in-google-container">
+                  <img
+                    className="sign-in-google"
+                    src="./assets/googleLogo.png"
+                    alt="Google Logo"
+                  />
+                </div>
+                oogle
+              </button>
+              <p style={{ textAlign: "center" }}>
+                Need an account?<Link to="/Register"><span className="link">&nbsp;Register</span></Link>
               </p>
             </div>
-
-            <span className="link">Forgot your password?</span>
-          </div>
-          <div>
-            <Link to="/">
-              <button onClick={handleSubmit} className="login-button">
-                Login
-              </button>
-            </Link>
           </div>
         </div>
       </div>
