@@ -22,6 +22,11 @@ import "./styles/general.css";
 import "./styles/sign-in.css";
 import FriendsContent from "./components/Main Page/Friends/FriendsContent.jsx";
 import Settings from "./components/Settings Page/Settings.jsx";
+import SettingsAlbum from "./components/Settings Page/SettingsAlbums.jsx";
+import SettingsHelp from "./components/Settings Page/SettingsHelp.jsx";
+import SettingsNotifications from "./components/Settings Page/SettingsNotifications.jsx";
+import SettingsProfile from "./components/Settings Page/SettingsProfile.jsx";
+import SettingsSecurity from "./components/Settings Page/SettingsSecurity.jsx";
 import Register from "./components/Sign In page/Register.jsx";
 import PhotosContent from "./components/Main Page/Photos/PhotosContent.jsx";
 import AlbumContent from "./components/Main Page/Photos/AlbumContent.jsx";
@@ -56,19 +61,19 @@ const router = createBrowserRouter([
             element: <ProfileAlbums />,
           },
           {
-            path: "Photos",
+            path: "photos",
             element: <ProfilePhotos />,
           },
           {
-            path: "Friends",
+            path: "friends",
             element: <ProfileFriends/>,
           },
           {
-            path: "Activity",
+            path: "activity",
             element: <ProfileActivity />,
           },
           {
-            path: "About",
+            path: "about",
             element: <ProfileAbout />,
           },
         ],
@@ -82,17 +87,17 @@ const router = createBrowserRouter([
             element: <PhotosContent />,
           },
           {
-            path: "Albums",
+            path: "albums",
             element: <AlbumContent />,
           },
           {
-            path: "Tagged",
+            path: "tagged",
             element: <TaggedContent />,
           },
         ],
       },
       {
-        path: "Messages",
+        path: "messages",
         element: <Messages />,
         children:[
           {
@@ -102,7 +107,7 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path: "Friends",
+        path: "friends",
         element: <Friends/>,
         children: [
           {
@@ -110,11 +115,11 @@ const router = createBrowserRouter([
             element: <FriendsContent />,
           },
           {
-            path:"Requests",
+            path:"requests",
             element:<FriendRequests/>
           },
           {
-            path:"Groups",
+            path:"groups",
             element:<FriendGroups/>
           }
         ],
@@ -122,16 +127,38 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/Sign-In",
+    path: "/sign-in",
     element: <Signin />,
   },
   {
-    path: "/Register",
+    path: "/register",
     element: <Register />,
   },
   {
-    path: "Settings",
+    path: "settings",
     element: <Settings />,
+    children:[
+      {
+        path:"",
+        element:<SettingsProfile/>
+      },
+      {
+        path:"albums",
+        element:<SettingsAlbum/>
+      },
+      {
+        path:"notifications",
+        element:<SettingsNotifications/>
+      },
+      {
+        path:"security",
+        element:<SettingsSecurity/>
+      },
+      {
+        path:"help",
+        element:<SettingsHelp/>
+      }
+    ]
   },
 ]);
 

@@ -27,7 +27,7 @@ function SideBar({sideBarFull}) {
 
         <div
           className={`sideBar-item ${active === 'Friends' ? 'side-bar-active' : ''}`}
-          onClick={() => handleNavigation('/Friends', 'Friends')}
+          onClick={() => handleNavigation('/friends', 'Friends')}
         >
           <i className={`fa-solid fa-user-group ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
           <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Friends</p>
@@ -35,7 +35,7 @@ function SideBar({sideBarFull}) {
 
         <div
           className={`sideBar-item ${active === 'Photos' ? 'side-bar-active' : ''}`}
-          onClick={() => handleNavigation('/Photos', 'Photos')}
+          onClick={() => handleNavigation('/photos', 'Photos')}
         >
           <i className={`fa-solid fa-camera ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
           <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Photos</p>
@@ -43,7 +43,7 @@ function SideBar({sideBarFull}) {
 
         <div
           className={`sideBar-item ${active === 'Messages' ? 'side-bar-active' : ''}`}
-          onClick={() => handleNavigation('/Messages', 'Messages')}
+          onClick={() => handleNavigation('/messages', 'Messages')}
         >
           <i className={`fa-solid fa-comment ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
           <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Messages</p>
@@ -62,7 +62,7 @@ function SideBar({sideBarFull}) {
 
       <div
         className='sideBar-item'
-        onClick={() => handleNavigation('/Settings', 'Settings')}
+        onClick={() => handleNavigation('/settings', 'Settings')}
       >
         <i className={`fa-solid fa-gear ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
       </div>

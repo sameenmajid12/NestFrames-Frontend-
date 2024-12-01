@@ -32,8 +32,13 @@
   background-color: #ffefd8;
 }
 .body-settings{
-  padding:0px 500px;
-  background-color: #ffefd8;
+  padding:0;
+  margin:0;
+  display: block;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #FFF5E5;
+  overflow: hidden;
 }
 .body-home{
   padding-top:var(--header-height);

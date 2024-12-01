@@ -1,59 +1,74 @@
-import { Link, useNavigate } from "react-router-dom";
-import '../../styles/settings.css'
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import "../../styles/settings.css";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
-function Settings(){
-  useEffect(()=>{
-    document.body.className = 'body-settings';
-    return ()=>{
-      document.body.className = '';
-    }
-  },[])
-  const {setUser} = useContext(UserContext);
+import { useState } from "react";
+function Settings() {
+  useEffect(() => {
+    document.body.className = "body-settings";
+    return () => {
+      document.body.className = "";
+    };
+  }, []);
+  const { setUser } = useContext(UserContext);
+  const [index, setIndex] = useState(0);
   const navigate = useNavigate();
-  const logOut = () =>{
-    localStorage.removeItem('user');
+  const goBack = () => {
+    navigate(-1);
+  };
+  const logOut = () => {
+    localStorage.removeItem("user");
     setUser(null);
-    navigate('/Sign-in');
-  }
+    navigate("/Sign-in");
+  };
 
-  return(
+  return (
     <div className="settings-page-container">
-      <div className=" settings-container settings-header">
-      <i className="fa-solid fa-gear fa-3x" style={{color:'#114085'}}></i>
-        <h1 className="main-header">Settings</h1>
-        <Link to="/">
-        <i class="fa-solid fa-xmark fa-3x" style={{color:'#114085'}}></i>
-        </Link>
-      </div>
-      <div className=" settings-container settings-body-containers">
-        <h1 className="settings-section-headers">Account Settings</h1>
-        <div className="settings-options">
-          <p>Name</p>
-          <p>Username</p>
-          <p>Email</p>
-          <p>Password</p>
+      <div className="settings-header-container">
+        <div className="settings-header">Settings</div>
+        <div className="settings-close">
+          <i onClick={goBack} className="fa-solid fa-multiply"></i>
         </div>
       </div>
-      <div className=" settings-container settings-body-containers">
-        <h1 className="settings-section-headers">Privacy Settings</h1>
-        <div className="settings-options">
-          <p>Account Privacy</p>
-          <p>Blocked Accounts</p>
+      <div className="settings-body">
+        <div className="settings-side-bar-container">
+        <div className="settings-selector">
+          <span className="settings-selector-line" style={{top:`${index*54}px`}}></span>
+        </div>
+          <div className="settings-side-bar">
+            <Link to="">
+            <div onClick={()=>setIndex(0)} className="settings-side-bar-item">
+              <i className="fa-solid fa-user-pen"></i>
+              <p>Profile</p>
+            </div></Link>
+            <Link to="albums">
+            <div onClick={()=>setIndex(1)} className="settings-side-bar-item">
+              <i className="fa-solid fa-images"></i>
+              <p>Albums</p>
+            </div></Link>
+            <Link to="notifications">
+            <div onClick={()=>setIndex(2)} className="settings-side-bar-item">
+              <i className="fa-solid fa-bell"></i>
+              <p>Notification</p>
+            </div></Link>
+            <Link to="security">
+            <div onClick={()=>setIndex(3)} className="settings-side-bar-item">
+              <i className="fa-solid fa-shield-halved"></i>
+              <p>Security</p>
+            </div></Link>
+            <Link to="help">
+            <div onClick={()=>setIndex(4)} className="settings-side-bar-item">
+              <i className="fa-solid fa-circle-question"></i>
+              <p>Help</p>
+            </div></Link>
+          </div>
+        </div>
+        <div className="settings-content">
+          <Outlet />
         </div>
       </div>
-      <div className=" settings-container settings-body-containers">
-        <h1 className="settings-section-headers">More</h1>
-        <div className="settings-options">
-          <p>Help</p>
-          <p>Terms and Services</p>
-          <p className="delete-account">Delete Account</p>
-        </div>
-      </div>
-      <h1 onClick={logOut} className="logout-button">Logout</h1>
-      
     </div>
-  )
+  );
 }
 
 export default Settings;
