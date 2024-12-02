@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
-import '../../../styles/photos.css'
+import '../../../../styles/photos.css'
 import { Outlet, Link } from 'react-router-dom';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../../UserContext';
 function Photos(){
   const [photos, setPhotos] = useState([]);
   const [active, setActive] = useState(JSON.parse(localStorage.getItem('activePhotosTab'))||'Photos');
@@ -28,22 +28,22 @@ function Photos(){
       <div className='h2-container'>
           <div className="selector-container">
             <span className='selector-line'></span>
-            <span style={active==='Photos'?{left:'0%'}:active==='Albums'?{left:'33%'}:active==='Tagged'?{left:'67%'}:''} id='selected-line'></span>
-            <Link to='/Photos'>
+            <span style={active==='Albums'?{left:'0%'}:active==='Photos'?{left:'33%'}:active==='Tagged'?{left:'67%'}:''} id='selected-line'></span>
+            <Link to='/albums'>
               <div onClick={()=>{
-                setActive('Photos');}} 
-                className={` selector ${active==='Photos'?'selector-active':''}`}><i className="fa-solid fa-image fa-xs"></i><p>Photos</p>
+                setActive('Albums');}} 
+                className={` selector ${active==='Albums'?'selector-active':''}`}><i className="fa-solid fa-image fa-xs"></i><p>Albums</p>
               </div>
             </Link>
-            <Link to='/Photos/Albums'>
+            <Link to='/albums/photos'>
                 <div 
                   onClick={()=>{
-                    setActive('Albums');
+                    setActive('Photos');
                   }}
-                  className={` selector ${active==='Albums'?'selector-active':''}`}><i className="fa-solid fa-images"></i><p>Albums</p> 
+                  className={` selector ${active==='Photos'?'selector-active':''}`}><i className="fa-solid fa-images"></i><p>Photos</p> 
                 </div>
             </Link>
-            <Link to='/Photos/Tagged'>
+            <Link to='/albums/tagged'>
               <div onClick={()=>{
                 setActive('Tagged');
                 }} 

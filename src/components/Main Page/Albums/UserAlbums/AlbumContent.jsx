@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../../UserContext";
 import CreateAlbum from "./CreateAlbum";
 function AlbumContent(){
   const {user} = useContext(UserContext)

@@ -9,7 +9,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import Profiles from "./components/Main Page/Profiles/Profiles.jsx";
-import Photos from "./components/Main Page/Photos/Photos.jsx";
+import Albums from "./components/Main Page/Albums/UserAlbums/Albums.jsx";
 import Messages from "./components/Main Page/Messages/Messages.jsx";
 import Friends from "./components/Main Page/Friends/Friends.jsx";
 import Home from "./components/Main Page/Home/Home.jsx";
@@ -28,9 +28,9 @@ import SettingsNotifications from "./components/Settings Page/SettingsNotificati
 import SettingsProfile from "./components/Settings Page/SettingsProfile.jsx";
 import SettingsSecurity from "./components/Settings Page/SettingsSecurity.jsx";
 import Register from "./components/Sign In page/Register.jsx";
-import PhotosContent from "./components/Main Page/Photos/PhotosContent.jsx";
-import AlbumContent from "./components/Main Page/Photos/AlbumContent.jsx";
-import TaggedContent from "./components/Main Page/Photos/TaggedContent.jsx";
+import PhotosContent from "./components/Main Page/Albums/UserAlbums/PhotosContent.jsx";
+import AlbumContent from "./components/Main Page/Albums/UserAlbums/AlbumContent.jsx";
+import TaggedContent from "./components/Main Page/Albums/UserAlbums/TaggedContent.jsx";
 import Posts from "./components/Main Page/Home/Posts.jsx";
 import { UserProvider } from "./components/UserContext.jsx";
 import FriendRequests from "./components/Main Page/Friends/FriendRequests.jsx";
@@ -79,16 +79,16 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "Photos",
-        element: <Photos />,
+        path: "Albums",
+        element: <Albums/>,
         children: [
           {
             path: "",
-            element: <PhotosContent />,
+            element: <AlbumContent />,
           },
           {
-            path: "albums",
-            element: <AlbumContent />,
+            path: "photos",
+            element: <PhotosContent />,
           },
           {
             path: "tagged",
