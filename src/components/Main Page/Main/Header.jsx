@@ -25,7 +25,6 @@ function Header({ sideBarFull, setSideBarFull }) {
     }
   };
 
-  // Use effect to handle event listener for dropdown
   useEffect(() => {
     document.body.addEventListener("mousedown", handleVisibility);
     return () => {
@@ -33,12 +32,14 @@ function Header({ sideBarFull, setSideBarFull }) {
     };
   }, []);
 
-  // Toggle visibility of the create container
   const toggleCreateContainer = () => {
     setCreateContainerVisibility((prevVisibility) => !prevVisibility);
   };
-
-  // Prevent scroll when Create container is visible
+  const logOut = ()=>{
+    localStorage.setItem('user',null);
+    setUser(null);
+    navigate('/Sign-in')
+  }
   useEffect(() => {
     const handleWheel = (event) => {
       if (createContainerVisibility) {
@@ -126,10 +127,7 @@ function Header({ sideBarFull, setSideBarFull }) {
                   </div>
                 </div>
                 <i
-                  onClick={() => {
-                    setUser(null);
-                    navigate("/Sign-in");
-                  }}
+                  onClick={logOut}
                   className="fa-solid fa-arrow-right-from-bracket fa-xl logout-icon"
                 ></i>
               </div>
