@@ -4,13 +4,14 @@ import '../../../styles/side-bar.css';
 import { UserContext } from '../../UserContext';
 
 function SideBar({sideBarFull}) {
-  const [active, setActive] = useState('');
+  const [active, setActive] = useState(localStorage.getItem('sideBarNav')||'');
   const { user } = useContext(UserContext);
   
   const navigate = useNavigate();
 
   const handleNavigation = (path, activeItem) => {
     setActive(activeItem);
+    localStorage.setItem('sideBarNav', activeItem)
     navigate(path);
   };
 
@@ -62,7 +63,7 @@ function SideBar({sideBarFull}) {
 
       <div
         className='sideBar-item'
-        onClick={() => handleNavigation('/settings', 'Settings')}
+        onClick={() => navigate('/settings')}
       >
         <i className={`fa-solid fa-gear ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
       </div>
