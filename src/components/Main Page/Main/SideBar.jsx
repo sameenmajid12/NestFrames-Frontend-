@@ -52,8 +52,8 @@ function SideBar({sideBarFull}) {
 
         {user && (
           <div
-            className={`sideBar-item ${active === 'Profile' ? 'side-bar-active' : ''}`}
-            onClick={() => handleNavigation(`/${user.username}`, 'Profile')}
+            className={`sideBar-item ${active === user.username ? 'side-bar-active' : ''}`}
+            onClick={() => handleNavigation(`/${user.username}`, user.username)}
           >
             <i className={`fa-solid fa-circle-user ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
             <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Profile</p>

@@ -90,7 +90,7 @@ function Header({ sideBarFull, setSideBarFull }) {
             onClick={changeSideBar}
             className="fa-solid fa-bars-staggered menu-bars"
           ></i>
-          <img className="logo" src="./assets/BOO.png" alt="Logo" />
+          <img className="logo" src="/assets/BOO.png" alt="Logo" />
         </div>
         <SearchBar />
         <div className="right-header-container">

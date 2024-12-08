@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Profiles from "./components/Main Page/Profiles/Profiles.jsx";
 import Albums from "./components/Main Page/Albums/UserAlbums/Albums.jsx";
+import AlbumBody from "./components/Main Page/Albums/Albums/AlbumBody.jsx";
 import Messages from "./components/Main Page/Messages/Messages.jsx";
 import Friends from "./components/Main Page/Friends/Friends.jsx";
 import Home from "./components/Main Page/Home/Home.jsx";
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
             element: <TaggedContent />,
           },
         ],
+      },
+      {
+        path:"album/:albumId",
+        element:<AlbumBody/>
       },
       {
         path: "messages",

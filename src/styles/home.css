@@ -138,9 +138,6 @@
 .album-name{
   color:var(--accent-color);
 }
-hr{
-  border-color:#9C9C9C;
-}
 
 .post-interaction{
   box-sizing: border-box;
