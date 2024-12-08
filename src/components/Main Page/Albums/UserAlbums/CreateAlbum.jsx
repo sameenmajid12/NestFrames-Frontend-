@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../UserContext";
 function CreateAlbum({ setVisibility }) {
   const {user} = useContext(UserContext);
-  console.log(user);
   useEffect(()=>{
     const albumName = document.querySelector('.create-album-name');
     const removePlaceholder = ()=>{
@@ -68,10 +67,10 @@ function CreateAlbum({ setVisibility }) {
       body:formData
     }
     )
-    const data = await response.json();
-    if(data){
+    if(response){
+      const albumId = await response.json();
       setVisibility(false);
-      navigate(`${data._id}`);
+      navigate(`/album/${albumId}`);
     }
   }
 

@@ -93,6 +93,13 @@ function AlbumBody() {
                   <p className="album-collaborator-username">@samin_raiyan</p>
                 </div>
               </div>
+              <div className="album-collaborator">
+                <img className="album-collaborator-image" src="/assets/me.jpg"></img>
+                <div>
+                  <h3 className="album-collaborator-name">Samin Raiyan</h3>
+                  <p className="album-collaborator-username">@samin_raiyan</p>
+                </div>
+              </div>
             </div>
             <button className="album-view-collaborators">View all</button>
           </div>
