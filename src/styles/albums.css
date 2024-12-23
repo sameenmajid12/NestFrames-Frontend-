@@ -114,6 +114,10 @@
 .edit-album-name{
   color:var(--accent-color);
   font-size: 50px;
+  cursor: pointer;
+}
+.edit-album-name:hover{
+  color:var(--accent-hover);
 }
 .album-collaborator div{
   display: flex;
@@ -154,4 +158,30 @@
   border-top:1px solid #C2B5A3;
   margin: 0;
   border-radius: 5px;
+}
+.album-name-change{
+  display: flex;
+  column-gap:10px;
+  align-items: center;
+}
+.album-name-input{
+  position: relative;
+  padding: 0;
+  height: 85px;
+  font-size: 70px;
+  color: var(--text-color);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  max-width: 400px;
+}
+.album-name-check{
+  color:#00DD3B;
+  font-size:40px;
+  cursor: pointer;
+}
+.album-name-xmark{
+  color:red;
+  font-size:40px;
+  cursor: pointer;
 }

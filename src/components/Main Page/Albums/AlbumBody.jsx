@@ -8,6 +8,11 @@ function AlbumBody() {
     document.body.className = "body-default";
   }, []);
   const [album, setAlbum] = useState(null);
+  const [nameChange, setNameChange] = useState({
+    active: false,
+    newName: "",
+  });
+  const [albumName, setAlbumName] = useState("");
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [isCollaborator, setIsCollaborator] = useState(false);
@@ -19,6 +24,7 @@ function AlbumBody() {
       const album = await res.json();
       console.log(album);
       setAlbum(album);
+      setAlbumName(album.name);
       setLoading(false);
     } else {
       setNotFound(true);
@@ -35,14 +41,43 @@ function AlbumBody() {
     getAlbum();
     checkAccess();
   }, [albumId]);
-
+  const toggleNameChange = () => {
+    setNameChange((prev) => ({ ...prev, active: !prev.active }));
+  };
   return album ? (
     <div className="album-page-container">
       <div className="album-head">
         <div className="album-head-left">
           <div className="album-main-header">
-            <h1>
-              {album.name} <i className="fa-solid fa-edit edit-album-name"></i>
+            <h1 id="albumName">
+              {nameChange.active ? (
+                <div className="album-name-change">
+                  <input
+                  style={{width:`${(nameChange.newName.length+1)*40}px`}}
+                   className="album-name-input"
+                    onChange={(e) =>
+                      setNameChange((prev) => ({
+                        ...prev,
+                        newName: e.target.value,
+                      }))
+                    }
+                    value={nameChange.newName}
+                  ></input>
+                  <i
+                    onClick={toggleNameChange}
+                    className="fa-solid fa-circle-xmark album-name-xmark"
+                  ></i>
+                  <i className="fa-solid fa-circle-check album-name-check"></i>
+                </div>
+              ) : (
+                <>
+                  {albumName}{" "}
+                  <i
+                    onClick={toggleNameChange}
+                    className="fa-solid fa-edit edit-album-name"
+                  ></i>
+                </>
+              )}
             </h1>
             <div className="album-interactions">
               <div className="album-interaction-icons">
