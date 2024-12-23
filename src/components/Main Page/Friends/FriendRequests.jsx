@@ -29,13 +29,6 @@ function FriendRequests(){
     setRequests(data.friendRequestsReceived);
   }
   return (
-    <div className={FriendsCSS.friendsPageContainer}>
-      <div className={FriendsCSS.friendRequestContainer}>
-      <div className={FriendsCSS.friendRequestHeader}>
-        <h1>Requests <span className={FriendsCSS.requestCount}>({requests.length})</span></h1>
-        
-      </div>
-      <FriendsSelectionButtons/>
       <div className={FriendsCSS.requestContainer}>
         
         {requests.length===0?<div>No Friend Requests</div>:requests.map((request, index) => {
@@ -56,8 +49,7 @@ function FriendRequests(){
           )
         })}
       </div>
-    </div>
-    </div>
+
     
   )
 }

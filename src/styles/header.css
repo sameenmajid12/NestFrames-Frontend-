@@ -129,8 +129,7 @@
   background-color: #fff5e5;
   padding:15px 20px;
   border-radius: 10px;
-  box-shadow: 0px 0px 2px black;
-  border:1px solid #d3cdc2;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
   z-index:1000;
 }
 .drop-down-profile-info{

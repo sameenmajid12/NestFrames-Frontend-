@@ -14,7 +14,6 @@ function AlbumContent() {
     <>
       {createAlbumVisibility && <CreateAlbum setVisibility={showCreateAlbum} />}
       <div className="albums-container">
-        
         {user
           ? user.albums.map((album, index) => {
               console.log(album);
@@ -31,7 +30,7 @@ function AlbumContent() {
               );
             })
           : ""}
-          <div onClick={showCreateAlbum} className="album-add">
+        <div onClick={showCreateAlbum} className="album-add">
           <div className="album-plus-background">
             <i class="fa-solid fa-plus"></i>
           </div>

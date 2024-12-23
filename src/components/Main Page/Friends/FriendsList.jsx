@@ -4,7 +4,6 @@ import FriendsCSS from '../../../styles/friends.module.css'
 
 function FriendsList(){
   const {user} = useContext(UserContext);
-  console.log(user);
   const friends = user?.friends || [];
   
   if (!friends || !friends.length) {
