@@ -12,9 +12,9 @@ function Friends(){
     const [friends, setFriends] = useState(user.friends);
     const [active,setActive] = useState('Friends');
     return(
-      
+        <>
         <Outlet context={{requests: requests, setRequests: setRequests, friends: friends, setFriends: setFriends, active:active, setActive:setActive}}/>
-
+        </>
   )
 }
 

@@ -24,22 +24,32 @@
 }
 .album-interactions{
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  row-gap: 5px;
+  column-gap: 10px;
 }
 .album-interaction-icons{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
-  background-color: var(--accent-color);
+  width: 30px;
+  height: 30px;
+  background-color: #FFF9EF;
   padding:5px;
   border-radius: 20px;
+  box-shadow: 4px 4px 1px var(--accent-color);
+  cursor: pointer;
+  transition: 0.25s all ease;
+  color:var(--accent-color);
+
+}
+.album-interaction-icons:hover{
+  transform: translate(4px, 4px);
+  box-shadow: none;
+  color:#FFF9EF;
+  background-color: var(--accent-color);
 }
 .album-interaction-icons i{
-  color:white;
+  font-size:20px;
 }
 .album-cover-photo{
   width: 100%;
@@ -95,16 +105,24 @@
   flex-direction: column;
   flex:1;
   padding-bottom:20px;
-  justify-content: space-between;
 }
 .album-collaborator{
   display: flex;
+  align-items: center;
   column-gap: 10px;
+}
+.edit-album-name{
+  color:var(--accent-color);
+  font-size: 50px;
 }
 .album-collaborator div{
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.album-collaborator i{
+  font-size:45px;
+  color: var(--accent-color);
 }
 .album-collaborator-image{
   width: 45px;

@@ -14,29 +14,29 @@ function AlbumContent() {
     <>
       {createAlbumVisibility && <CreateAlbum setVisibility={showCreateAlbum} />}
       <div className="albums-container">
-        <div className="album-add">
-          <div className="album-plus-background">
-            <i onClick={showCreateAlbum} class="fa-solid fa-plus"></i>
-          </div>
-          <p>Create album</p>
-        </div>
+        
         {user
           ? user.albums.map((album, index) => {
               console.log(album);
               return (
-                
-                  <div onClick={
-                    ()=>{
-                      navigate(`/album/${album._id}`)
-                    }
-                  }
-                  className="album-cover-container">
-                    <img src={`${album.coverPhoto.fileUrl}`}></img>
-                  </div>
-      
+                <div
+                  onClick={() => {
+                    navigate(`/album/${album._id}`);
+                  }}
+                  className="album-cover-container"
+                >
+                  <img src={`${album.coverPhoto.fileUrl}`}></img>
+                  <div></div>
+                </div>
               );
             })
           : ""}
+          <div onClick={showCreateAlbum} className="album-add">
+          <div className="album-plus-background">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <p>Create album</p>
+        </div>
       </div>
     </>
   );

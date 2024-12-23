@@ -39,7 +39,7 @@ function SideBar({sideBarFull}) {
           onClick={() => handleNavigation('/albums', 'Albums')}
         >
           <i className={`fa-solid fa-images ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
-          <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Albums</p>
+          <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Media</p>
         </div>
 
         <div

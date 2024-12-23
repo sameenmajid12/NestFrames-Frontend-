@@ -45,13 +45,26 @@
   height:35px;
   border:none;
   border-radius: 20px;
-  background-color: white;
+  background-color: #FFF9EF;
   color:var(--accent-color);
   font-family: 'Itim';
   font-size: 18px;
-  border-bottom: 3px solid var(--accent-color);
+  box-shadow:4px 4px 1px var(--accent-color);
+  transition: 0.25s all ease;
   cursor: pointer;
-
+}
+.button:hover{
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+.active{
+  box-shadow: 4px 4px 1px #e2a344;
+  color:var(--background-light);
+  background-color: #ffbf60;
+}
+.active:hover{
+  transform:none;
+  box-shadow: 4px 4px 1px #e2a344;
 }
 .friendsButtonsContainer{
   display: flex;
@@ -79,13 +92,13 @@
   background-color: #f5e6d1
 }
 .friendName{
-  font-size: 24px;
+  font-size: 25px;
   color:var(--text-color);
-  font-weight:600;
+  font-weight:500;
 }
 .friendUser{
   margin:0;
-  color:#113f85ab;
+  color:var(--accent-color);
   font-size:16px;
   font-weight: 400;
 }
@@ -195,12 +208,7 @@
   border-radius: 50%;
 }
 
-.active{
-  border:none;
-  box-shadow: inset 0px 0px 2px #726c61;
-  color:#ff9900;
-  
-}
+
 
 .ellipsis{
   cursor: pointer;
