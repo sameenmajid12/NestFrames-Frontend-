@@ -25,12 +25,11 @@ function AlbumContent() {
                   className="album-cover-container"
                 >
                   <img src={`${album.coverPhoto.fileUrl}`}></img>
-                  <div></div>
+                  <div className="album-cover-gradient"><p className="album-cover-name">{album.name}</p></div>
                 </div>
               );
             })
           : ""}
-        **
         {user ? (
           user.albums.length === 0 ? (
             <div onClick={showCreateAlbum} className="album-add">

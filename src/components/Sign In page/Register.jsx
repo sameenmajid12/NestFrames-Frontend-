@@ -40,10 +40,10 @@ function Register() {
       console.log(`Error code:${response.status}, User Already exists?`);
       const errorMessage = document.createElement('p');
       errorMessage.textContent = `Error code:${response.status}, User Already exists?`;
-      document.querySelector(`.${register.errorDisplayRegister}`).append(errorMessage);
+      document.querySelector(`.${RegisterCSS.errorDisplayRegister}`).append(errorMessage);
       
       setTimeout(() => {
-        document.querySelector(`.${register.errorDisplayRegister}`).innerHTML = '';
+        document.querySelector(`.${RegisterCSS.errorDisplayRegister}`).innerHTML = '';
       }, 5000);
     }
   };
@@ -91,7 +91,7 @@ function Register() {
           <div className={RegisterCSS.signupGoogle}>
             <button>
               <div className={RegisterCSS.googleLogoContainer}>
-                <img className={RegisterCSS.googleLogo} src="./assets/googleLogo.png" alt="Google Logo" />
+                <img className={RegisterCSS.googleLogo} src="/assets/googleLogo.png" alt="Google Logo" />
               </div>
               Sign up with Google
             </button>

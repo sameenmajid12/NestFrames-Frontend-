@@ -1,8 +1,25 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "../../../styles/create.css";
 import { UserContext } from "../../UserContext";
 
 function Create({ visibility, setVisibility }) {
+  useEffect(() => {
+    const handleWheel = (event) => {
+      if (visibility) {
+        event.preventDefault();
+      }
+    };
+
+    if (visibility) {
+      document.addEventListener("wheel", handleWheel, { passive: false });
+    } else {
+      document.removeEventListener("wheel", handleWheel);
+    }
+
+    return () => {
+      document.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
   const { user } = useContext(UserContext);
   const [filePresent, setFilePresent] = useState(false);
   const [file, setFile] = useState(null);
@@ -103,7 +120,7 @@ function Create({ visibility, setVisibility }) {
           <div className="create-container-body">
             <img
               className="create-image"
-              src="./assets/Poop.png"
+              src="/assets/Poop.png"
               alt="Preview"
             />
             <input

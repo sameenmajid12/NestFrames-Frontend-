@@ -40,25 +40,8 @@ function Header({ sideBarFull, setSideBarFull }) {
     setUser(null);
     navigate('/Sign-in')
   }
-  useEffect(() => {
-    const handleWheel = (event) => {
-      if (createContainerVisibility) {
-        event.preventDefault();
-      }
-    };
 
-    if (createContainerVisibility) {
-      document.addEventListener("wheel", handleWheel, { passive: false });
-    } else {
-      document.removeEventListener("wheel", handleWheel);
-    }
 
-    return () => {
-      document.removeEventListener("wheel", handleWheel);
-    };
-  }, [createContainerVisibility]);
-
-  // Sidebar toggle function
   function changeSideBar() {
     const sideBarFullVisible = !sideBarFull;
     setSideBarFull(sideBarFullVisible);

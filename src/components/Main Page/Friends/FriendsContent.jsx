@@ -6,7 +6,7 @@ function FriendsContent(){
   const {user} = useContext(UserContext);
   const friends = user?.friends || [];
   
-  if (!friends || !friends.length) {
+  if (!friends || !friends.length) {  
     return <p>Loading friends...</p>;
   }
 
