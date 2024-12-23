@@ -9,8 +9,8 @@ import {
   useLocation,
 } from "react-router-dom";
 import Profiles from "./components/Main Page/Profiles/Profiles.jsx";
-import Albums from "./components/Main Page/Albums/UserAlbums/Albums.jsx";
-import AlbumBody from "./components/Main Page/Albums/Albums/AlbumBody.jsx";
+import Albums from "./components/Main Page/Media/Albums.jsx";
+import AlbumBody from "./components/Main Page/Albums/AlbumBody.jsx";
 import Messages from "./components/Main Page/Messages/Messages.jsx";
 import Friends from "./components/Main Page/Friends/Friends.jsx";
 import Home from "./components/Main Page/Home/Home.jsx";
@@ -29,9 +29,9 @@ import SettingsNotifications from "./components/Settings Page/SettingsNotificati
 import SettingsProfile from "./components/Settings Page/SettingsProfile.jsx";
 import SettingsSecurity from "./components/Settings Page/SettingsSecurity.jsx";
 import Register from "./components/Sign In page/Register.jsx";
-import PhotosContent from "./components/Main Page/Albums/UserAlbums/PhotosContent.jsx";
-import AlbumContent from "./components/Main Page/Albums/UserAlbums/AlbumContent.jsx";
-import TaggedContent from "./components/Main Page/Albums/UserAlbums/TaggedContent.jsx";
+import PhotosContent from "./components/Main Page/Media/PhotosContent.jsx";
+import AlbumContent from "./components/Main Page/Media/AlbumContent.jsx";
+import TaggedContent from "./components/Main Page/Media/TaggedContent.jsx";
 import Posts from "./components/Main Page/Home/Posts.jsx";
 import { UserProvider } from "./components/UserContext.jsx";
 import FriendRequests from "./components/Main Page/Friends/FriendRequests.jsx";
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "Albums",
+        path: "media",
         element: <Albums/>,
         children: [
           {

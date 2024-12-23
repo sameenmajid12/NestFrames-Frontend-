@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import "../../../../styles/albums.css";
-import { UserContext } from "../../../UserContext";
+import "../../../styles/albums.css";
+import { UserContext } from "../../UserContext";
 function AlbumBody() {
   useEffect(() => {
     document.body.className = "body-default";

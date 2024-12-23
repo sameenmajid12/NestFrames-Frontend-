@@ -35,8 +35,8 @@ function SideBar({sideBarFull}) {
         </div>
 
         <div
-          className={`sideBar-item ${active === 'Albums' ? 'side-bar-active' : ''}`}
-          onClick={() => handleNavigation('/albums', 'Albums')}
+          className={`sideBar-item ${active === 'Media' ? 'side-bar-active' : ''}`}
+          onClick={() => handleNavigation('/media', 'Media')}
         >
           <i className={`fa-solid fa-images ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
           <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Media</p>

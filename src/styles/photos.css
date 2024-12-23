@@ -139,6 +139,7 @@
   width: 100%;
   height: 100%;
   z-index: 100;
+  cursor: pointer;
 }
 .album-cover-container img::after{
   content: "";
@@ -379,4 +380,49 @@
 }
 .create-album-photo-previous{
   left:-25px;
+}
+.media-add{
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom:10px;
+  right:50%;
+  border-radius: 50px;
+  background-color:var(--accent-color);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.media-add:hover{
+  background-color: var(--accent-hover);
+}
+.media-add i{
+  color: white;
+  font-size: 30px;
+}
+.tooltip {
+  visibility: hidden;
+  position: relative;
+  display: inline-block;
+  visibility: hidden;
+  width: 100px;
+  background-color: #0e356b;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+}
+
+.media-add:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }

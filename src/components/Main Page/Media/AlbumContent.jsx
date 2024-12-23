@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../../../UserContext";
+import { UserContext } from "../../UserContext";
 import CreateAlbum from "./CreateAlbum";
 import { useNavigate } from "react-router-dom";
 function AlbumContent() {
@@ -30,13 +30,28 @@ function AlbumContent() {
               );
             })
           : ""}
-        <div onClick={showCreateAlbum} className="album-add">
-          <div className="album-plus-background">
-            <i class="fa-solid fa-plus"></i>
-          </div>
-          <p>Create album</p>
-        </div>
+        **
+        {user ? (
+          user.albums.length === 0 ? (
+            <div onClick={showCreateAlbum} className="album-add">
+              <div className="album-plus-background">
+                <i class="fa-solid fa-plus"></i>
+              </div>
+              <p>Create album</p>
+            </div>
+          ) : (
+            <div onClick={showCreateAlbum} className="media-add">
+              <i class="fa-solid fa-plus"></i>
+              <div className="tooltip">
+                <span className="tooltip-text">Create album</span>
+              </div>
+            </div>
+          )
+        ) : (
+          ""
+        )}
       </div>
+      :
     </>
   );
 }
