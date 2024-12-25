@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "../../../styles/albums.css";
@@ -18,6 +18,7 @@ function AlbumBody() {
   const [isCollaborator, setIsCollaborator] = useState(false);
   const location = useLocation();
   const albumId = location.pathname.split("/")[2];
+  const inputRef = useRef(null);
   const getAlbum = async () => {
     const res = await fetch(`http://localhost:3002/albums/${albumId}`);
     if (res) {
@@ -43,7 +44,41 @@ function AlbumBody() {
   }, [albumId]);
   const toggleNameChange = () => {
     setNameChange((prev) => ({ ...prev, active: !prev.active }));
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 0);
   };
+  const changeName = async () => {
+    if (nameChange.newName.trim() === "") {
+      alert("Album name cannot be empty.");
+      return;
+    }
+    try {
+      const res = await fetch(`http://localhost:3002/albums/${albumId}/name`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: nameChange.newName }),
+      });
+
+      if (res.ok) {
+        const updatedAlbum = await res.json();
+        console.log(updatedAlbum);
+        setAlbumName(updatedAlbum.name);
+        setNameChange({ active: false, newName: "" });
+      } else {
+        console.error("Failed to update the album name.");
+        alert("There was an error updating the album name. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating the album name:", error);
+      alert("An unexpected error occurred. Please try again later.");
+    }
+  };
+
   return album ? (
     <div className="album-page-container">
       <div className="album-head">
@@ -53,8 +88,9 @@ function AlbumBody() {
               {nameChange.active ? (
                 <div className="album-name-change">
                   <input
-                  style={{width:`${(nameChange.newName.length+1)*40}px`}}
-                   className="album-name-input"
+                    ref={inputRef}
+                    placeholder="Enter new name"
+                    className="album-name-input"
                     onChange={(e) =>
                       setNameChange((prev) => ({
                         ...prev,
@@ -67,7 +103,10 @@ function AlbumBody() {
                     onClick={toggleNameChange}
                     className="fa-solid fa-circle-xmark album-name-xmark"
                   ></i>
-                  <i className="fa-solid fa-circle-check album-name-check"></i>
+                  <i
+                    onClick={changeName}
+                    className="fa-solid fa-circle-check album-name-check"
+                  ></i>
                 </div>
               ) : (
                 <>
@@ -87,11 +126,11 @@ function AlbumBody() {
                 <i className="fa-solid fa-plus"></i>
               </div>
               <div className="album-interaction-icons">
-                <i class="fa-solid fa-clock-rotate-left"></i>
+                <i className="fa-solid fa-clock-rotate-left"></i>
               </div>
 
               <div className="album-interaction-icons">
-                <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                <i className="fa-solid fa-arrow-up-from-bracket"></i>
               </div>
             </div>
           </div>
@@ -103,9 +142,9 @@ function AlbumBody() {
           <h2>Collaborators</h2>
           <div className="album-collaborators-body">
             <div className="album-collaborators">
-              {album.users.map((user) => {
+              {album.users.map((user, index) => {
                 return (
-                  <div className="album-collaborator">
+                  <div key={index} className="album-collaborator">
                     <img
                       className="album-collaborator-image"
                       src={user.profilePic.fileUrl}
@@ -141,13 +180,9 @@ function AlbumBody() {
       </div>
       <hr className="album-body-divider"></hr>
       <div className="album-photos-container">
-        <img src="/assets/Screenshot 2024-07-31 025422.png"></img>
-        <img src="/assets/Screenshot 2024-07-31 025511.png"></img>
-        <img src="/assets/Screenshot 2024-07-31 025753.png"></img>
-        <img src="/assets/Screenshot 2024-07-31 025337.png"></img>
-        <img src="/assets/Screenshot 2024-07-31 025422.png"></img>
-        <img src="/assets/Screenshot 2024-07-31 025511.png"></img>
-        <img src="/assets/Screenshot 2024-07-31 025753.png"></img>
+        {album.photos.map((photo, index) => {
+          return <img key={index} src={photo.fileUrl}></img>;
+        })}
       </div>
     </div>
   ) : (

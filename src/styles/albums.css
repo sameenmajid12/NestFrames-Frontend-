@@ -86,6 +86,7 @@
   justify-content: space-between;
   flex:1;
   padding:20px;
+  row-gap:20px;
 }
 .album-view-collaborators{
   color:White;
@@ -105,11 +106,13 @@
   flex-direction: column;
   flex:1;
   padding-bottom:20px;
+  row-gap:10px;
 }
 .album-collaborator{
   display: flex;
   align-items: center;
   column-gap: 10px;
+  cursor: pointer;
 }
 .edit-album-name{
   color:var(--accent-color);
@@ -163,25 +166,34 @@
   display: flex;
   column-gap:10px;
   align-items: center;
+  height: 85px;
 }
 .album-name-input{
   position: relative;
-  padding: 0;
-  height: 85px;
-  font-size: 70px;
+  box-sizing: border-box;
+  padding: 5px 20px;
+  height: 50px;
+  font-size: 25px;
   color: var(--text-color);
-  background-color: transparent;
-  border: none;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border-color);
   outline: none;
-  max-width: 400px;
+  border-radius: 30px;
+  width: 400px;
 }
 .album-name-check{
   color:#00DD3B;
-  font-size:40px;
+  font-size:30px;
   cursor: pointer;
+}
+.album-name-check:hover{
+  color:#00dd3bb9;
 }
 .album-name-xmark{
   color:red;
-  font-size:40px;
+  font-size:30px;
   cursor: pointer;
+}
+.album-name-xmark:hover{
+  color:rgba(255, 0, 0, 0.705);
 }
