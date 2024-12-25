@@ -1,0 +1,128 @@
+.friend-selector-page{
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000080;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom:0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.friend-selector-container{
+  width: 300px;
+  height: 500px;
+  background-color: var(--background-color);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.friend-selector-header{
+  font-size:24px;
+  padding:5px;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  border-bottom:1px solid var(--border-color);
+  color:var(--text-color);
+}
+.friend-selector-body{
+  padding:20px;
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.friend-selector-body-top{
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.friend-selector-body input{
+  width: 100%;
+  box-sizing: border-box;
+  height: 35px;
+  border-radius: 30px;
+  outline:none;
+  border:none;
+  background-color: var(--background-light);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  padding:0px 15px;
+  color:var(--text-color);
+}
+.friend-selector-list{
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 310px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.3) transparent;
+}
+
+.friend-selector-friend{
+  display: flex;
+  align-items: center;
+  column-gap:10px;
+  padding:5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.friend-selector-friend:hover{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.friend-selector-image{
+  width: 35px;
+  height: 35px;
+  border-radius: 20px;
+}
+.friend-selector-name h3{
+  margin:0;
+  font-size:14px;
+  color:var(--text-color);
+}
+.friend-selector-name p{
+  color:var(--accent-color);
+  font-size:12px;
+}
+.friend-selector-buttons{
+  display: flex;
+  column-gap: 10px;
+}
+.friend-selector-buttons button{
+  height: 35px;
+  width: 125px;
+  border-radius: 17.5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.friend-selector-buttons button:hover{
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+}
+.friend-selector-cancel{
+  border: 1px solid var(--accent-color);
+  color:var(--accent-color);
+  background-color: var(--background-light);
+}
+.friend-selector-cancel:hover{
+  background-color: hsla(0, 0%, 100%, 0.425);
+}
+.friend-selector-confirm:hover{
+  background-color: var(--accent-hover);
+}
+.friend-selector-confirm{
+  background-color: var(--accent-color);
+  border:none;
+  color:var(--background-light);
+}
+.friend-selector-check{
+  font-size: 20px;
+  color:var(--accent-color);
+  flex:1;
+  text-align: end;
+}
