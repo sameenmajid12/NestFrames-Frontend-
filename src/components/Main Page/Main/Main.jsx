@@ -4,6 +4,7 @@ import SideBar from "./SideBar.jsx";
 import { Outlet, useNavigate } from "react-router-dom";
 import Create from "./Create.jsx";
 import { UserContext } from "../../UserContext.jsx";
+import FriendList from "./FriendsList.jsx";
 function Main() {
   const { user, setUser } = useContext(UserContext);
   const [sideBarFull, setSideBarFull] = useState(true);
@@ -35,12 +36,11 @@ function Main() {
     updateOnRefresh();
   }, []);
   return (
-    <div>
-      <Create />
+    <>
       <Header sideBarFull={sideBarFull} setSideBarFull={setSideBarFull} />
       <SideBar sideBarFull={sideBarFull} />
       <Outlet />
-    </div>
+    </>
   );
 }
 
