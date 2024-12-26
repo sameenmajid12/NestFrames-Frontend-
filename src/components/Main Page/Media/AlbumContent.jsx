@@ -50,7 +50,6 @@ function AlbumContent() {
           ""
         )}
       </div>
-      :
     </>
   );
 }

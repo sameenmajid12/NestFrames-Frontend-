@@ -72,22 +72,20 @@
 
 
 .photos-container{
-  box-sizing: border-box;
   margin-top:20px;
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 15px ;
-  row-gap: 15px;
+  width: 100%;
+    column-gap: 10px;
+    column-count: 4;
 }
 
 .photos{  
   width:100%;
   object-fit:cover;
-  aspect-ratio: 1 / 1;
   border-radius: 10px;
   filter: brightness(70%);
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-bottom:10px;
 }
 .photos:hover{
   filter: brightness(100%);
@@ -440,4 +438,81 @@
 .media-add:hover .tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+.album-request-container{
+  box-sizing: border-box;
+  margin-top:20px;
+  display:grid;
+  grid-template-columns: calc(100% * 0.25) calc(100% * 0.25) calc(100% * 0.25) calc(100% * 0.25);
+  column-gap: 15px ;
+  row-gap: 15px;
+}
+.album-request{
+  max-width: 100%;
+  box-sizing: border-box;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.album-request img{
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius:10px;
+  cursor: pointer;
+
+}
+.album-request-info{
+  display: flex;
+  flex-direction:column ;
+  cursor: pointer;
+
+}
+.album-request-info h3{
+  margin:0;
+  color:var(--text-color);
+  font-size:30px;
+}
+.album-request-info p{
+  color:var(--accent-color);
+  font-size:20px;
+}
+.album-request-buttons{
+  width: 100%;
+  display: flex;
+  column-gap:10px ;
+}
+.album-request-buttons button{
+  width: 100%;
+  height:40px;
+  border-radius: 40px;
+  cursor: pointer;
+}
+.album-request-buttons button:hover{
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+}
+.album-request-decline{
+  border:1px solid var(--accent-color);
+  background-color: var(--background-light);
+  color:var(--accent-color);
+  font-size:15px;
+  transition: all 0.1s ease;
+}
+.album-request-decline:hover{
+  background-color: hsla(0, 0%, 100%, 0.425);
+}
+.album-request-accept{
+  border:none;
+  background-color: var(--accent-color);
+  color:var(--background-light);
+  font-size:15px;
+}
+.album-request-accept:hover{
+  background-color: var(--accent-hover);
+}
+.album-request-length{
+  color:var(--accent-color);
+  font-weight: 200;
 }

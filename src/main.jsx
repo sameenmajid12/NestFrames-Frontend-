@@ -31,7 +31,7 @@ import SettingsSecurity from "./components/Settings Page/SettingsSecurity.jsx";
 import Register from "./components/Sign In page/Register.jsx";
 import PhotosContent from "./components/Main Page/Media/PhotosContent.jsx";
 import AlbumContent from "./components/Main Page/Media/AlbumContent.jsx";
-import TaggedContent from "./components/Main Page/Media/TaggedContent.jsx";
+import RequestContent from "./components/Main Page/Media/RequestContent.jsx";
 import Posts from "./components/Main Page/Home/Posts.jsx";
 import { UserProvider } from "./components/UserContext.jsx";
 import FriendRequests from "./components/Main Page/Friends/FriendRequests.jsx";
@@ -92,8 +92,8 @@ const router = createBrowserRouter([
             element: <PhotosContent />,
           },
           {
-            path: "tagged",
-            element: <TaggedContent />,
+            path: "requests",
+            element: <RequestContent />,
           },
         ],
       },
