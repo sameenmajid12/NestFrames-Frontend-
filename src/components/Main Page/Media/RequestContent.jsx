@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { UserContext } from "../../UserContext";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 function RequestContent() {
   const { user } = useContext(UserContext);
-  const [requests, setRequests] = useState(user.albumRequests);
+  const {requests, setRequests, setAlbums} = useOutletContext();
   const navigate = useNavigate();
   const navigateToAlbum = (id) => {
     navigate(`/album/${id}`);
@@ -22,20 +22,32 @@ function RequestContent() {
     );
     if (response.ok) {
       const data = await response.json();
-      setRequests((prev) => {
-        prev.filter((album) => {
-          album._id !== data.albumId;
-        });
-      });
+      console.log(data.album);
+      setRequests((prev)=> prev.filter(request=>request._id!==data.album._id));
+      setAlbums((prev)=> [...prev, data.album]);
     }
   };
-  const declineRequest = () => {};
+  const declineRequest = async (requestId) => {
+    const response = await fetch(
+      `http://localhost:3002/albums/${requestId}/decline-request`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user._id }),
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setRequests((prev)=> prev.filter(request=>request._id!==data.albumId));
+    }
+  };
   return (
     <div className="album-request-container">
-      {requests.map((request) => {
-        console.log(request);
+      {requests?requests.map((request,index) => {
         return (
-          <div className="album-request">
+          <div key={index} className="album-request">
             <img
               onClick={() => {
                 navigateToAlbum(request._id);
@@ -59,9 +71,7 @@ function RequestContent() {
             </div>
             <div className="album-request-buttons">
               <button
-                onClick={() => {
-                  console.log("poop");
-                }}
+                onClick={()=>{declineRequest(request._id)}}
                 className="album-request-decline"
               >
                 Decline
@@ -70,7 +80,7 @@ function RequestContent() {
             </div>
           </div>
         );
-      })}
+      }):''}
     </div>
   );
 }

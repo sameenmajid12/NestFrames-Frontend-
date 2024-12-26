@@ -92,15 +92,13 @@
 }
 
 .albums-container{
-  box-sizing: border-box;
   margin-top:20px;
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 15px ;
-  row-gap: 15px;
+  width: 100%;
+    column-gap: 10px;
+    column-count: 3;
 }
 .album-add{
-  aspect-ratio: 1/1;
+
   border-radius:10px;
   background-color: rgba(0,0,0,0.2);
   display: flex;
@@ -127,6 +125,7 @@
   font-size:22px;
 }
 .album-cover-container{
+  margin-bottom:10px;
   position: relative;
   width: 100%;
   height: 100%;
@@ -405,6 +404,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index:300;
   transition: box-shadow 0.1s ease;
 }
 .media-add:hover{

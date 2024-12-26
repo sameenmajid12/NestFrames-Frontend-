@@ -1,9 +1,13 @@
 import { useEffect, useState, useContext } from 'react';
-import '../../../styles/photos.css'
+import '../../../styles/media.css'
 import { Outlet, Link } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 function Photos(){
+  const { user } = useContext(UserContext)
+
   const [photos, setPhotos] = useState([]);
+  const [albums, setAlbums] = useState(user.albums);
+  const [requests, setRequests] = useState(user.albumRequests);
   const [active, setActive] = useState(JSON.parse(localStorage.getItem('activePhotosTab'))||'Photos');
   useEffect(()=>{
     document.body.className = 'body-default';
@@ -14,7 +18,6 @@ function Photos(){
     localStorage.setItem('activePhotosTab',JSON.stringify(active))
   },[active]);
   
-  const { user } = useContext(UserContext)
   async function getPhotos(){
     const photos = await fetch(`http://localhost:3002/photos/${user._id}`);
     const photoSrcs = await photos.json();
@@ -24,7 +27,7 @@ function Photos(){
   return (
     <div 
     className="gallery-page-container">
-      <h1>{active}{active==="Requests"?<span className='album-request-length'> {`(${user.albumRequests.length})`}</span>:''}</h1>
+      <h1>{active}{active==="Requests"?<span className='album-request-length'> {`(${requests.length})`}</span>:''}</h1>
       <div className='h2-container'>
           <div className="selector-container">
             <span className='selector-line'></span>
@@ -54,7 +57,7 @@ function Photos(){
           </div>
       </div>
       
-      <Outlet context={{photos:photos}}/>
+      <Outlet context={{photos:photos, requests:requests, setRequests:setRequests, albums:albums, setAlbums:setAlbums}}/>
     </div>
   )
 }

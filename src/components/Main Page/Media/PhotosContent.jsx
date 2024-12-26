@@ -20,7 +20,7 @@ function PhotosContent() {
           );
         })}
         <div onClick={toggleCreate} className="media-add">
-          <i class="fa-solid fa-plus"></i>
+          <i className="fa-solid fa-plus"></i>
           <div className="tooltip">
             <span className="tooltip-text">Create post</span>
           </div>
