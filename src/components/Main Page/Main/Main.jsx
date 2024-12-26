@@ -13,6 +13,7 @@ function Main() {
 
   useEffect(() => {
     async function updateOnRefresh() {
+      let timeoutId;
       try {
         const localUser = JSON.parse(localStorage.getItem("user"));
         if (localUser) {
@@ -31,10 +32,15 @@ function Main() {
       } catch (error) {
         console.log(error);
       } finally {
-        setIsLoading(false); 
+        timeoutId = setTimeout(()=>{
+          setIsLoading(false); 
+        },[1000])
       }
     }
     updateOnRefresh();
+    return()=>{
+        clearTimeout(timeoutId);
+    }
   }, []);
 
   if (isLoading) {

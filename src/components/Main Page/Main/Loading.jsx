@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 
 function Loading(){
+  useEffect(()=>{
+    document.body.className="";
+  },[])
   return(
   <div className="loading-page">
-    <img src="/assets/BOO.png"></img>
-    <div className="loader"></div>
+    <img src="/assets/favico.png"></img>
   </div>)
 }
 

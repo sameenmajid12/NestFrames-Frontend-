@@ -65,16 +65,19 @@ p{
   font-size: 19px;
 }
 .loading-page{
-  width: calc(99vw - var(--body-padding));
-  height: calc(99vh - var(--header-height));
+  background-color: var(--background-color);
+ position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  row-gap: 50px;
 }
 .loading-page img{
-  height:150px;
+  height:200px;
+  animation:shimmer 1s linear infinite
 }
 .loader{
   width:150px; 
@@ -83,6 +86,17 @@ p{
   border:20px solid #0000000e;
   border-top:20px solid var(--accent-color);
   animation: spin 1.5s linear infinite;
+}
+@keyframes shimmer{
+  0%{
+    filter:brightness(70%);
+  }
+  50%{
+    filter:brightness(100%);
+  }
+  100%{
+    filter: brightness(70%);
+  }
 }
 @keyframes spin{
  0%{
