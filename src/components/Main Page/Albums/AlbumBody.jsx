@@ -12,6 +12,7 @@ function AlbumBody() {
   const [albumName, setAlbumName] = useState("");
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [collaborators, setCollaborators] = useState([]);
   const location = useLocation();
   const albumId = location.pathname.split("/")[2];
   const fetchAlbum = async () => {
@@ -21,6 +22,7 @@ function AlbumBody() {
         const albumData = await res.json();
         setAlbum(albumData);
         setAlbumName(albumData.name);
+        setCollaborators(albumData.users);
       } else {
         setNotFound(true);
       }
@@ -47,6 +49,8 @@ function AlbumBody() {
         setAlbumName={setAlbumName}
         albumId={albumId}
         album={album}
+        collaborators={collaborators}
+        setCollaborators={setCollaborators}
       />
       <hr className="album-body-divider" />
       <AlbumPhotos album={album} />

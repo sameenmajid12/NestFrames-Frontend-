@@ -1,9 +1,9 @@
 import { UserContext } from "../../UserContext";
-import "../../../styles/FriendList.css";
+import "../../../styles/list.css";
 import { useContext, useEffect, useState } from "react";
 import { use } from "react";
 
-function FriendList({ toggleVisibility, onConfirm }) {
+function SelectorList({ toggleVisibility, onConfirm }) {
   const { user } = useContext(UserContext);
   const [search, setSearch] = useState("");
   const [friendList, setFriendList] = useState(user ? user.friends : []);
@@ -57,7 +57,7 @@ function FriendList({ toggleVisibility, onConfirm }) {
     onConfirm(selected);
   }
   return (
-    <div className="friend-selector-page">
+    <div className="list-page">
       <div className="friend-selector-container">
         <div className="friend-selector-header">Select friends</div>
         <div className="friend-selector-body">
@@ -106,4 +106,4 @@ function FriendList({ toggleVisibility, onConfirm }) {
   );
 }
 
-export default FriendList;
+export default SelectorList;

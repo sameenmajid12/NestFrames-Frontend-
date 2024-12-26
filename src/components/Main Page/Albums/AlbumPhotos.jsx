@@ -1,4 +1,5 @@
 import React from "react";
+import "../../../styles/albums.css";
 
 function AlbumPhotos({ album }) {
   return (

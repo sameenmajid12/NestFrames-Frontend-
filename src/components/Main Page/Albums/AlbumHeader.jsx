@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import "../../../styles/albums.css";
 import AlbumCollaborators from "./AlbumCollaborators";
 
-function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum }) {
+function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collaborators, setCollaborators }) {
   const inputRef = useRef(null);
   const [nameChange, setNameChange] = React.useState({
     active: false,
@@ -101,7 +101,7 @@ function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum }) {
           <img src={album.coverPhoto.fileUrl} alt="Album Cover" />
         </div>
       </div>
-      <AlbumCollaborators album={album} albumId={albumId} setAlbum={setAlbum}/>
+      <AlbumCollaborators album={album} albumId={albumId} setAlbum={setAlbum} collaborators={collaborators} setCollaborators={setCollaborators}/>
     </div>
   );
 }
