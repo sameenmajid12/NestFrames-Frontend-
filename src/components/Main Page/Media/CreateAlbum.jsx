@@ -71,7 +71,7 @@ function CreateAlbum({ setVisibility }) {
       body: formData,
     });
     if (response) {
-      const albumId = await response.json();
+      const {albumId} = await response.json();
       setVisibility(false);
       navigate(`/album/${albumId}`);
     }

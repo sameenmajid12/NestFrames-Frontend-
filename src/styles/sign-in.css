@@ -31,6 +31,10 @@
 }
 .sign-in-image {
   width: 80%;
+  animation: bounce 3s linear infinite
+}
+.sign-in-image:hover{
+  animation:none;
 }
 
 .link {
@@ -180,4 +184,15 @@
   display: flex;
   flex-direction: column;
   row-gap:20px;
+}
+@keyframes bounce {
+  0%{
+    transform: translateY(0);
+  }
+  50%{
+    transform: translateY(-10px);
+  }
+  100%{
+    transform: translateY(0);
+  }
 }

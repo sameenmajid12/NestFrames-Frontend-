@@ -22,8 +22,10 @@ function AlbumCollaborators({ album, albumId, setAlbum }) {
         body: JSON.stringify({ userIds: userIds }),
       }
     );
-    const newUsers = await response.json();
-    setAlbum((prev) => ({ ...prev, users: [...prev.users, ...newUsers.users] }));
+    if(response.ok){
+      const newUsers = await response.json();
+      setAlbum((prev) => ({ ...prev, users: [...prev.users, ...newUsers.users] }));
+    }
   };
   return (
     <>
@@ -37,7 +39,7 @@ function AlbumCollaborators({ album, albumId, setAlbum }) {
         <h2>Collaborators</h2>
         <div className="album-collaborators-body">
           <div className="album-collaborators">
-            {album.users.map((user, index) => {
+            {album.users.slice(0,6).map((user, index) => {
               return (
                 <div key={index} className="album-collaborator">
                   <img
@@ -53,7 +55,7 @@ function AlbumCollaborators({ album, albumId, setAlbum }) {
                 </div>
               );
             })}
-            {album.users.length < 7 ? (
+            {album.users.length < 6 ? (
               <div onClick={toggleVisibility} className="album-collaborator">
                 <i className="fa-solid fa-circle-plus"></i>
                 <h3 className="album-collaborator-name"> Add collaborator</h3>
@@ -63,7 +65,7 @@ function AlbumCollaborators({ album, albumId, setAlbum }) {
             )}
           </div>
 
-          {album.users.length > 7 ? (
+          {album.users.length >= 6 ? (
             <button className="album-view-collaborators">View all</button>
           ) : (
             ""

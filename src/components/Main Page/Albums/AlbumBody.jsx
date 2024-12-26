@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import "../../../styles/albums.css";
 import AlbumHeader from "./AlbumHeader";
 import AlbumPhotos from "./AlbumPhotos";
+import Loading from "../Main/Loading";
 function AlbumBody() {
   useEffect(()=>{
     document.body.className = 'body-default';
@@ -35,8 +36,8 @@ function AlbumBody() {
     fetchAlbum();
   }, [albumId]);
 
-  if (loading) return <p>Loading...</p>;
-  if (notFound) return <p>Album not found.</p>;
+  if (loading) return <Loading/>;
+  if (notFound) return <Loading/>;
 
   return (
     <div className="album-page-container">

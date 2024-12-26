@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Create from "./Create.jsx";
 import { UserContext } from "../../UserContext.jsx";
 import FriendList from "./FriendsList.jsx";
+import Loading from "./Loading.jsx";
 function Main() {
   const { user, setUser } = useContext(UserContext);
   const [sideBarFull, setSideBarFull] = useState(true);
