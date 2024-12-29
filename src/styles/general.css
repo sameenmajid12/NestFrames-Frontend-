@@ -7,12 +7,15 @@
   --background-color:#ffefd8;
   --background-light:#FFF5E5;
   --border-color:#d3cdc2;
+  --input-text:#3D3D3D;
   --header-height:72px;
   --messagesFriendsSelector-width: 375px; 
 }
 
 *{
   font-family: 'itim';
+  margin:0;
+  padding:0;
 }
 .body-default{
   padding-left: var(--body-padding);
@@ -50,10 +53,10 @@
   min-height: calc(100vh - var(--header-height));
   background-color: #ffefd8;
 }
-p{
-  margin:0;
-}
 
+input{
+  color:var(--input-text);
+}
 .drop-down-settings{
   padding:10px 0px;
   display: flex;
@@ -114,3 +117,4 @@ p{
     transform: translateY(0);
   }
 }
+

@@ -51,7 +51,7 @@
   height:35px;
   border:none;
   border-radius: 20px;
-  background-color: #FFF9EF;
+  background-color: var(--background-light);
   color:var(--accent-color);
   font-family: 'Itim';
   font-size: 18px;
@@ -60,8 +60,11 @@
   cursor: pointer;
 }
 .button:hover{
+  background-color: var(--background-color);
+}
+.button:active{
   transform: translate(4px, 4px);
-  box-shadow: none;
+  box-shadow: none;;
 }
 .active{
   box-shadow: 4px 4px 1px #e2a344;
@@ -70,6 +73,7 @@
 }
 .active:hover{
   transform:none;
+  background-color: var(--accent-hover);
   box-shadow: 4px 4px 1px #e2a344;
 }
 .friendsButtonsContainer{

@@ -12,8 +12,8 @@ function Main() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let timeoutId = null;
     async function updateOnRefresh() {
-      let timeoutId;
       try {
         const localUser = JSON.parse(localStorage.getItem("user"));
         if (localUser) {
@@ -32,15 +32,17 @@ function Main() {
       } catch (error) {
         console.log(error);
       } finally {
-        timeoutId = setTimeout(()=>{
-          setIsLoading(false); 
-        },[1000])
+        timeoutId = setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       }
     }
     updateOnRefresh();
-    return()=>{
+    return () => {
+      if (timeoutId !== null) {
         clearTimeout(timeoutId);
-    }
+      }
+    };
   }, []);
 
   if (isLoading) {

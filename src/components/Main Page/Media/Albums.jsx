@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import '../../../styles/media.css'
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
+import Search from './Search';
 function Photos(){
   const { user } = useContext(UserContext)
 
@@ -49,8 +50,8 @@ function Photos(){
                 className={`selector ${active==='requests'?'selector-active':''}`}><i className="fa-solid fa-circle-plus"></i><p>Requests</p>
               </div>
             </Link>
-            
           </div>
+          {active==="albums"?<Search setAlbums={setAlbums}/>:''}
       </div>
       
       <Outlet context={{photos:photos, requests:requests, setRequests:setRequests, albums:albums, setAlbums:setAlbums}}/>

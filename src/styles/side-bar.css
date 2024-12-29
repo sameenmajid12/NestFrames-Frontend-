@@ -44,7 +44,7 @@
 }
 
 .sideBar-item:hover {
-  color: var(--accent-color);
+  color: var(--text-hover);
 }
 
 .side-bar-active p,
