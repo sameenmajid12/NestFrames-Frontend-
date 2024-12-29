@@ -19,12 +19,6 @@ function FriendRequests(){
       }
     })
     const data = await response.json();
-    const updatedUser = {
-      ...user,
-      friends:data.friends,
-      friendRequestsReceived:data.friendRequestsReceived
-    }
-    setUser(updatedUser);
     setFriends(data.friends);
     setRequests(data.friendRequestsReceived);
   }

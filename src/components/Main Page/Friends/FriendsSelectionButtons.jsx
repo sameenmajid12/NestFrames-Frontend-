@@ -1,7 +1,9 @@
 import FriendsCSS from '../../../styles/friends.module.css';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link, useLocation, useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-function FriendsSelectionButtons({active, setActive}){
+import Search from '../Main/Search';
+function FriendsSelectionButtons({active, setActive, setFriends}){
+  const location = useLocation().pathname.split("/")[2] || "";
   return(
     <div className={FriendsCSS.friendsButtonsContainer}>
       <div className={FriendsCSS.friendsButtons}>
@@ -16,7 +18,7 @@ function FriendsSelectionButtons({active, setActive}){
        </Link>
         
       </div>
-       <p className={FriendsCSS.sortText}>Sort by <span className={FriendsCSS.defaultText}>Default</span><i className={"fa-solid fa-caret-down " + FriendsCSS.arrowDown}></i></p>
+      {location===""?<Search setFriends={setFriends} selector="friend"/>:''}
     </div>
     
   );

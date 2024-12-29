@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-function SearchBar() {
+function MainSearch() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isActive, setIsActive] = useState(false);
@@ -70,4 +70,4 @@ function SearchBar() {
   );
 }
 
-export default SearchBar;
+export default MainSearch;

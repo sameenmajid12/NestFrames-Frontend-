@@ -29,7 +29,7 @@ function Friends() {
           ""
         )}
       </div>
-      <FriendsSelectionButtons active={active} setActive={setActive} />
+      <FriendsSelectionButtons active={active} setActive={setActive} setFriends={setFriends} />
       <div className={FriendsCSS.friendsContainer}>
         <Outlet
           context={{

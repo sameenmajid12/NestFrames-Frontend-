@@ -1,7 +1,7 @@
 import "../../../styles/media.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { UserContext } from "../../UserContext";
-function Search({ setAlbums }) {
+function Search({ setAlbums, setFriends, selector }) {
   const { user } = useContext(UserContext);
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -22,18 +22,26 @@ function Search({ setAlbums }) {
     }
   }, [isOpen]);
   useEffect(() => {
-    const searchAlbum = () => {
+    const searchArr = () => {
       if (search.trim().length > 0) {
         const regex = new RegExp(search, "i");
-        const filteredAlbums = user.albums.filter((album) =>
-          regex.test(album.name)
-        );
-        setAlbums(filteredAlbums);
-      } else {
-        setAlbums(user.albums);
+        if(selector==="album"){
+          const filtered = user.albums.filter((album) => regex.test(album.name));
+          setAlbums(filtered);
+          console.log(filtered);
+        }
+        else{
+          const filtered = user.friends.filter((friend) => regex.test(friend.fullname) || regex.test(friend.username));
+          setFriends(filtered);
+        }
+      }
+       else {
+        selector === "album"
+          ? setAlbums(user.albums)
+          : setFriends(user.friends);
       }
     };
-    searchAlbum();
+    searchArr();
   }, [search]);
   return (
     <div className="search-container">
@@ -42,7 +50,7 @@ function Search({ setAlbums }) {
         onClick={toggleSearch}
       >
         <div className="tooltip">
-          <span className="tooltip-text">Search albums</span>
+          <span className="tooltip-text">Search {selector}</span>
         </div>
         <i className="fa-solid fa-magnifying-glass"></i>
       </div>
@@ -53,7 +61,7 @@ function Search({ setAlbums }) {
         value={search}
         type="text"
         className={`search-input ${isOpen ? "open" : ""}`}
-        placeholder={isOpen ? "Search album..." : ""}
+        placeholder={isOpen ? `Search ${selector}...` : ""}
       />
     </div>
   );

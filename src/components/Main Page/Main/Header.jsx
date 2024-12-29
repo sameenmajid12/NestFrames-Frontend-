@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "../../../styles/header.css";
 import { Link, useNavigate } from "react-router-dom";
-import SearchBar from "./SearchBar";
+import MainSearch from "./MainSearch";
 import { UserContext } from "../../UserContext";
 import Create from "./Create";
 
@@ -75,7 +75,7 @@ function Header({ sideBarFull, setSideBarFull }) {
           ></i>
           <img className="logo" src="/assets/BOO.png" alt="Logo" />
         </div>
-        <SearchBar />
+        <MainSearch />
         <div className="right-header-container">
           <img
             onClick={() => setDropDownVisible(!dropDownVisible)}

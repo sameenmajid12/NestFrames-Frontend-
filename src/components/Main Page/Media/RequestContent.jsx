@@ -3,7 +3,7 @@ import { UserContext } from "../../UserContext";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 function RequestContent() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const {requests, setRequests, setAlbums} = useOutletContext();
   const navigate = useNavigate();
   const navigateToAlbum = (id) => {
@@ -22,9 +22,13 @@ function RequestContent() {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log(data.album);
       setRequests((prev)=> prev.filter(request=>request._id!==data.album._id));
-      setAlbums((prev)=> [...prev, data.album]);
+      setAlbums((prev) => [...prev, { ...data.album }]);
+      setUser((prevUser) => ({
+        ...prevUser,
+        albumRequests: [...prevUser.albumRequests.filter(request=>request._id!==data.album._id)],
+        albums: [...prevUser.albums, data.album],
+      }));
     }
   };
   const declineRequest = async (requestId) => {

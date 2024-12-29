@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import '../../../styles/media.css'
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
-import Search from './Search';
+import Search from '../Main/Search';
 function Photos(){
   const { user } = useContext(UserContext)
 
@@ -51,7 +51,7 @@ function Photos(){
               </div>
             </Link>
           </div>
-          {active==="albums"?<Search setAlbums={setAlbums}/>:''}
+          {active==="albums"?<Search setAlbums={setAlbums} selector="album"/>:''}
       </div>
       
       <Outlet context={{photos:photos, requests:requests, setRequests:setRequests, albums:albums, setAlbums:setAlbums}}/>

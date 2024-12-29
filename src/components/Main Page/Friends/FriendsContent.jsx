@@ -1,13 +1,13 @@
 import { UserContext } from "../../UserContext";
 import { useContext } from "react";
 import FriendsCSS from '../../../styles/friends.module.css'
-
+import Loading from '../Main/Loading'
+import { useOutletContext } from "react-router-dom";
 function FriendsContent(){
   const {user} = useContext(UserContext);
-  const friends = user?.friends || [];
-  
-  if (!friends || !friends.length) {  
-    return <p>Loading friends...</p>;
+  const {friends} = useOutletContext();
+  if (!friends) {  
+    return <Loading/>;
   }
 
   return(
@@ -20,9 +20,9 @@ function FriendsContent(){
           <h1 className={FriendsCSS.friendName}>{friend.fullname}</h1>
           <h2 className={FriendsCSS.friendUser}>{`@${friend.username}`}</h2>
         </div>
-        <div>
+        <div className={FriendsCSS.friendButtons}>
           <button className={FriendsCSS.messageButton}>Message</button>
-          <i className={`fa-solid fa-ellipsis-vertical fa-xl ${FriendsCSS.ellipsis}`} style={{color:'#444'}}></i>
+          <div className={FriendsCSS.ellipsisContainer}><i className={`fa-solid fa-ellipsis ${FriendsCSS.ellipsis}`}></i></div>
           
         </div>
         

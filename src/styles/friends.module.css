@@ -98,8 +98,8 @@
   display: flex;
   align-items: center;
   column-gap: 20px;
-  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
-  background-color: #f5e6d1
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
 }
 .friendName{
   font-size: 25px;
@@ -107,7 +107,7 @@
   font-weight:500;
 }
 .friendUser{
-  margin:0;
+  margin-top:2px;
   color:var(--accent-color);
   font-size:16px;
   font-weight: 400;
@@ -123,13 +123,11 @@
   background-color:var(--accent-color);
   border: none;
   color:white;
-  padding: 8px 30px;
+  padding: 10px 30px;
   font-family: 'Itim';
-  margin-right: 20px;
-  font-size: 17px;
+  font-size: 14px;
   cursor: pointer;
-  border-radius: 5px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.438);
+  border-radius: 20px;
 }
 .messageButton:hover{
   background-color: #ffbf60;
@@ -213,10 +211,30 @@
 }
 
 
-
-.ellipsis{
-  cursor: pointer;
+.friendButtons{
+  display: flex;
+  align-items: center;
+  column-gap:10px;
 }
-.ellipsis:hover{
-  color:var(--accent-color);
+.ellipsisContainer{
+  cursor: pointer;
+
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+.ellipsisContainer:hover{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.ellipsis{
+  font-size: 25px;
+  color:#3d3d3d;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
 }

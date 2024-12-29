@@ -6,7 +6,8 @@ function AlbumContent() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [createAlbumVisibility, setCreateAlbumVisibility] = useState(false);
-  const { albums, setAlbums } = useOutletContext();
+  const { albums } = useOutletContext();
+  console.log("Albums in AlbumContent:", albums);
   const showCreateAlbum = () => {
     setCreateAlbumVisibility((prevVisibility) => !prevVisibility);
   };
@@ -15,10 +16,10 @@ function AlbumContent() {
       {createAlbumVisibility && <CreateAlbum setVisibility={showCreateAlbum} />}
       <div className="albums-container">
         {albums
-          ? albums.map((album, index) => {
+          ? albums.map((album) => {
               return (
                 <div
-                key={index}
+                key={album._id}
                   onClick={() => {
                     navigate(`/album/${album._id}`);
                   }}
