@@ -3,10 +3,10 @@ import MessagesCSS from "../../../styles/messages.module.css";
 import { useOutletContext, useParams } from "react-router-dom";
 import { useEffect } from "react";
 function Conversation() {
-  console.log('conversation')
   const [loaded, setLoaded] = useState(false);
   const [message, setMessage] = useState("");
   const conversationContainer = useRef(null);
+  const inputRef = useRef(null);
   const { conversationId } = useParams();
   const {
     conversation,
@@ -15,24 +15,36 @@ function Conversation() {
     user,
     setMessageThreads,
   } = useOutletContext();
-  console.log(conversation);
   const [messageList, setMessageList] = useState([]);
-  if (!conversation) {
-    if (conversationId) {
-      async function getConvo(id) {
-        const c = await fetch(
-          `http://localhost:3002/Messages/Conversation/${id}`
-        );
-        const convo = await c.json();
-        setConversation(convo);
-        console.log(convo);
+  useEffect(()=>{
+    if (!conversation) {
+      if (conversationId) {
+        async function getConvo(id) {
+          const c = await fetch(
+            `http://localhost:3002/Messages/Conversation/${id}`
+          );
+          const convo = await c.json();
+          setConversation(convo);
+        }
+        getConvo(conversationId);
       }
-      getConvo(conversationId);
+    };
+   
+  },[]);
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
-
-    if (!conversationId) {
+  }, []);
+  useEffect(()=>{
+    if(inputRef.current){
+      inputRef.current.focus();
+    }  
+    return()=>{
+      setMessage("");
     }
-  }
+  },[conversation])
+ 
   useEffect(() => {
     if (conversation) {
       setLoaded(true);
@@ -65,6 +77,7 @@ function Conversation() {
       });
     }
   }, [messageList]);
+  
   let userUsername;
   let receiverUsername;
   let receiverName;
@@ -84,7 +97,6 @@ function Conversation() {
         `user${conversation.user1.username === userUsername ? 2 : 1}`
       ].profilePic;
   }
-  console.log(receiverProfilePicUrl)
   const handleMessage = (e) => setMessage(e.target.value);
   const sendMessage = async () => {
     if (message) {
@@ -102,86 +114,64 @@ function Conversation() {
   };
 
   return loaded ? (
-    <div className={MessagesCSS.messagesContainer}>
-      <div className={MessagesCSS.messageHeader}>{`@${receiverUsername}`}</div>
-      <div className={MessagesCSS.messageInputContainer}>
-        <div className={MessagesCSS.inputContainer}>
-          <i className="fa-solid fa-paperclip"></i>
-          <input
-            id="messageInput"
-            placeholder="Send Message"
-            value={message}
-            onChange={handleMessage}
-            className={MessagesCSS.messageInput}
-          ></input>
-          <i className="fa-regular fa-image"></i>
-          <i className="fa-solid fa-arrow-up" onClick={sendMessage}></i>
-        </div>
-      </div>
+    <div className={MessagesCSS.conversationContainer}>
+      <div className={MessagesCSS.conversationHeader}>{receiverName}<i className="fa-solid fa-ellipsis"></i></div>
       <div
         key={conversation._id}
-        ref={conversationContainer}
-        className={MessagesCSS.conversationContainer}
+        className={MessagesCSS.conversationMessagesContainer}
       >
-        <p className={MessagesCSS.conversationStartMessage}>
-          This is the beginning of your conversation with{" "}
-          {`@${receiverUsername}`}
-        </p>
-        {messageList.map((message, index, array) => {
-          const nextMessage = array[index + 1];
-          const lastMessage = array[index - 1];
-          let nextMessageUser;
-          let lastMessageUser;
-          if (nextMessage) {
-            nextMessageUser = nextMessage.sentBy;
-          }
-          if (lastMessage) {
-            lastMessageUser = lastMessage.sentBy;
-          }
+        <div className={MessagesCSS.messages} ref={conversationContainer}>
+          <div className={MessagesCSS.conversationStart}>
+            <img
+              className={MessagesCSS.conversationStartImage}
+              src={receiverProfilePicUrl?receiverProfilePicUrl.fileUrl:'/assets/default-avatar.png'}
+            ></img>
+            <p className={MessagesCSS.conversationStartFullName}>
+              {receiverName}
+            </p>
+            <p className={MessagesCSS.conversationStartUsername}>
+              {receiverUsername}
+            </p>
+            <p className={MessagesCSS.conversationStartMessage}>
+              This is the beginning of your conversation
+            </p>
+          </div>
+          {messageList.map((message, index, array) => {
+            const nextMessage = array[index + 1];
+            const lastMessage = array[index - 1];
+            let nextMessageUser;
+            let lastMessageUser;
+            if (nextMessage) {
+              nextMessageUser = nextMessage.sentBy;
+            }
+            if (lastMessage) {
+              lastMessageUser = lastMessage.sentBy;
+            }
 
-          if (message.sentBy === user._id) {
-            return (
-              <div
-                key={message._id || `sender-${index}`}
-                className={MessagesCSS.senderMessage}
-              >
-                <p>{message.text}</p>
-              </div>
-            );
-          } else {
-            return (
-              <div
-                key={message._id || `receiver-${index}`}
-                className={MessagesCSS.receiverMessage}
-              >
-                {nextMessageUser === message.sentBy ? (
-                  <div
-                    key={`marginedTextContainer-${index}`}
-                    className={MessagesCSS.marginedTextContainer}
-                  >
-                    {lastMessageUser === message.sentBy ? (
-                      ""
-                    ) : (
-                      <div className={MessagesCSS.receiverUsername}>
-                        {receiverName}
-                      </div>
-                    )}
-                    <p>{message.text}</p>
-                  </div>
-                ) : (
-                  <>
-                    <img
-                      key={`image-${index}`}
-                      src={
-                        receiverProfilePicUrl
-                          ? receiverProfilePicUrl.fileUrl
-                          : "./assets/default-avatar.png"
-                      }
-                      alt="receiver"
-                    />
+            if (message.sentBy === user._id) {
+              return (
+                <div
+                  key={message._id || `sender-${index}`}
+                  className={MessagesCSS.senderMessage}
+                >
+                  <p>{message.text}</p>
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  key={message._id || `receiver-${index}`}
+                  className={MessagesCSS.receiverMessage}
+                  style={
+                    nextMessageUser !== message.sentBy
+                      ? { marginBottom: "10px" }
+                      : { marginBottom: "0" }
+                  }
+                >
+                  {nextMessageUser === message.sentBy ? (
                     <div
-                      key={`textContainer-${index}`}
-                      className={MessagesCSS.textContainer}
+                      key={`marginedTextContainer-${index}`}
+                      className={MessagesCSS.marginedTextContainer}
                     >
                       {lastMessageUser === message.sentBy ? (
                         ""
@@ -192,22 +182,61 @@ function Conversation() {
                       )}
                       <p>{message.text}</p>
                     </div>
-                  </>
-                )}
-              </div>
-            );
-          }
-        })}
+                  ) : (
+                    <>
+                      <img
+                        key={`image-${index}`}
+                        src={
+                          receiverProfilePicUrl
+                            ? receiverProfilePicUrl.fileUrl
+                            : "./assets/default-avatar.png"
+                        }
+                        alt="receiver"
+                      />
+                      <div
+                        key={`textContainer-${index}`}
+                        className={MessagesCSS.textContainer}
+                      >
+                        {lastMessageUser === message.sentBy ? (
+                          ""
+                        ) : (
+                          <div className={MessagesCSS.receiverUsername}>
+                            {receiverName}
+                          </div>
+                        )}
+                        <p>{message.text}</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              );
+            }
+          })}
+        </div>
+      </div>
+      <div className={MessagesCSS.messageInputContainer}>
+      <div className={MessagesCSS.messageIcons}><i className="fa-solid fa-plus"></i></div>
+        <div className={MessagesCSS.messageInput}>
+          <input
+            id="messageInput"
+            placeholder="Send Message"
+            value={message}
+            onChange={handleMessage}
+            ref={inputRef}
+            className={MessagesCSS.input}
+          ></input>
+          <div className={MessagesCSS.messageInputIcons}>
+            <i className="fa-regular fa-face-smile"></i>
+            <div className={MessagesCSS.messageSend}>
+              <i className="fa-regular fa-paper-plane"></i>
+            </div>
+          </div>
+        </div>
+        <div className={MessagesCSS.messageIcons}><i className="fa-solid fa-microphone-lines" onClick={sendMessage}></i></div>
       </div>
     </div>
   ) : (
-    <div>
-      <input></input>
-      <p>POop</p>
-      <div>
-        <input></input>
-      </div>
-    </div>
+    <div></div>
   );
 }
 

@@ -9,9 +9,14 @@
   --border-color:#d3cdc2;
   --input-text:#3D3D3D;
   --header-height:72px;
-  --messagesFriendsSelector-width: 375px; 
+  --messagesFriendsSelector-width: 330px; 
 }
-
+@font-face {
+  font-family: 'itim';
+  src: url('/Itim-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 *{
   font-family: 'itim';
   margin:0;
@@ -26,6 +31,7 @@
   min-height: 100%;
   background-color: #ffefd8;
   overflow-y:scroll;
+  
 }
 .body-signIn{
   padding:0;

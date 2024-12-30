@@ -18,9 +18,11 @@ function FriendRequests(){
         "Content-Type": "application/json",
       }
     })
-    const data = await response.json();
-    setFriends(data.friends);
-    setRequests(data.friendRequestsReceived);
+    if(response.ok){
+      const data = await response.json();
+      setFriends(prev=>[...prev, data.friends]);
+      setRequests(prev=> prev.filter(req=> req!=data.friendRequestsReceived));
+    }
   }
   return (
       <div className={FriendsCSS.requestContainer}>

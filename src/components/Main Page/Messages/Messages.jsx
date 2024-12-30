@@ -2,29 +2,23 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import MessagesCSS from "../../../styles/messages.module.css";
-import AddFriendToMessageList from "./AddFriendToMessageList";
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
-
+import SelectorList from '../Main/SelectorList'
 function Messages() {
-  // State variables
-  const [searchTerm, setSearchTerm] = useState(""); // For searching messages
-  const [socketConnection, setSocketConnection] = useState(null); // For socket connection
-  const [messageThreads, setMessageThreads] = useState([]); // List of conversations
-  const [activeConversation, setActiveConversation] = useState(null); // The currently active conversation
-  const [isFriendListVisible, setIsFriendListVisible] = useState(false); // Controls friend list visibility
-  // Context for user data
+  const [searchTerm, setSearchTerm] = useState("");
+  const [socketConnection, setSocketConnection] = useState(null);
+  const [messageThreads, setMessageThreads] = useState([]);
+  const [activeConversation, setActiveConversation] = useState(null);
+  const [friendListVisibility, setFriendListVisibility] = useState(false);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Set body class
     document.body.className = "body-default";
 
-    // Establish socket connection
     const socket = io(`http://localhost:3002`);
     setSocketConnection(socket);
 
-    // Fetch conversations for the user
     const fetchConversations = async () => {
       const response = await fetch(
         `http://localhost:3002/Messages/${user._id}`
@@ -35,13 +29,14 @@ function Messages() {
 
     fetchConversations();
 
-    // Clean up socket connection when component unmounts
     return () => {
       socket.disconnect();
     };
   }, [user._id]);
+  const toggleListVisibility = ()=>{
+    setFriendListVisibility(prev=>!prev);
+  }
 
-  // Connect to a specific conversation
   const handleJoinConversation = (conversation) => {
     if (socketConnection) {
       socketConnection.emit("joinRoom", conversation);
@@ -49,37 +44,47 @@ function Messages() {
     }
   };
 
-  // User's friend list
   const friendList = user.friends;
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-
-  // Add friend to message list or navigate to existing conversation
-  const handleAddFriendToMessages = async (e) => {
-    const { username } = e.target.dataset;
-    const friend = friendList.find((f) => f.username === username);
-    console.log(friend);
+  const getLastMessage = (dateNow) => {
+    const now = new Date(dateNow);
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours %= 12;
+    hours = hours === 0 ? 12 : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    const timeString = `${hours}:${minutes}`;
+    return timeString;
+  };
+  const handleAddFriendToMessages = async (friend) => {
+    const username = user.username;
+    const friendUsername = friend[0].username;
     const response = await fetch(
-      `http://localhost:3002/Messages/${user.username}/with/${friend.username}`
+      `http://localhost:3002/Messages/${username}/with/${friendUsername}`
     );
-    const { convoExists, conversation } = await response.json();
-    // Check if conversation already exists, if not, add a new conversation
+    let conversation = null;
+    const convoData = await response.json();
+    const {convoExists} = convoData;
+    conversation = convoData.conversation;
     if (
       friend &&
       !messageThreads.some(
         (thread) =>
-          (thread.user2.username || thread.user1.username) === username
+          (thread.user2.username=== friendUsername || thread.user1.username=== friendUsername) 
       )
     ) {
+
       let updatedConversations;
       if (convoExists) {
+        console.log(convoExists);
         updatedConversations = [...messageThreads, conversation];
       } else {
         const response = await fetch(
-          `http://localhost:3002/Messages/${friend.username}`,
+          `http://localhost:3002/Messages/${friend[0]._id}`,
           {
             method: "POST",
             headers: {
@@ -88,34 +93,34 @@ function Messages() {
             body: JSON.stringify({ senderId: user._id }),
           }
         );
-        updatedConversations = await response.json();
+        conversation = await response.json();
+        updatedConversations = [...messageThreads, conversation];
       }
+      console.log(conversation);
       setMessageThreads(updatedConversations);
+      navigate(`/Messages/${conversation._id}`);
+      handleJoinConversation(conversation);
+      setActiveConversation(conversation);
+
+
     } else {
-      navigate(`/Messages/${friend.username}`);
+      navigate(`/Messages/${conversation._id}`);
+      handleJoinConversation(conversation);
+      setActiveConversation(conversation);
     }
 
-    setIsFriendListVisible(false);
+    setFriendListVisibility(false);
   };
 
   return (
+    <>
     <div className={MessagesCSS.messagesPageContainer}>
-      {isFriendListVisible ? (
-        <AddFriendToMessageList
-          friends={friendList}
-          setIsFriendListVisible={setIsFriendListVisible}
-          addToMessages={handleAddFriendToMessages}
-        />
-      ) : (
-        ""
-      )}
-
       <div className={MessagesCSS.messagesFriendsSelector}>
         <div className={MessagesCSS.messagesHeaderContainer}>
           <div className={MessagesCSS.messagesFriendsHeader}>
             <h1>Messages</h1>
             <i
-              onClick={() => setIsFriendListVisible(true)}
+              onClick={toggleListVisibility}
               className={`fa-solid fa-pen-to-square ${MessagesCSS.addMessage}`}
             ></i>
           </div>
@@ -133,9 +138,9 @@ function Messages() {
 
         <div
           id="conversationsContainer"
-          className={MessagesCSS.conversationsContainer}
+          className={MessagesCSS.messageThreadsContainer}
         >
-          {messageThreads.map((conversation, index) => (
+          {messageThreads.map((conversation) => (
             <div
               onClick={() => {
                 navigate(`/Messages/${conversation._id}`);
@@ -143,42 +148,60 @@ function Messages() {
                 setActiveConversation(conversation);
               }}
               key={conversation._id}
-              className={MessagesCSS.conversations}
+              className={`${MessagesCSS.threads} ${activeConversation?activeConversation._id===conversation._id?MessagesCSS.activeConversation:'':''}`}
             >
-              <div className={MessagesCSS.conversationReceiverInfo}>
-                <img src={
-                  conversation[
-                    conversation.user1.username === user.username
-                    ? 'user2'
-                    : 'user1'
-                  ].profilePic.fileUrl
-                }></img>
-                <div className={MessagesCSS.conversationUserInfo}>
-                  <p className={MessagesCSS.conversationUserInfoReceiverUsername}>
+              <div className={MessagesCSS.activeLine}></div>
+              <div className={MessagesCSS.threadReceiverInfo}>
+                <img
+                  src={
+                    conversation[
+                      conversation.user1.username === user.username
+                        ? "user2"
+                        : "user1"
+                    ].profilePic?conversation[
+                      conversation.user1.username === user.username
+                        ? "user2"
+                        : "user1"
+                    ].profilePic.fileUrl:'/assets/default-avatar.png'
+                  }
+                ></img>
+                <div className={MessagesCSS.threadReceiverText}>
+                  <p
+                    className={MessagesCSS.threadReceiverUsername}
+                  >
                     {
                       conversation[
                         conversation.user1.username === user.username
                           ? "user2"
                           : "user1"
-                      ].username
+                      ].fullname
                     }
                   </p>
                   <p className={MessagesCSS.lastMessageSent}>
-                    {
-                      conversation.messages.length!==0?conversation.messages[conversation.messages.length - 1]
-                      .text:''
-                    }
-                    
+                    {conversation.messages.length !== 0
+                      ? conversation.messages[conversation.messages.length - 1]
+                          .text
+                      : ""}
                   </p>
+                  <p className={MessagesCSS.messageTime}>
+                  {conversation.messages.length !== 0
+                    ? getLastMessage(
+                        conversation.messages[conversation.messages.length - 1]
+                          .createdAt
+                      )
+                    : ""}
+                  </p>
+                  
                 </div>
               </div>
-
-              <i className="fa-solid fa-chevron-right fa-xs"></i>
             </div>
           ))}
         </div>
+        <div className={MessagesCSS.addMoreMessages}>
+          <i className="fa-solid fa-circle-plus"></i>
+        </div>
       </div>
-      <Outlet
+      {activeConversation?<Outlet
         context={{
           conversation: activeConversation,
           setConversation: setActiveConversation,
@@ -187,8 +210,16 @@ function Messages() {
           messageThreads,
           setMessageThreads,
         }}
-      />
-    </div>
+      />:<div className={MessagesCSS.messageDefaultPage}>
+          <div className={MessagesCSS.messageDefaultContainer}>
+            <img src="/assets/messageIcon.png"></img>
+            <p>Start a chat<br></br> and <br></br>connect instantly</p>
+            <button>Send message</button>
+          </div>
+        </div>}
+      </div>
+      {friendListVisibility && <SelectorList toggleVisibility={toggleListVisibility} onConfirm={handleAddFriendToMessages}/>}
+     </>
   );
 }
 
