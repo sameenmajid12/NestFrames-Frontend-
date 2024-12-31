@@ -18,10 +18,23 @@ function FriendRequests(){
         "Content-Type": "application/json",
       }
     })
-    if(response.ok){
+    const {status} = response;
+    if(status===200||status===409){
       const data = await response.json();
-      setFriends(prev=>[...prev, data.friends]);
-      setRequests(prev=> prev.filter(req=> req!=data.friendRequestsReceived));
+      const friend = data.sender;
+      const updatedFriends = [...user.friends, friend];
+      const updatedRequests = requests.filter((req)=>req.username!==friend.username);
+      setRequests(updatedRequests);
+      if(status===200){
+        setFriends(updatedFriends);
+        setUser(prev=>({...prev, friends:updatedFriends, friendRequestsReceived:updatedRequests}));
+      }
+      else{
+        setUser(prev=>({...prev, friendRequestsReceived:updatedRequests}));
+      }
+    }
+    else{
+
     }
   }
   return (

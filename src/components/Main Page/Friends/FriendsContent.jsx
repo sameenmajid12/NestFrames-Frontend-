@@ -1,10 +1,7 @@
-import { UserContext } from "../../UserContext";
-import { useContext } from "react";
 import FriendsCSS from '../../../styles/friends.module.css'
 import Loading from '../Main/Loading'
 import { useOutletContext } from "react-router-dom";
 function FriendsContent(){
-  const {user} = useContext(UserContext);
   const {friends} = useOutletContext();
   if (!friends) {  
     return <Loading/>;
