@@ -2,8 +2,6 @@ import ProfileNav from "./ProfileNav"
 import ProfileInfo from "./ProfileInfo";
 import { Outlet, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { UserContext } from "../../UserContext";
-import { useContext } from "react";
 import { useState } from "react";
 function Profiles(){
   const [profile, setProfile] = useState();
@@ -30,8 +28,8 @@ function Profiles(){
   }
   return(
     <div className="profile-container">
-      <ProfileInfo profile={profile} />
-      <ProfileNav profile={profile}/>
+      <ProfileInfo profile={profile} setProfile={setProfile}/>
+      <ProfileNav profile={profile} setProfile={setProfile}/>
       <div className="profile-content-container">
         <Outlet context={{profile}}/>
       </div>

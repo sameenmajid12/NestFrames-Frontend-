@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import "../../../styles/Profile.css";
 import { UserContext } from "../../UserContext";
-function AddPfp({ setVisibility }) {
+function AddPfp({ setVisibility, setProfile }) {
   const [imageFile, setImageFile] = useState(null);
   const [filePresent, setFilePresent] = useState(false);
   const {user} = useContext(UserContext);
@@ -26,15 +26,17 @@ function AddPfp({ setVisibility }) {
     setFilePresent(false);
     setImageFile(null);
   }
-  const uploadImage = () =>{
+  const uploadImage = async() =>{
     if(filePresent){
       const formData = new FormData();
       formData.append('file', imageFile);
       formData.append('userId',user._id);
-      fetch('http://localhost:3002/photos/uploadProfilePic',{
+      const response = await fetch('http://localhost:3002/photos/uploadProfilePic',{
         method:'Post',
         body:formData
       });
+      const profilePic = (await response.json()).photo;
+      setProfile(prev => ({ ...prev, profilePic: profilePic }));
       setVisibility(false);
     }}
   return (
