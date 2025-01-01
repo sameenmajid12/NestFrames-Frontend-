@@ -6,7 +6,8 @@ function MainSearch() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  function handleChange({ target }) {
+  const [notFound, setNotFound] = useState(false);
+  const handleChange=({ target })=> {
     setSearchQuery(target.value);
     if (target.value.length > 0) {
       setIsActive(true);
@@ -23,8 +24,10 @@ function MainSearch() {
         if (response.ok) {
           const data = await response.json();
           setSearchResults(data);
+          setNotFound(data.length===0);
         } else {
           setSearchResults([]);
+          setNotFound(true);
         }
       }
     };
@@ -34,9 +37,11 @@ function MainSearch() {
     };
   }, [searchQuery]);
 
-  function onBlur() {
+  const onBlur=()=> {
     setTimeout(() => {
       setIsActive(false);
+      setSearchQuery("");
+      setNotFound(false);
     }, 100);
   };
   const checkFriend = (profile)=>{
@@ -70,6 +75,7 @@ function MainSearch() {
             </Link>
           );
         })}
+        {notFound?<div className="search-result-not-found">No results found <i class="fa-regular fa-face-frown-open"></i></div>:''}
       </div>
     </div>
   );
