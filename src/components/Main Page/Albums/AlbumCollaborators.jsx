@@ -49,7 +49,7 @@ function AlbumCollaborators({
         />
       )}
       {
-        collaboratorVisibility && <DisplayList toggleVisibility={toggleCollaboratorVisibility} header="Collaborators" users={collaborators}/>
+        collaboratorVisibility && <SelectorList toggleVisibility={toggleCollaboratorVisibility} header="Collaborators" users={collaborators}/>
       }
       <div className="album-collaborator-container">
         <h2>Collaborators</h2>

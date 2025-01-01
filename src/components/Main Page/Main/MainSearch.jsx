@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../UserContext";
 function MainSearch() {
+  const {user}= useContext(UserContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isActive, setIsActive] = useState(false);
@@ -36,6 +38,9 @@ function MainSearch() {
     setTimeout(() => {
       setIsActive(false);
     }, 100);
+  };
+  const checkFriend = (profile)=>{
+    return user.friends.some((friend)=>friend.username===profile.username);
   }
   return (
     <div className="search-bar-container">
@@ -56,10 +61,10 @@ function MainSearch() {
           return (
             <Link key={index} to={`/${result.username}`}>
               <div key={index} className="search-result">
-                <img></img>
+                <img src={result.profilePic?result.profilePic.fileUrl:'/assets/default-avatar.png'}></img>
                 <div className="search-result-info">
-                  <h1>{result.username}</h1>
-                  <h2>{result.fullname}</h2>
+                  <h1>{result.fullname}</h1>
+                  <h2>{result.username} {checkFriend(result)?'• Friends':''}</h2>
                 </div>
               </div>
             </Link>

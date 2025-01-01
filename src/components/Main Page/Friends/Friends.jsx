@@ -23,8 +23,8 @@ function Friends() {
             Requests{" "}
             <span className={FriendsCSS.requestCount}>({requests.length})</span>
           </h1>
-        ) : active === "Groups" ? (
-          <h1 className={FriendsCSS.requestHeader}>Groups</h1>
+        ) : active === "Sent" ? (
+          <h1 className={FriendsCSS.requestHeader}>Sent</h1>
         ) : (
           ""
         )}

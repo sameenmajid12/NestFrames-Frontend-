@@ -7,7 +7,7 @@ import Loading from "./Loading.jsx";
 
 function Main() {
   const { user, setUser } = useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(true); // Track loading state
+  const [isLoading, setIsLoading] = useState(true); 
   const [sideBarFull, setSideBarFull] = useState(true);
   const navigate = useNavigate();
 

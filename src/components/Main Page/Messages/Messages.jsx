@@ -44,7 +44,6 @@ function Messages() {
     }
   };
 
-  const friendList = user.friends;
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);

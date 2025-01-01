@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
-import Create from "../Main/Create";
+import Create from "../Main/CreatePost";
 function PhotosContent() {
   const { photos } = useOutletContext();
   const [createVisibility, setCreateVisibility] = useState(false);

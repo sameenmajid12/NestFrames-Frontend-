@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Main from "./components/Main Page/Main/Main.jsx";
-import Signin from "./components/Sign In page/Signin.jsx";
+import Signin from "./components/Authentication/Signin.jsx";
 import NotFound from "./components/Not found Page/NotFound.jsx";
 import {
   createBrowserRouter,
   RouterProvider,
-  useLocation,
 } from "react-router-dom";
 import Profiles from "./components/Main Page/Profiles/Profiles.jsx";
-import Albums from "./components/Main Page/Media/Albums.jsx";
+import Media from "./components/Main Page/Media/Media.jsx";
 import AlbumBody from "./components/Main Page/Albums/AlbumBody.jsx";
 import Messages from "./components/Main Page/Messages/Messages.jsx";
 import Friends from "./components/Main Page/Friends/Friends.jsx";
@@ -28,15 +27,15 @@ import SettingsHelp from "./components/Settings Page/SettingsHelp.jsx";
 import SettingsNotifications from "./components/Settings Page/SettingsNotifications.jsx";
 import SettingsProfile from "./components/Settings Page/SettingsProfile.jsx";
 import SettingsSecurity from "./components/Settings Page/SettingsSecurity.jsx";
-import Register from "./components/Sign In page/Register.jsx";
+import Register from "./components/Authentication/Register.jsx";
 import PhotosContent from "./components/Main Page/Media/PhotosContent.jsx";
 import AlbumContent from "./components/Main Page/Media/AlbumContent.jsx";
 import RequestContent from "./components/Main Page/Media/RequestContent.jsx";
 import Posts from "./components/Main Page/Home/Posts.jsx";
 import { UserProvider } from "./components/UserContext.jsx";
 import FriendRequests from "./components/Main Page/Friends/FriendRequests.jsx";
-import FriendGroups from "./components/Main Page/Friends/FriendGroups.jsx";
 import Conversation from "./components/Main Page/Messages/Conversation.jsx";
+import FriendRequestsSent from "./components/Main Page/Friends/FriendRequestsSent.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -81,7 +80,7 @@ const router = createBrowserRouter([
       },
       {
         path: "media",
-        element: <Albums/>,
+        element: <Media/>,
         children: [
           {
             path: "",
@@ -124,8 +123,8 @@ const router = createBrowserRouter([
             element:<FriendRequests/>
           },
           {
-            path:"groups",
-            element:<FriendGroups/>
+            path:"sent",
+            element:<FriendRequestsSent/>
           }
         ],
       },

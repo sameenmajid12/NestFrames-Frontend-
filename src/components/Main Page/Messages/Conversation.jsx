@@ -29,7 +29,9 @@ function Conversation() {
         getConvo(conversationId);
       }
     };
-   
+    return()=>{
+      setConversation(null);
+    }
   },[]);
   useEffect(() => {
     if (inputRef.current) {

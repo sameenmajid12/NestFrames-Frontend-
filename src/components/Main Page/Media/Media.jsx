@@ -3,7 +3,7 @@ import '../../../styles/media.css'
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import Search from '../Main/Search';
-function Photos(){
+function Media(){
   const { user } = useContext(UserContext)
 
   const [photos, setPhotos] = useState([]);
@@ -59,4 +59,4 @@ function Photos(){
   )
 }
 
-export default Photos;
+export default Media;

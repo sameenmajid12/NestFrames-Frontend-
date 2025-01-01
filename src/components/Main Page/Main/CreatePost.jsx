@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import "../../../styles/create.css";
 import { UserContext } from "../../UserContext";
 
-function Create({ visibility, setVisibility }) {
+function CreatePost({ visibility, setVisibility }) {
   useEffect(() => {
     const handleWheel = (event) => {
       if (visibility) {
@@ -145,4 +145,4 @@ function Create({ visibility, setVisibility }) {
   );
 }
 
-export default Create;
+export default CreatePost;

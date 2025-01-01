@@ -1,7 +1,6 @@
 import { UserContext } from "../../UserContext";
 import "../../../styles/list.css";
 import { useContext, useEffect, useState } from "react";
-import { use } from "react";
 
 function SelectorList({ toggleVisibility, onConfirm }) {
   const { user } = useContext(UserContext);
@@ -89,7 +88,7 @@ function SelectorList({ toggleVisibility, onConfirm }) {
               ))}
             </div>
           </div>
-          <div className="friend-selector-buttons">
+          {onConfirm?<div className="friend-selector-buttons">
             <button
               onClick={toggleVisibility}
               className="friend-selector-cancel"
@@ -99,7 +98,7 @@ function SelectorList({ toggleVisibility, onConfirm }) {
             <button onClick={handleConfirm} className="friend-selector-confirm">
               Confirm
             </button>
-          </div>
+          </div>:''}
         </div>
       </div>
     </div>

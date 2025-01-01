@@ -3,7 +3,7 @@ import "../../../styles/header.css";
 import { Link, useNavigate } from "react-router-dom";
 import MainSearch from "./MainSearch";
 import { UserContext } from "../../UserContext";
-import Create from "./Create";
+import Create from "./CreatePost";
 
 function Header({ sideBarFull, setSideBarFull }) {
   const dropDownRef = useRef(null);

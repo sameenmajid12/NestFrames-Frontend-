@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../UserContext";
-import CreateAlbum from "./CreateAlbum";
+import CreateAlbum from "../Main/CreateAlbum";
 import { useNavigate, useOutletContext } from "react-router-dom";
 function AlbumContent() {
   const { user } = useContext(UserContext);
