@@ -28,20 +28,7 @@
   display: flex;
   justify-content: space-between;
 }
-.sortText{
-  color:var(--text-color);
-  font-size: 22px;;
-  font-weight: 400;
-}
 
-.defaultText{
-  color: var(--accent-color);
-}
-.arrowDown{
-  color:black;
-  margin-left:5px;
-  cursor: pointer;
-}
 .friendsButtons{
   display: flex;
   column-gap: 10px;
@@ -80,36 +67,37 @@
   display: flex;
   justify-content: space-between;
 }
-
+.friendsOuletContainer{
+  width: 100%;
+}
 .friendsContainer{
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 30px;
-  
 }
 
 .friendImage{
-  width: 64px;
+  width: 56px;
   border-radius: 36px;
 }
 .friend{
-  height: 100px;
-  padding:0px 30px;
+  padding:20px 30px;
   display: flex;
   align-items: center;
-  column-gap: 20px;
+  column-gap: 15px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
 }
 .friendName{
-  font-size: 25px;
+  font-size: 20px;
   color:var(--text-color);
   font-weight:500;
 }
 .friendUser{
   margin-top:2px;
   color:var(--accent-color);
-  font-size:16px;
+  font-size:14px;
   font-weight: 400;
 }
 .friendInfo{
@@ -123,7 +111,7 @@
   background-color:var(--accent-color);
   border: none;
   color:white;
-  padding: 10px 30px;
+  padding: 8px 20px;
   font-family: 'Itim';
   font-size: 14px;
   cursor: pointer;
@@ -136,7 +124,7 @@
   background-color: transparent;
   outline:none;
   font-family: 'Itim';
-  font-size:22px;
+  font-size:16px;
   border:none;
   color:var(--accent-color);
   padding-left: 10px;
@@ -181,29 +169,35 @@
   display:flex;
   column-gap: 5px;
 }
+.requestButtons button{
+  border:2px solid var(--accent-color);
+  padding:7px 70px;
+  font-size:18px;
+  transition: all 0.15s ease;
+  border-radius:20px;
+  cursor: pointer;
+}
+.requestButtons button:hover{
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+}
 .ignoreButton{
   background-color: transparent;
-  border:2px solid var(--accent-color);
+ 
   color:var(--accent-color);
-  padding:4px 70px;
-  font-size:18px;
-  font-family: 'Itim';
-  border-radius:10px;
-  cursor: pointer;
+  
+ 
+  }
+.ignoreButton:hover{
+  background-color: var(--background-light);
 }
-
 .acceptButton{
-  color:white;
+  color:var(--background-light);
   background-color: var(--accent-color);
-  border:none;
-  font-size:18px;
-  padding:6px 70px;
-  border:2px solid var(--accent-color);
-  border-radius: 10px;
-  font-family: 'Itim';
-  cursor: pointer;
 }
-
+.acceptButton:hover{
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
 
 .requestUserImage{
   width: 135px;
@@ -219,8 +213,8 @@
 .ellipsisContainer{
   cursor: pointer;
 
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -230,11 +224,15 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 .ellipsis{
-  font-size: 25px;
+  font-size: 20px;
   color:#3d3d3d;
   
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+}
+
+.mutualFriends{
+  color:var(--text-hover);
 }

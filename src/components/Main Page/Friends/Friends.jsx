@@ -23,14 +23,18 @@ function Friends() {
             Requests{" "}
             <span className={FriendsCSS.requestCount}>({requests.length})</span>
           </h1>
-        ) : active === "Sent" ? (
-          <h1 className={FriendsCSS.requestHeader}>Sent</h1>
+        ) : active === "Suggested" ? (
+          <h1 className={FriendsCSS.requestHeader}>Suggested</h1>
         ) : (
           ""
         )}
       </div>
-      <FriendsSelectionButtons active={active} setActive={setActive} setFriends={setFriends} />
-      <div className={FriendsCSS.friendsContainer}>
+      <FriendsSelectionButtons
+        active={active}
+        setActive={setActive}
+        setFriends={setFriends}
+      />
+      <div className={FriendsCSS.friendsOuletContainer}>
         <Outlet
           context={{
             requests: requests,

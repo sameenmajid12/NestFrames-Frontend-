@@ -110,7 +110,7 @@
   background-color: var(--background-light);
 }
 .friend-selector-cancel:hover{
-  background-color: hsla(0, 0%, 100%, 0.425);
+  background-color: rgba(255, 255, 255, 0.425);
 }
 .friend-selector-confirm:hover{
   background-color: var(--accent-hover);

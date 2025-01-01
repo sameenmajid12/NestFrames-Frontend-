@@ -35,7 +35,7 @@ import Posts from "./components/Main Page/Home/Posts.jsx";
 import { UserProvider } from "./components/UserContext.jsx";
 import FriendRequests from "./components/Main Page/Friends/FriendRequests.jsx";
 import Conversation from "./components/Main Page/Messages/Conversation.jsx";
-import FriendRequestsSent from "./components/Main Page/Friends/FriendRequestsSent.jsx";
+import FriendsSuggested from './components/Main Page/Friends/FriendsSuggested.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -123,8 +123,8 @@ const router = createBrowserRouter([
             element:<FriendRequests/>
           },
           {
-            path:"sent",
-            element:<FriendRequestsSent/>
+            path:"suggested",
+            element:<FriendsSuggested/>
           }
         ],
       },

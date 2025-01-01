@@ -10,8 +10,8 @@ function FriendsSelectionButtons({active, setActive, setFriends}){
         <Link to="/friends">
           <button className={`${FriendsCSS.button} ${active==='Friends'?FriendsCSS.active:''}`} onClick={()=>{setActive('Friends')}} >Friends</button>
         </Link>
-       <Link to="/friends/sent">
-        <button onClick={()=>{setActive('Sent')}} className={`${FriendsCSS.button} ${active==='Sent'?FriendsCSS.active:''}`}>Groups</button>
+       <Link to="/friends/suggested">
+        <button onClick={()=>{setActive('Suggested')}} className={`${FriendsCSS.button} ${active==='Suggested'?FriendsCSS.active:''}`}>Suggested</button>
        </Link>
        <Link to="/friends/requests">
         <button className={`${FriendsCSS.button} ${active==='Requests'?FriendsCSS.active:''}`} onClick={()=>{setActive('Requests')}} >Requests</button>
