@@ -1,16 +1,30 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../UserContext";
 import CreateAlbum from "../Main/CreateAlbum";
 import { useNavigate, useOutletContext } from "react-router-dom";
-function AlbumContent() {
+function AlbumContent({albumProps}) {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [createAlbumVisibility, setCreateAlbumVisibility] = useState(false);
-  const { albums } = useOutletContext();
-  console.log("Albums in AlbumContent:", albums);
+  const { albums:contextAlbums } = useOutletContext() || {};
+  const albums = contextAlbums || albumProps;
   const showCreateAlbum = () => {
     setCreateAlbumVisibility((prevVisibility) => !prevVisibility);
   };
+  useEffect(()=>{
+    if(albumProps){
+      albums = albumProps;
+    }
+  },[])
+  const formatNum=(num)=>{
+    if(num>999999){
+      num = `${Math.round(num/1000000)}M`;
+    }
+    else if(num>999){
+      num = `${Math.round(num/1000)}k`
+    }
+    return num;
+  }
   return (
     <>
       {createAlbumVisibility && <CreateAlbum setVisibility={showCreateAlbum} />}
@@ -26,8 +40,20 @@ function AlbumContent() {
                   className="album-cover-container"
                 >
                   <img src={`${album.coverPhoto.fileUrl}`}></img>
-                  <div className="album-cover-gradient">
-                    <p className="album-cover-name">{album.name}</p>
+                  <div className="album-info">
+                    <p>{album.name} &#183;<span className="album-info-collaborators"> &nbsp;{album.photos.length} Posts</span></p>
+                    <div className="album-info-right">
+                      <div>
+                        <i className="fa-solid fa-heart heart"></i>
+                        <p>{formatNum(album.likes) || 0}</p>
+                      </div>
+                     
+                      <div>
+                      <i className="fa-solid fa-eye"></i>
+                        <p>{formatNum(album.views) || 0}</p>
+                      </div>
+                      
+                    </div>
                   </div>
                 </div>
               );

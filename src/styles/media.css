@@ -97,7 +97,7 @@
 .albums-container{
   margin-top:20px;
   width: 100%;
-    column-gap: 10px;
+    column-gap: 20px;
     column-count: 3;
 }
 .album-add{
@@ -134,9 +134,13 @@
   height: 100%;
   border-radius: 10px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
 }
 .album-cover-container img{
   position: relative;
+  border-radius:20px;
   width: 100%;
   height: 100%;
   z-index: 100;
@@ -144,6 +148,43 @@
   object-fit:cover;
   
 }
+.album-info{
+  display: flex;
+  justify-content: space-between;
+  font-size:20px;
+  padding:0px 5px;
+}
+.album-info p{
+  color:var(--text-color);
+  font-size:22px;
+  display: flex;
+  align-items: center;
+}
+.album-info-collaborators{
+  color:var(--text-hover);
+  font-size:17px;
+}
+.album-info-right{
+  display: flex;
+  column-gap: 10px;
+  color:var(--accent-hover);
+}
+.album-info-right div{
+  display: flex;
+  column-gap: 5px;
+  align-items: center;
+}
+.album-info-right p{
+  color:var(--text-hover);
+  font-size:16px;
+}
+.album-info-right i{
+  font-size:18px;
+}
+.heart{
+  color:#fd614c;
+}
+.album-info
 .album-cover-gradient{
   position: absolute;
   top:70%;
