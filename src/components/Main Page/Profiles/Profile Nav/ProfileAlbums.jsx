@@ -1,6 +1,10 @@
+import { useOutlet, useOutletContext } from 'react-router-dom';
+import AlbumContent from '../../Media/AlbumContent';
 function ProfileAlbums(){
+  const {profile} = useOutletContext();
+  console.log(profile);
   return (
-    <h1>ProfileAlbums</h1>
+    <AlbumContent albumProps={profile.albums}/>
   )
 }
 

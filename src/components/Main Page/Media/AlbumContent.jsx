@@ -7,7 +7,7 @@ function AlbumContent({albumProps}) {
   const navigate = useNavigate();
   const [createAlbumVisibility, setCreateAlbumVisibility] = useState(false);
   const { albums:contextAlbums } = useOutletContext() || {};
-  const albums = contextAlbums || albumProps;
+  let albums = contextAlbums || albumProps;
   const showCreateAlbum = () => {
     setCreateAlbumVisibility((prevVisibility) => !prevVisibility);
   };
@@ -28,7 +28,7 @@ function AlbumContent({albumProps}) {
   return (
     <>
       {createAlbumVisibility && <CreateAlbum setVisibility={showCreateAlbum} />}
-      <div className="albums-container">
+      <div className={`albums-container ${albumProps?'profile-albums-container':''}`}>
         {albums
           ? albums.map((album) => {
               return (
@@ -41,7 +41,7 @@ function AlbumContent({albumProps}) {
                 >
                   <img src={`${album.coverPhoto.fileUrl}`}></img>
                   <div className="album-info">
-                    <p>{album.name} &#183;<span className="album-info-collaborators"> &nbsp;{album.photos.length} Posts</span></p>
+                    <p>{album.name} {albumProps?'':<span className="album-info-collaborators">&nbsp;•  {albumProps?'':`${album.photos.length} Posts`} </span>}</p>
                     <div className="album-info-right">
                       <div>
                         <i className="fa-solid fa-heart heart"></i>
@@ -59,7 +59,7 @@ function AlbumContent({albumProps}) {
               );
             })
           : ""}
-        {user ? (
+        {!albumProps?user ? (
           user.albums.length === 0 ? (
             <div onClick={showCreateAlbum} className="album-add">
               <div className="album-plus-background">
@@ -77,7 +77,7 @@ function AlbumContent({albumProps}) {
           )
         ) : (
           ""
-        )}
+        ):''}
       </div>
     </>
   );

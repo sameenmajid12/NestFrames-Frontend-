@@ -100,6 +100,10 @@
     column-gap: 20px;
     column-count: 4;
 }
+.profile-albums-container{
+  column-count: 5;
+  margin-top:60px;
+}
 .album-add{
 
   border-radius:10px;
