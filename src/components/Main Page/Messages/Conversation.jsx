@@ -103,6 +103,7 @@ function Conversation() {
         `user${conversation.user1.username === userUsername ? 2 : 1}`
       ].profilePic;
   }
+  
   const handleMessage = (e) => setMessage(e.target.value);
   const sendMessage = async () => {
     if (message) {
@@ -159,8 +160,53 @@ function Conversation() {
                 <div
                   key={message._id || `sender-${index}`}
                   className={MessagesCSS.senderMessage}
+                  style={
+                    nextMessageUser !== message.sentBy
+                      ? { marginBottom: "10px" }
+                      : { marginBottom: "0" }
+                  }
                 >
-                  <p>{message.text}</p>
+                   {nextMessageUser === message.sentBy ? (
+                    <div
+                      key={`marginedTextContainer-${index}`}
+                      className={MessagesCSS.senderMarginedTextContainer}
+                    >
+                      {lastMessageUser === message.sentBy ? (
+                        ""
+                      ) : (
+                        <div className={MessagesCSS.senderUsername}>
+                          {user.fullname}
+                        </div>
+                      )}
+                      <p>{message.text}</p>
+                    </div>
+                  ) : (
+                    <>
+                      
+                      <div
+                        key={`textContainer-${index}`}
+                        className={MessagesCSS.textContainer}
+                      >
+                        {lastMessageUser === message.sentBy ? (
+                          ""
+                        ) : (
+                          <div className={MessagesCSS.senderUsername}>
+                            {user.fullname}
+                          </div>
+                        )}
+                      
+                      <p>{message.text}</p>
+                      </div>
+                      <img
+                        key={`image-${index}`}
+                        src={
+                          user.profilePic
+                            ? user.profilePic.fileUrl
+                            : "./assets/default-avatar.png"
+                        }
+                      />
+                    </>
+                  )}
                 </div>
               );
             } else {
@@ -224,6 +270,7 @@ function Conversation() {
       <div className={MessagesCSS.messageIcons}><i className="fa-solid fa-plus"></i></div>
         <div className={MessagesCSS.messageInput}>
           <input
+          autoComplete="off"
             id="messageInput"
             placeholder="Send Message"
             value={message}

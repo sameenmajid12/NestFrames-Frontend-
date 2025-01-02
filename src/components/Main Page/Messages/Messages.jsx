@@ -110,7 +110,12 @@ function Messages() {
 
     setFriendListVisibility(false);
   };
-
+  const formatMessage = (message)=>{
+    if(message.length>15){
+      return message.substring(0,15)+"..."
+    }
+    return message;
+  }
   return (
     <>
     <div className={MessagesCSS.messagesPageContainer}>
@@ -178,8 +183,8 @@ function Messages() {
                   </p>
                   <p className={MessagesCSS.lastMessageSent}>
                     {conversation.messages.length !== 0
-                      ? conversation.messages[conversation.messages.length - 1]
-                          .text
+                      ? formatMessage(conversation.messages[conversation.messages.length - 1]
+                          .text)
                       : ""}
                   </p>
                   <p className={MessagesCSS.messageTime}>
