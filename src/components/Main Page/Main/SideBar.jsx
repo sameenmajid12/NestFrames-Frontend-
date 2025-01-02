@@ -16,7 +16,7 @@ function SideBar({sideBarFull}) {
   };
 
   return (
-    <div className='side-bar-container'>
+    <div className={`side-bar-container ${sideBarFull?'':'side-bar-container-closed'}`}>
       <div className='side-bar-sections'>
         <div
           className={`sideBar-item ${active === '' ? 'side-bar-active' : ''}`}

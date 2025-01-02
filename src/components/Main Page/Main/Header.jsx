@@ -50,9 +50,9 @@ function Header({ sideBarFull, setSideBarFull }) {
       document.querySelectorAll(".sideBar-item").forEach((item) => {
         item.style.flexDirection = "column";
       });
-      document.documentElement.style.setProperty("--body-padding", "93.1px");
+      document.documentElement.style.setProperty("--body-padding", "73.109px");
     } else {
-      document.documentElement.style.setProperty("--body-padding", "187.125px");
+      document.documentElement.style.setProperty("--body-padding", "165px");
       document.querySelectorAll(".sideBar-item").forEach((item) => {
         item.style.flexDirection = "";
       });

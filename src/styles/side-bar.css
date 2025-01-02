@@ -9,11 +9,13 @@
   justify-content: space-between;
   border-right: 1px solid #c2b5a3;
 }
-
+.side-bar-container-closed{
+  padding:30px 10px;
+}
 .side-bar-sections {
   display: flex;
   flex-direction: column;
-  row-gap: 30px;
+  row-gap: 25px;
 }
 
 
@@ -29,17 +31,15 @@
 }
 
 .icons{
-  font-size: 30px;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
+  font-size: 25px;
+  width: 25px;
+  height: 25px;
   text-align: center;
  
 }
 
 .side-bar-closed-icons{
-  font-size: 30px;
-  line-height: 30px;
+  font-size: 25px;
   text-align: center;
 }
 
@@ -52,9 +52,9 @@
   color: var(--accent-color);
 }
 .side-bar-text{
-  font-size: 25px;
-  margin-left: 15px;
+  font-size: 22px;
+  margin-left: 10px;
 }
 .side-bar-small-text{
-  font-size:13px;
+    font-size:13px;
 }

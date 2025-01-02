@@ -71,7 +71,11 @@ function Conversation() {
       }
     }
   }, [conversation]);
-
+  const handleKeyDown =(e)=>{
+    if(e.key==='Enter'){
+      sendMessage();
+    }
+  }
   useEffect(() => {
     if (conversationContainer.current) {
       conversationContainer.current?.lastElementChild?.scrollIntoView({
@@ -226,15 +230,16 @@ function Conversation() {
             onChange={handleMessage}
             ref={inputRef}
             className={MessagesCSS.input}
+            onKeyDown={handleKeyDown}
           ></input>
           <div className={MessagesCSS.messageInputIcons}>
             <i className="fa-regular fa-face-smile"></i>
             <div className={MessagesCSS.messageSend}>
-              <i className="fa-regular fa-paper-plane"></i>
+              <i className="fa-regular fa-paper-plane" onClick={sendMessage}></i>
             </div>
           </div>
         </div>
-        <div className={MessagesCSS.messageIcons}><i className="fa-solid fa-microphone-lines" onClick={sendMessage}></i></div>
+        <div className={MessagesCSS.messageIcons}><i className="fa-solid fa-microphone-lines"></i></div>
       </div>
     </div>
   ) : (
