@@ -33,7 +33,9 @@ function FriendsSuggested() {
       friendRequestsSent: [...prev.friendRequestsSent, data.receiver]
     }));
   };
-
+  const ignore = (friend)=>{
+    setSuggested(prev=>prev.filter((prevSuggested)=>prevSuggested.user._id!==friend._id));
+  }
   const added = useMemo(() => {
     const addedUsernames = new Set(user.friendRequestsSent.map((friend) => friend.username));
     return suggested.map((suggestedFriend) => ({
@@ -55,7 +57,7 @@ function FriendsSuggested() {
                 src={
                   suggestedFriend.user.profilePic
                     ? suggestedFriend.user.profilePic.fileUrl
-                    : '../assets/default-avatar.png'
+                    : '/assets/default-avatar.png'
                 }
                 alt="user-avatar"
               />
@@ -66,7 +68,7 @@ function FriendsSuggested() {
               </div>
             </div>
             <div className={FriendsCSS.requestButtons}>
-              <button className={FriendsCSS.ignoreButton}>Ignore</button>
+              <button onClick={()=>ignore(suggestedFriend.user)} className={FriendsCSS.ignoreButton}>Ignore</button>
               <button
                 onClick={() => add(suggestedFriend.user)}
                 className={FriendsCSS.acceptButton}
