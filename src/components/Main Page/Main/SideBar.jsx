@@ -1,17 +1,18 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../../../styles/side-bar.css';
 import { UserContext } from '../../UserContext';
 
 function SideBar({sideBarFull}) {
   const [active, setActive] = useState(localStorage.getItem('sideBarNav')||'');
   const { user } = useContext(UserContext);
-  
+  const location = useLocation();
   const navigate = useNavigate();
-
-  const handleNavigation = (path, activeItem) => {
-    setActive(activeItem);
-    localStorage.setItem('sideBarNav', activeItem)
+  useEffect(()=>{
+      setActive(location.pathname.split("/")[1].toLowerCase() || "");
+      console.log(location.pathname.split("/")[1]);
+  },[location])
+  const handleNavigation = (path) => {
     navigate(path);
   };
 
@@ -20,31 +21,31 @@ function SideBar({sideBarFull}) {
       <div className='side-bar-sections'>
         <div
           className={`sideBar-item ${active === '' ? 'side-bar-active' : ''}`}
-          onClick={() => handleNavigation('/', '')}
+          onClick={() => handleNavigation('/')}
         >
           <i className={`fa-solid fa-house ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
           <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Home</p>
         </div>
 
         <div
-          className={`sideBar-item ${active === 'Friends' ? 'side-bar-active' : ''}`}
-          onClick={() => handleNavigation('/friends', 'Friends')}
+          className={`sideBar-item ${active === 'friends' ? 'side-bar-active' : ''}`}
+          onClick={() => handleNavigation('/friends')}
         >
           <i className={`fa-solid fa-user-group ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
           <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Friends</p>
         </div>
 
         <div
-          className={`sideBar-item ${active === 'Media' ? 'side-bar-active' : ''}`}
-          onClick={() => handleNavigation('/media', 'Media')}
+          className={`sideBar-item ${active === 'media' ? 'side-bar-active' : ''}`}
+          onClick={() => handleNavigation('/media')}
         >
           <i className={`fa-solid fa-images ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
           <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Media</p>
         </div>
 
         <div
-          className={`sideBar-item ${active === 'Messages' ? 'side-bar-active' : ''}`}
-          onClick={() => handleNavigation('/messages', 'Messages')}
+          className={`sideBar-item ${active === 'messages' ? 'side-bar-active' : ''}`}
+          onClick={() => handleNavigation('/messages')}
         >
           <i className={`fa-solid fa-comment ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
           <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Messages</p>
@@ -53,7 +54,7 @@ function SideBar({sideBarFull}) {
         {user && (
           <div
             className={`sideBar-item ${active === user.username ? 'side-bar-active' : ''}`}
-            onClick={() => handleNavigation(`/${user.username}`, user.username)}
+            onClick={() => handleNavigation(`/${user.username}`)}
           >
             <i className={`fa-solid fa-circle-user ${sideBarFull?'icons':'side-bar-closed-icons'}`}></i>
             <p className={sideBarFull?'side-bar-text':'side-bar-small-text'}>Profile</p>

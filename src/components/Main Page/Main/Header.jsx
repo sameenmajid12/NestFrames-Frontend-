@@ -50,7 +50,7 @@ function Header({ sideBarFull, setSideBarFull }) {
       document.querySelectorAll(".sideBar-item").forEach((item) => {
         item.style.flexDirection = "column";
       });
-      document.documentElement.style.setProperty("--body-padding", "73.109px");
+      document.documentElement.style.setProperty("--body-padding", "69.1px");
     } else {
       document.documentElement.style.setProperty("--body-padding", "165px");
       document.querySelectorAll(".sideBar-item").forEach((item) => {
@@ -85,7 +85,7 @@ function Header({ sideBarFull, setSideBarFull }) {
               user
                 ? user.profilePic
                   ? user.profilePic.fileUrl
-                  : "./assets/default-avatar.png"
+                  : "/assets/default-avatar.png"
                 : ""
             }
             alt="Profile"
@@ -99,7 +99,7 @@ function Header({ sideBarFull, setSideBarFull }) {
                       user
                         ? user.profilePic
                           ? user.profilePic.fileUrl
-                          : "./assets/default-avatar.png"
+                          : "/assets/default-avatar.png"
                         : ""
                     }
                     alt="Profile Thumbnail"
