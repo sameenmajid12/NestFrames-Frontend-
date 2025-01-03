@@ -70,12 +70,11 @@ function ProfileInfo({ profile, setProfile }) {
                     )}
                   </>
                 )}
-                <button className="profile-button options-button">
+                <div className="profile-ellipsis-container">
                   <i
-                    className="fa-solid fa-ellipsis-vertical fa-xl"
-                    style={{ color: "#333" }}
+                    className="fa-solid fa-ellipsis profile-ellipsis"
                   ></i>
-                </button>
+                </div>
               </div>
             </div>
             <p>@{profile.username}</p>

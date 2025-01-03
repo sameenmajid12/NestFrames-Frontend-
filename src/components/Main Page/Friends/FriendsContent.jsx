@@ -3,9 +3,10 @@ import FriendsCSS from "../../../styles/friends.module.css";
 import Loading from "../Main/Loading";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import {UserContext} from '../../UserContext';
-function FriendsContent() {
+function FriendsContent({friendProp}) {
   const {user,setUser} = useContext(UserContext);
-  const { friends } = useOutletContext();
+  const { friends:contextFriends } = useOutletContext()||{};
+  let friends = contextFriends || friendProp;
   const navigate = useNavigate();
   if (!friends) {
     return <Loading />;
@@ -34,7 +35,7 @@ function FriendsContent() {
               src={
                 friend.profilePic
                   ? friend.profilePic.fileUrl
-                  : "./assets/default-avatar.png"
+                  : "/assets/default-avatar.png"
               }
             ></img>
             <div className={FriendsCSS.friendInfo}>
@@ -45,7 +46,7 @@ function FriendsContent() {
                 >{`@${friend.username}`}</h2>
               </div>
               <div className={FriendsCSS.friendButtons}>
-                <button onClick={()=>message(friend)} className={FriendsCSS.messageButton}>Message</button>
+                <button onClick={()=>message(friend)} className={FriendsCSS.messageButton}>{friendProp?"Add":"Message"}</button>
                 <div className={FriendsCSS.ellipsisContainer}>
                   <i
                     className={`fa-solid fa-ellipsis ${FriendsCSS.ellipsis}`}

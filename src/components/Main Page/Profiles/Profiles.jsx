@@ -27,7 +27,7 @@ function Profiles(){
     return <h1>Loading...</h1>;
   }
   return(
-    <div className="profile-container">
+    <div className="profile-page-container">
       <ProfileInfo profile={profile} setProfile={setProfile}/>
       <ProfileNav profile={profile} setProfile={setProfile}/>
       <div className="profile-content-container">

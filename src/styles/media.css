@@ -102,7 +102,7 @@
 }
 .profile-albums-container{
   column-count: 5;
-  margin-top:60px;
+  margin-top:0px;
 }
 .album-add{
 
@@ -161,13 +161,13 @@
 }
 .album-info p{
   color:var(--text-color);
-  font-size:22px;
+  font-size:16px;
   display: flex;
   align-items: center;
 }
 .album-info-collaborators{
   color:var(--text-hover);
-  font-size:17px;
+  font-size:16px;
 }
 .album-info-right{
   display: flex;
@@ -184,7 +184,7 @@
   font-size:16px;
 }
 .album-info-right i{
-  font-size:18px;
+  font-size:16px;
 }
 .heart{
   color:#fd614c;

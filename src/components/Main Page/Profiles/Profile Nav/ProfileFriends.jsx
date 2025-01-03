@@ -15,35 +15,7 @@ function ProfileFriends() {
   }
 
   return (
-    <div className="profile-friends-container">
-      {friends.map((friend, index) => {
-        return (
-          <div className="profile-friend" key={index}>
-            <div className="profile-friend-image">
-              <img
-                className="profile-friend-imageSrc"
-                src={friend.profilePic?friend.profilePic.fileUrl:'./assets/default-avatar.png'}
-              />
-              <div className="profile-friend-slideContainer">
-                
-                <div className="profile-friend-icons">
-                  <i className={`fa-solid fa-user-${isUser?'check':checkFriend(friend)?'check':'plus'}`}></i>
-                </div>
-                <div className="profile-friend-icons">
-                  <Link to={`/${friend.username}`}  style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <i className="fa-solid fa-circle-user"></i>
-                  </Link>
-                </div>
-                <div className="profile-friend-icons">
-                  <i className="fa-solid fa-comment"></i>
-                </div>
-              </div>
-            </div>
-            <div className="profile-friend-name">{friend.fullname}</div>
-          </div>
-        );
-      })}
-    </div>
+    <FriendsContent friendProp={friends}/>
   );
 }
 
