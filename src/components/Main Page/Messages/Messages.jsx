@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import MessagesCSS from "../../../styles/messages.module.css";
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
@@ -12,7 +12,20 @@ function Messages() {
   const [friendListVisibility, setFriendListVisibility] = useState(false);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-
+  const location = useLocation();
+  useEffect(()=>{
+    const getConvo=async()=>{
+      if(location.pathname.split('/')[2]){
+        const conversationId = location.pathname.split('/')[2];
+        const response = await fetch(`http://localhost:3002/Messages/Conversation/${conversationId}`);
+        const conversation = await response.json();
+        if(conversation){
+          setActiveConversation(conversation);
+        }
+      }
+    }
+    getConvo();
+  },[location]);
   useEffect(() => {
     document.body.className = "body-default";
 
@@ -32,7 +45,7 @@ function Messages() {
     return () => {
       socket.disconnect();
     };
-  }, [user._id]);
+  }, [user._id, user.conversations]);
   const toggleListVisibility = ()=>{
     setFriendListVisibility(prev=>!prev);
   }
@@ -111,8 +124,8 @@ function Messages() {
     setFriendListVisibility(false);
   };
   const formatMessage = (message)=>{
-    if(message.length>15){
-      return message.substring(0,15)+"..."
+    if(message.length>30){
+      return message.substring(0,30)+"..."
     }
     return message;
   }

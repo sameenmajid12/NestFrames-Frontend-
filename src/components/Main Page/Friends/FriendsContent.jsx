@@ -1,10 +1,28 @@
+import { useContext } from "react";
 import FriendsCSS from "../../../styles/friends.module.css";
 import Loading from "../Main/Loading";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import {UserContext} from '../../UserContext';
 function FriendsContent() {
+  const {user,setUser} = useContext(UserContext);
   const { friends } = useOutletContext();
+  const navigate = useNavigate();
   if (!friends) {
     return <Loading />;
+  }
+  const message =async(friend)=>{
+    const response  = await fetch(`http://localhost:3002/users/${user._id}/message/${friend._id}`);
+    if(!response.ok){
+      throw new Error("Failed to retrieve or create conversation");
+    }
+    const {newConversation,conversation,message} = await response.json(); 
+    if(newConversation){
+      const updatedConversations = [...user.conversations, newConversation];
+      setUser(prev=>{console.log(prev); return {...prev,conversations:updatedConversations}});
+      navigate(`/messages/${newConversation._id}`)
+      return;
+    }
+    navigate(`/Messages/${conversation._id}`);
   }
   return (
     <div className={FriendsCSS.friendsContainer}>
@@ -27,7 +45,7 @@ function FriendsContent() {
                 >{`@${friend.username}`}</h2>
               </div>
               <div className={FriendsCSS.friendButtons}>
-                <button className={FriendsCSS.messageButton}>Message</button>
+                <button onClick={()=>message(friend)} className={FriendsCSS.messageButton}>Message</button>
                 <div className={FriendsCSS.ellipsisContainer}>
                   <i
                     className={`fa-solid fa-ellipsis ${FriendsCSS.ellipsis}`}

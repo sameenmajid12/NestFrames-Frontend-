@@ -14,55 +14,62 @@ function Conversation() {
     socketConnection,
     user,
     setMessageThreads,
+    messageThreads,
   } = useOutletContext();
   const [messageList, setMessageList] = useState([]);
-  useEffect(()=>{
-    if (!conversation) {
-      if (conversationId) {
-        async function getConvo(id) {
-          const c = await fetch(
-            `http://localhost:3002/Messages/Conversation/${id}`
-          );
-          const convo = await c.json();
-          setConversation(convo);
-        }
-        getConvo(conversationId);
-      }
-    };
-    return()=>{
+  useEffect(() => {
+    return () => {
       setConversation(null);
-    }
-  },[]);
+    };
+  }, []);
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }, []);
-  useEffect(()=>{
-    if(inputRef.current){
+  useEffect(() => {
+    if (inputRef.current) {
       inputRef.current.focus();
-    }  
-    return()=>{
-      setMessage("");
     }
-  },[conversation])
- 
+    return () => {
+      setMessage("");
+    };
+  }, [conversation]);
+
   useEffect(() => {
     if (conversation) {
       setLoaded(true);
       setMessageList(conversation.messages);
       if (socketConnection) {
         function addToMessagelist(message) {
-          setMessageList((prevMessages) => [...prevMessages, message]);
-          setMessageThreads((prevThreads) => {
-            const newThreads = prevThreads.map((thread) => {
-              if (thread._id === conversation._id) {
-                return { ...thread, messages: [...thread.messages, message] };
+          
+          if (message.text.length < 600) {
+            setMessageList((prevMessages) => [...prevMessages, message]);
+            setMessageThreads((prevThreads) => {
+              let conversationIndex;
+              const newThreads = prevThreads.map((thread, index) => {
+                if (thread._id === conversation._id) {
+                  conversationIndex = index; 
+                  return { ...thread, messages: [...thread.messages, message] };
+                }
+                return thread;
+              });
+          
+              if (conversationIndex !== undefined) {
+                const firstThread = newThreads[0];
+                if (firstThread._id !== conversation._id) {
+                  const temp = newThreads[0];
+                  newThreads[0] = newThreads[conversationIndex];
+                  newThreads[conversationIndex] = temp;
+                }
               }
-              return thread;
+              console.log(newThreads);
+              return newThreads;
             });
-            return newThreads;
-          });
+          }
+          else{
+            throw new Error("Message too big");
+          }
         }
         socketConnection.off("messageSent").on("messageSent", addToMessagelist);
         socketConnection
@@ -71,11 +78,11 @@ function Conversation() {
       }
     }
   }, [conversation]);
-  const handleKeyDown =(e)=>{
-    if(e.key==='Enter'){
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
       sendMessage();
     }
-  }
+  };
   useEffect(() => {
     if (conversationContainer.current) {
       conversationContainer.current?.lastElementChild?.scrollIntoView({
@@ -83,7 +90,7 @@ function Conversation() {
       });
     }
   }, [messageList]);
-  
+
   let userUsername;
   let receiverUsername;
   let receiverName;
@@ -103,7 +110,7 @@ function Conversation() {
         `user${conversation.user1.username === userUsername ? 2 : 1}`
       ].profilePic;
   }
-  
+
   const handleMessage = (e) => setMessage(e.target.value);
   const sendMessage = async () => {
     if (message) {
@@ -122,7 +129,10 @@ function Conversation() {
 
   return loaded ? (
     <div className={MessagesCSS.conversationContainer}>
-      <div className={MessagesCSS.conversationHeader}>{receiverName}<i className="fa-solid fa-ellipsis"></i></div>
+      <div className={MessagesCSS.conversationHeader}>
+        {receiverName}
+        <i className="fa-solid fa-ellipsis"></i>
+      </div>
       <div
         key={conversation._id}
         className={MessagesCSS.conversationMessagesContainer}
@@ -131,7 +141,11 @@ function Conversation() {
           <div className={MessagesCSS.conversationStart}>
             <img
               className={MessagesCSS.conversationStartImage}
-              src={receiverProfilePicUrl?receiverProfilePicUrl.fileUrl:'/assets/default-avatar.png'}
+              src={
+                receiverProfilePicUrl
+                  ? receiverProfilePicUrl.fileUrl
+                  : "/assets/default-avatar.png"
+              }
             ></img>
             <p className={MessagesCSS.conversationStartFullName}>
               {receiverName}
@@ -166,7 +180,7 @@ function Conversation() {
                       : { marginBottom: "0" }
                   }
                 >
-                   {nextMessageUser === message.sentBy ? (
+                  {nextMessageUser === message.sentBy ? (
                     <div
                       key={`marginedTextContainer-${index}`}
                       className={MessagesCSS.senderMarginedTextContainer}
@@ -182,7 +196,6 @@ function Conversation() {
                     </div>
                   ) : (
                     <>
-                      
                       <div
                         key={`textContainer-${index}`}
                         className={MessagesCSS.textContainer}
@@ -194,15 +207,15 @@ function Conversation() {
                             {user.fullname}
                           </div>
                         )}
-                      
-                      <p>{message.text}</p>
+
+                        <p>{message.text}</p>
                       </div>
                       <img
                         key={`image-${index}`}
                         src={
                           user.profilePic
                             ? user.profilePic.fileUrl
-                            : "./assets/default-avatar.png"
+                            : "/assets/default-avatar.png"
                         }
                       />
                     </>
@@ -241,7 +254,7 @@ function Conversation() {
                         src={
                           receiverProfilePicUrl
                             ? receiverProfilePicUrl.fileUrl
-                            : "./assets/default-avatar.png"
+                            : "/assets/default-avatar.png"
                         }
                         alt="receiver"
                       />
@@ -267,10 +280,12 @@ function Conversation() {
         </div>
       </div>
       <div className={MessagesCSS.messageInputContainer}>
-      <div className={MessagesCSS.messageIcons}><i className="fa-solid fa-plus"></i></div>
+        <div className={MessagesCSS.messageIcons}>
+          <i className="fa-solid fa-plus"></i>
+        </div>
         <div className={MessagesCSS.messageInput}>
           <input
-          autoComplete="off"
+            autoComplete="off"
             id="messageInput"
             placeholder="Send Message"
             value={message}
@@ -282,11 +297,16 @@ function Conversation() {
           <div className={MessagesCSS.messageInputIcons}>
             <i className="fa-regular fa-face-smile"></i>
             <div className={MessagesCSS.messageSend}>
-              <i className="fa-regular fa-paper-plane" onClick={sendMessage}></i>
+              <i
+                className="fa-regular fa-paper-plane"
+                onClick={sendMessage}
+              ></i>
             </div>
           </div>
         </div>
-        <div className={MessagesCSS.messageIcons}><i className="fa-solid fa-microphone-lines"></i></div>
+        <div className={MessagesCSS.messageIcons}>
+          <i className="fa-solid fa-microphone-lines"></i>
+        </div>
       </div>
     </div>
   ) : (
