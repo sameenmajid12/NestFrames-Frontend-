@@ -3,6 +3,7 @@ import FriendsCSS from "../../../styles/friends.module.css";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../UserContext";
 import FriendsSelectionButtons from "./FriendsSelectionButtons";
+import { AuthContext } from "../../AuthContext";
 function Friends() {
   useEffect(() => {
     document.body.className = "body-default";
@@ -13,6 +14,8 @@ function Friends() {
   const [active, setActive] = useState("Friends");
   const location = useLocation();
   useEffect(() => {}, [location]);
+  const {token} = useContext(AuthContext);
+  console.log(token);
   return (
     <div className={FriendsCSS.friendsPageContainer}>
       <div className={FriendsCSS.friendsHeader}>
@@ -43,6 +46,7 @@ function Friends() {
             setFriends: setFriends,
             active: active,
             setActive: setActive,
+            token:token
           }}
         />
       </div>

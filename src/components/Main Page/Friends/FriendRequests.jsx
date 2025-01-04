@@ -6,7 +6,7 @@ import { useOutletContext } from "react-router-dom";
 
 function FriendRequests(){
   const { user,setUser } = useContext(UserContext);
-  const {requests,setFriends, setRequests} = useOutletContext();
+  const {requests,setFriends, setRequests, token} = useOutletContext();
   async function handleRequest(e){
     const requestElement = e.target.closest(`.${FriendsCSS.request}`);
     const username = requestElement.querySelector(`.${FriendsCSS.username}`).dataset.username;
@@ -16,6 +16,7 @@ function FriendRequests(){
       body:JSON.stringify({username}),
       headers: {
         "Content-Type": "application/json",
+        "Authorization":`Bearer ${token}`
       }
     })
     const {status} = response;

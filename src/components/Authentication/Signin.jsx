@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/sign-in.css";
 import { useContext } from "react";
@@ -68,12 +68,14 @@ function Signin() {
                 onChange={({ target }) => {
                   setUsername(target.value);
                 }}
+                id="usernameInput"
               ></input>
             </div>
             <div className="sign-in-password-container">
               <p className="input-header">Password</p>
               <div className="sign-in-password-input">
                 <input
+                id="passwordInput"
                   type={passwordVisibility ? "text" : "password"}
                   value={password}
                   className="password-input"

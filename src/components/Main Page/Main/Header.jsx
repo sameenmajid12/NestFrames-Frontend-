@@ -4,11 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import MainSearch from "./MainSearch";
 import { UserContext } from "../../UserContext";
 import Create from "./CreatePost";
+import { AuthContext } from "../../AuthContext";
 
 function Header({ sideBarFull, setSideBarFull }) {
   const dropDownRef = useRef(null);
   const profileImageRef = useRef(null);
-
+  const {logOut} = useContext(AuthContext);
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [dropDownVisible, setDropDownVisible] = useState(false);
@@ -35,11 +36,6 @@ function Header({ sideBarFull, setSideBarFull }) {
   const toggleCreateContainer = () => {
     setCreateContainerVisibility((prevVisibility) => !prevVisibility);
   };
-  const logOut = ()=>{
-    localStorage.setItem('user',null);
-    setUser(null);
-    navigate('/Sign-in')
-  }
 
 
   function changeSideBar() {
@@ -105,8 +101,8 @@ function Header({ sideBarFull, setSideBarFull }) {
                     alt="Profile Thumbnail"
                   />
                   <div>
-                    <h2>{user.fullname}</h2>
-                    <p>{`@${user.username}`}</p>
+                    <h2>{user?user.fullname:'user'}</h2>
+                    <p>{user?`@${user.username}`:'user'}</p>
                   </div>
                 </div>
                 <i

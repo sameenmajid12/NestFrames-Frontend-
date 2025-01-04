@@ -3,8 +3,10 @@ import FriendsCSS from "../../../styles/friends.module.css";
 import Loading from "../Main/Loading";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import {UserContext} from '../../UserContext';
+import { AuthContext } from "../../AuthContext";
 function FriendsContent({friendProp}) {
   const {user,setUser} = useContext(UserContext);
+  const {token} = useContext(AuthContext);
   const { friends:contextFriends } = useOutletContext()||{};
   let friends = contextFriends || friendProp;
   const navigate = useNavigate();
@@ -12,7 +14,12 @@ function FriendsContent({friendProp}) {
     return <Loading />;
   }
   const message =async(friend)=>{
-    const response  = await fetch(`http://localhost:3002/users/${user._id}/message/${friend._id}`);
+    const response  = await fetch(`http://localhost:3002/users/${user._id}/message/${friend._id}`,{
+      method:"GET",
+      headers:{
+        "Authorization":`Bearer ${token}`
+      }
+    });
     if(!response.ok){
       throw new Error("Failed to retrieve or create conversation");
     }

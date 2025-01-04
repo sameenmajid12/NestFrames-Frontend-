@@ -1,12 +1,16 @@
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../../AuthContext";
 
 function Add({user, setUser}){
   const receiverUsername = useParams().username;
+  const {token} = useContext(AuthContext);
   const sendRequest = async()=>{
     const response = await fetch(`http://localhost:3002/users/${receiverUsername}/add`,{
       method:"POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization":`Bearer ${token}`
       },
       body:JSON.stringify({senderId:user._id,receiverUsername:receiverUsername})
     });

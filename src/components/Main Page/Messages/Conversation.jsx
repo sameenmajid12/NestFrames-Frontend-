@@ -189,7 +189,7 @@ function Conversation() {
                         ""
                       ) : (
                         <div className={MessagesCSS.senderUsername}>
-                          {user.fullname}
+                          You
                         </div>
                       )}
                       <p>{message.text}</p>
@@ -204,7 +204,7 @@ function Conversation() {
                           ""
                         ) : (
                           <div className={MessagesCSS.senderUsername}>
-                            {user.fullname}
+                            You
                           </div>
                         )}
 

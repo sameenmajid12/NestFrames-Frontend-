@@ -1,35 +1,52 @@
-import { createContext, useContext } from "react";
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { UserContext } from "./UserContext";
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
-  const { setUser } = useContext(UserContext);
-  const refreshToken = async () => {
-    const response = await fetch("http://localhost:3002/Sign-in/refresh", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const { logOutUser } = useContext(UserContext);
 
-    const { accessToken } = await response.json();
-    if (!accessToken) {
+  const refreshToken = async () => {
+    try {
+      const response = await fetch("http://localhost:3002/Sign-in/refresh", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to refresh token");
+      }
+      const data = await response.json();
+      const accessToken = data.accessToken;
+      if (!accessToken) {
+        logOut();
+        return null;
+      }
+      setToken(accessToken);
+      return accessToken;
+    } catch (error) {
+      console.error("Error refreshing token:", error);
       logOut();
+      return null;
     }
-    setToken(accessToken);
-    return accessToken;
   };
+
+  const deleteRefreshToken = async() => {
+    await fetch("http://localhost:3002/sign-in/logOut",{
+      method:"POST",
+      credentials:"include"
+    });
+  };
+
   const logOut = () => {
-    setUser(null);
+    logOutUser();
     setToken(null);
-    window.location.href = "/sign-in";
+    deleteRefreshToken();
+    localStorage.removeItem('user');
   };
-  return (
-    <AuthContext.Provider value={{ token, setToken, refreshToken }}>
-      {children}
-    </AuthContext.Provider>
-  );
+
+  const value = { token, setToken, refreshToken, logOut };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
