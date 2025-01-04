@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../styles/sign-in.css";
 import { useContext } from "react";
 import { UserContext } from "../UserContext";
+import { AuthContext } from "../AuthContext";
 function Signin() {
   const navigate = useNavigate();
   useEffect(() => {
@@ -16,6 +17,7 @@ function Signin() {
   const { setUser } = useContext(UserContext);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [error, setError] = useState(false);
+  const {setToken} = useContext(AuthContext);
   const handlePasswordChange = ({ target }) => {
     setPassword(target.value);
   };
@@ -30,12 +32,14 @@ function Signin() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({ username, password }),
       });
       if (response.status === 200) {
-        const json = await response.json();
-        setUser(json);
-        localStorage.setItem("user", JSON.stringify(json));
+        const data = await response.json();
+        setUser(data.user);
+        setToken(data.accessToken);
+        localStorage.setItem("user", JSON.stringify(data.user));
         navigate("/");
       } else {
         setError(true);

@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import Main from "./components/Main Page/Main/Main.jsx";
 import Signin from "./components/Authentication/Signin.jsx";
 import NotFound from "./components/Not found Page/NotFound.jsx";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profiles from "./components/Main Page/Profiles/Profiles.jsx";
 import Media from "./components/Main Page/Media/Media.jsx";
 import AlbumBody from "./components/Main Page/Albums/AlbumBody.jsx";
@@ -33,9 +31,10 @@ import AlbumContent from "./components/Main Page/Media/AlbumContent.jsx";
 import RequestContent from "./components/Main Page/Media/RequestContent.jsx";
 import Posts from "./components/Main Page/Home/Posts.jsx";
 import { UserProvider } from "./components/UserContext.jsx";
+import { AuthProvider } from "./components/AuthContext.jsx";
 import FriendRequests from "./components/Main Page/Friends/FriendRequests.jsx";
 import Conversation from "./components/Main Page/Messages/Conversation.jsx";
-import FriendsSuggested from './components/Main Page/Friends/FriendsSuggested.jsx'
+import FriendsSuggested from "./components/Main Page/Friends/FriendsSuggested.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,8 +52,8 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path:'/:username',
-        element:<Profiles/>,
+        path: "/:username",
+        element: <Profiles />,
         children: [
           {
             path: "",
@@ -66,7 +65,7 @@ const router = createBrowserRouter([
           },
           {
             path: "friends",
-            element: <ProfileFriends/>,
+            element: <ProfileFriends />,
           },
           {
             path: "activity",
@@ -80,7 +79,7 @@ const router = createBrowserRouter([
       },
       {
         path: "media",
-        element: <Media/>,
+        element: <Media />,
         children: [
           {
             path: "",
@@ -97,35 +96,35 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path:"album/:albumId",
-        element:<AlbumBody/>
+        path: "album/:albumId",
+        element: <AlbumBody />,
       },
       {
         path: "messages",
         element: <Messages />,
-        children:[
+        children: [
           {
-           path:":conversationId",
-           element:<Conversation/>
-          }
-        ]
+            path: ":conversationId",
+            element: <Conversation />,
+          },
+        ],
       },
       {
         path: "friends",
-        element: <Friends/>,
+        element: <Friends />,
         children: [
           {
             path: "",
             element: <FriendsContent />,
           },
           {
-            path:"requests",
-            element:<FriendRequests/>
+            path: "requests",
+            element: <FriendRequests />,
           },
           {
-            path:"suggested",
-            element:<FriendsSuggested/>
-          }
+            path: "suggested",
+            element: <FriendsSuggested />,
+          },
         ],
       },
     ],
@@ -141,33 +140,35 @@ const router = createBrowserRouter([
   {
     path: "settings",
     element: <Settings />,
-    children:[
+    children: [
       {
-        path:"",
-        element:<SettingsProfile/>
+        path: "",
+        element: <SettingsProfile />,
       },
       {
-        path:"albums",
-        element:<SettingsAlbum/>
+        path: "albums",
+        element: <SettingsAlbum />,
       },
       {
-        path:"notifications",
-        element:<SettingsNotifications/>
+        path: "notifications",
+        element: <SettingsNotifications />,
       },
       {
-        path:"security",
-        element:<SettingsSecurity/>
+        path: "security",
+        element: <SettingsSecurity />,
       },
       {
-        path:"help",
-        element:<SettingsHelp/>
-      }
-    ]
+        path: "help",
+        element: <SettingsHelp />,
+      },
+    ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <UserProvider>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </UserProvider>
 );
