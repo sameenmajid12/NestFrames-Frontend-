@@ -6,9 +6,7 @@ import { useOutletContext } from "react-router-dom";
 function FriendsSuggested() {
   const { user, setUser } = useContext(UserContext);
   const { token } = useOutletContext();
-  console.log(token);
   const [suggested, setSuggested] = useState([]);
-  // Fetch suggested friends
   useEffect(() => {
     const getSuggested = async () => {
       const response = await fetch(
