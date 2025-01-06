@@ -18,6 +18,28 @@ function Signin() {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [error, setError] = useState(false);
   const {setToken} = useContext(AuthContext);
+  const [smallScreen, setSmallScreen] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      clearTimeout(window.resizeTimeout);
+      window.resizeTimeout = setTimeout(() => {
+        if (window.innerWidth <= 740) {
+          setSmallScreen(true);
+        } else {
+          setSmallScreen(false);
+        }
+      }, 100);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      clearTimeout(window.resizeTimeout);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const handlePasswordChange = ({ target }) => {
     setPassword(target.value);
   };
@@ -53,7 +75,7 @@ function Signin() {
     <div className="sign-in-page">
       <div className="sign-in-container">
         <div className="sign-in-welcome">
-          <img className="sign-in-logo" src="./assets/BOO.png"></img>
+          <img className="sign-in-logo" src={smallScreen?'/assets/White Logo.png':'/assets/BOO.png'}></img>
           <img className="sign-in-image" src="/assets/Sign In Image.png"></img>
         </div>
         <div className="sign-in-input">
@@ -121,7 +143,7 @@ function Signin() {
                 </div>
                 oogle
               </button>
-              <p style={{ textAlign: "center" }}>
+              <p className="sign-in-register-text" >
                 Need an account?<Link to="/Register"><span className="link">&nbsp;Register</span></Link>
               </p>
             </div>

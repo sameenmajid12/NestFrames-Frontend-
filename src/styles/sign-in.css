@@ -1,12 +1,14 @@
 .sign-in-page {
-  width: 100%;
-  height: 100vh;
+  height:100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .sign-in-container {
   display: flex;
+  max-width:1100px;
+  max-height:600px;
+  padding:2rem
 }
 
 .sign-in-welcome {
@@ -16,18 +18,17 @@
   justify-content: center;
   align-items: center;
   background-color: white;
-  width: 550px;
-  height: 600px;
-  row-gap: 260px;
+  width:50%;
+  height: auto;
   border-top-left-radius: 40px;
   border-bottom-left-radius: 40px;
   padding: 70px 0px;
 }
 .sign-in-logo {
   position: absolute;
-  height: 60px;
-  top: 40px;
-  left: 40px;
+  width: 25%;
+  top: max(4%,40px);
+  left: max(4%,40px);
 }
 .sign-in-image {
   width: 80%;
@@ -39,7 +40,7 @@
 
 .link {
   color: var(--accent-color);
-  font-size: 16px;
+  font-size:clamp(0.75rem, 1vw, 1rem); 
   display: block;
   cursor: pointer;
   display: inline-block;
@@ -49,38 +50,39 @@
 }
 
 .sign-in-input {
-  width: 550px;
-  height: 600px;
+  width:50%;
+  height: auto;
   box-sizing: border-box;
   background-color: var(--text-color);
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
   text-align: left;
-  padding: 50px;
+  padding: min(5em, 5%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  row-gap: 15px;
+  justify-content: space-between;
 }
 .sign-in-header {
   display: flex;
   flex-direction: column;
   text-align: center;
   justify-content: center;
+  padding-bottom:20px;
 }
 .sign-in-header h1 {
   color: white;
   font-weight: 400;
   margin: 0;
-  font-size: 66px;
+  font-size: clamp(3rem,4vw,4rem);
   margin-bottom: -10px;
 }
 .sign-in-header p {
   color: var(--accent-color);
-  font-size: 20px;
+  font-size: clamp(0.8rem,1vw,1.25rem);
 }
 .sign-in-input-body {
-  
+  width: 80%;
   color:white;
   height: 100%;
   display: inline-flex;
@@ -90,8 +92,8 @@
 .sign-in-input input {
   box-sizing: border-box;
   padding: 0px 15px;
-  width: 350px;
-  height: 40px;
+  width: 100%;
+  height:clamp(1.875rem,3vw,2.5rem);
   color:var(--text-color);
   background-color: white;
   border: none;
@@ -106,17 +108,19 @@
 
 .input-header {
   color: white;
+  font-size:clamp(0.75rem, 1vw, 1rem); 
 }
 .login-button,.sign-in-google-button {
-  width: 350px;
+  width: 100%;
   border: none;
-  height: 40px;
+  height: clamp(1.875rem,3vw,2.5rem);
   padding: 0;
   border-radius: 6px;
   background-color: var(--accent-color);
   color: white;
   font-family: "Itim";
-  font-size: 20px;
+  font-size: clamp(0.8rem,1.75vw,1.25rem);
+  box-sizing: border-box;
   cursor: pointer;
   margin-bottom: 0px;
 }
@@ -129,7 +133,8 @@
   text-align: center;
   column-gap: 20px;
   color: white;
-  font-size: 16px;
+  font-size:clamp(0.8rem, 1vw, 1rem); 
+
 }
 
 
@@ -150,13 +155,16 @@
   transform: translate(-50%,-50%);
   right: 5px;
   cursor: pointer;
+  font-size: clamp(0.7rem,0.8vw,1rem);
 }
 
 
-.sign-in-error p {
+.sign-in-error {
   color: red;
-  display: inline-block;
-  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  column-gap: 5px;
+  font-size:clamp(0.75rem, 1vw, 1rem); 
   font-weight: 400;
   margin-left: 5px;
   margin-top: 5px;
@@ -183,7 +191,12 @@
 .sign-in-buttons{
   display: flex;
   flex-direction: column;
-  row-gap:20px;
+  justify-content: space-between;
+  height: 50%;
+}
+.sign-in-register-text{
+  text-align: center;
+  font-size:  clamp(0.75rem, 1vw, 1rem);;
 }
 @keyframes bounce {
   0%{
@@ -194,5 +207,36 @@
   }
   100%{
     transform: translateY(0);
+  }
+}
+
+@media (max-width:740px){
+  .sign-in-container{
+    width: 100%;
+    min-height:100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding:0;
+  }
+  .sign-in-input{
+    border-radius: 0px;
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sign-in-input-body{
+    height: 45%;
+    width:75vw;
+  }
+  .sign-in-welcome{
+    border-radius:0;
+    width: 100%;
+    padding:0;
+  }
+  .sign-in-image{
+    display:none;
   }
 }
