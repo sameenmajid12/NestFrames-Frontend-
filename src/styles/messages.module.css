@@ -295,7 +295,7 @@
   cursor: pointer;
 }
 .messageIcons i {
-  color: white;
+  color: var(--background-light);
   font-size:22px;
 }
 

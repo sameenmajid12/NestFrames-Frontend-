@@ -10,7 +10,6 @@ function SideBar({sideBarFull}) {
   const navigate = useNavigate();
   useEffect(()=>{
       setActive(location.pathname.split("/")[1].toLowerCase() || "");
-      console.log(location.pathname.split("/")[1]);
   },[location])
   const handleNavigation = (path) => {
     navigate(path);

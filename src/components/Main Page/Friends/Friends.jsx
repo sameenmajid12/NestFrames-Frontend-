@@ -15,7 +15,6 @@ function Friends() {
   const location = useLocation();
   useEffect(() => {}, [location]);
   const {token} = useContext(AuthContext);
-  console.log(token);
   return (
     <div className={FriendsCSS.friendsPageContainer}>
       <div className={FriendsCSS.friendsHeader}>

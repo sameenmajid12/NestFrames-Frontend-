@@ -1,11 +1,8 @@
 import "../../../styles/albums.css";
 import SelectorList from "../Main/SelectorList";
-import DisplayList from "../Main/DisplayList";
 import { useState } from "react";
 function AlbumCollaborators({
-  album,
   albumId,
-  setAlbum,
   collaborators,
   setCollaborators,
 }) {
