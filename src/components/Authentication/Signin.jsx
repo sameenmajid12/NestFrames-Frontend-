@@ -134,6 +134,7 @@ function Signin() {
                 <span>or</span>
               </div>
               <button onClick={handleSubmit} className="sign-in-google-button">
+                <div className="sign-in-google-text">
                 <div className="sign-in-google-container">
                   <img
                     className="sign-in-google"
@@ -141,7 +142,8 @@ function Signin() {
                     alt="Google Logo"
                   />
                 </div>
-                oogle
+                Google
+                </div>
               </button>
               <p className="sign-in-register-text" >
                 Need an account?<Link to="/Register"><span className="link">&nbsp;Register</span></Link>
