@@ -51,6 +51,7 @@ function MainSearch() {
     <div className="search-bar-container">
         <i className='fa-solid fa-magnifying-glass search-icon'></i>
       <input
+      id="mainSearchInput"
         value={searchQuery}
         onChange={handleChange}
         className="input-bar"

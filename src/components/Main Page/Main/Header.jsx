@@ -6,10 +6,10 @@ import { UserContext } from "../../UserContext";
 import Create from "./CreatePost";
 import { AuthContext } from "../../AuthContext";
 
-function Header({ sideBarFull, setSideBarFull }) {
+function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmallSideBarFull }) {
   const dropDownRef = useRef(null);
   const profileImageRef = useRef(null);
-  const {logOut} = useContext(AuthContext);
+  const { logOut } = useContext(AuthContext);
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [dropDownVisible, setDropDownVisible] = useState(false);
@@ -32,27 +32,29 @@ function Header({ sideBarFull, setSideBarFull }) {
       document.body.removeEventListener("mousedown", handleVisibility);
     };
   }, []);
-
+  useEffect(()=>{
+    if(sideBarFull){
+      document.documentElement.style.setProperty("--body-padding", "165px");
+    }
+    else{
+      document.documentElement.style.setProperty("--body-padding", "69.1px");
+    }
+  },[sideBarFull])
   const toggleCreateContainer = () => {
     setCreateContainerVisibility((prevVisibility) => !prevVisibility);
   };
 
-
   function changeSideBar() {
-    const sideBarFullVisible = !sideBarFull;
-    setSideBarFull(sideBarFullVisible);
-
-    if (!sideBarFullVisible) {
-      document.querySelectorAll(".sideBar-item").forEach((item) => {
-        item.style.flexDirection = "column";
-      });
-      document.documentElement.style.setProperty("--body-padding", "69.1px");
-    } else {
-      document.documentElement.style.setProperty("--body-padding", "165px");
-      document.querySelectorAll(".sideBar-item").forEach((item) => {
-        item.style.flexDirection = "";
-      });
+    if(!screen650){
+      if (!sideBarDisabled) {
+        const sideBarFullVisible = !sideBarFull;
+        setSideBarFull(sideBarFullVisible);
+      }
     }
+    else{
+      setSmallSideBarFull(prev=>!prev);
+    }
+    
   }
 
   return (
@@ -101,8 +103,8 @@ function Header({ sideBarFull, setSideBarFull }) {
                     alt="Profile Thumbnail"
                   />
                   <div>
-                    <h2>{user?user.fullname:'user'}</h2>
-                    <p>{user?`@${user.username}`:'user'}</p>
+                    <h2>{user ? user.fullname : "user"}</h2>
+                    <p>{user ? `@${user.username}` : "user"}</p>
                   </div>
                 </div>
                 <i
