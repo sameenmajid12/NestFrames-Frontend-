@@ -1,4 +1,4 @@
-import { Outlet, Link, useParams, useLocation } from "react-router-dom";
+import { Outlet, Link, useParams, useLocation, useOutletContext } from "react-router-dom";
 import FriendsCSS from "../../../styles/friends.module.css";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../UserContext";
@@ -9,6 +9,8 @@ function Friends() {
     document.body.className = "body-default";
   }, []);
   const { user } = useContext(UserContext);
+  const {screen1000} = useOutletContext();
+  console.log(screen1000);
   const [requests, setRequests] = useState(user.friendRequestsReceived);
   const [friends, setFriends] = useState(user.friends);
   const [active, setActive] = useState("Friends");
@@ -19,7 +21,7 @@ function Friends() {
     <div className={FriendsCSS.friendsPageContainer}>
       <div className={FriendsCSS.friendsHeader}>
         {active === "Friends" ? (
-          <h1 className={FriendsCSS.header}>My Friends</h1>
+          <h1 className={FriendsCSS.header}>Friends</h1>
         ) : active === "Requests" ? (
           <h1 className={FriendsCSS.requestHeader}>
             Requests{" "}
@@ -35,6 +37,7 @@ function Friends() {
         active={active}
         setActive={setActive}
         setFriends={setFriends}
+        screen1000={screen1000}
       />
       <div className={FriendsCSS.friendsOuletContainer}>
         <Outlet
@@ -45,7 +48,8 @@ function Friends() {
             setFriends: setFriends,
             active: active,
             setActive: setActive,
-            token:token
+            token:token,
+            screen1000:screen1000
           }}
         />
       </div>

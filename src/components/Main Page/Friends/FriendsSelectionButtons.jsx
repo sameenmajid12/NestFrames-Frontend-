@@ -2,7 +2,7 @@ import FriendsCSS from '../../../styles/friends.module.css';
 import { Link, useLocation, useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Search from '../Main/Search';
-function FriendsSelectionButtons({active, setActive, setFriends}){
+function FriendsSelectionButtons({active, setActive, setFriends, screen1000}){
   const location = useLocation().pathname.split("/")[2] || "";
   return(
     <div className={FriendsCSS.friendsButtonsContainer}>
@@ -18,7 +18,7 @@ function FriendsSelectionButtons({active, setActive, setFriends}){
        </Link>
         
       </div>
-      {location===""?<Search setFriends={setFriends} selector="friend"/>:''}
+      {location===""?!screen1000?<Search setFriends={setFriends} selector="friend"/>:<input></input>:''}
     </div>
     
   );
