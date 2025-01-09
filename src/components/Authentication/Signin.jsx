@@ -20,9 +20,10 @@ function Signin() {
   const {setToken} = useContext(AuthContext);
   const [smallScreen, setSmallScreen] = useState(false);
   useEffect(() => {
+    let resizeTimeout;
     const handleResize = () => {
-      clearTimeout(window.resizeTimeout);
-      window.resizeTimeout = setTimeout(() => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
         if (window.innerWidth <= 740) {
           setSmallScreen(true);
         } else {
@@ -33,10 +34,10 @@ function Signin() {
 
     handleResize();
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      clearTimeout(window.resizeTimeout);
+      clearTimeout(resizeTimeout);
       window.removeEventListener("resize", handleResize);
     };
   }, []);

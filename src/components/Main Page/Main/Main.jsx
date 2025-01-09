@@ -12,14 +12,66 @@ function Main() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingUser, setLoadingUser] = useState(true);
   const [sideBarFull, setSideBarFull] = useState(true);
+  const [smallSideBarFull, setSmallSideBarFull] = useState(false);
+  const [sideBarDisabled, setSideBarDisabled] = useState(
+    window.innerWidth <= 1000 || false
+  );
+  const [screen1000, setScreen1000] = useState(window.innerWidth<=1000);
+  const [screen425, setScreen425] = useState(window.innerWidth<=425);
+  const [screen650, setScreen650] = useState(window.innerWidth<=650);
+  useEffect(() => {
+
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (window.innerWidth <= 1000) {
+          if(window.innerWidth<=650){
+            setSideBarDisabled(false);
+            setScreen650(true);
+            if(window.innerWidth<=425){
+              setScreen425(true);
+            }
+            else{
+              setScreen425(false);
+            }
+          }
+          else{
+            setSideBarDisabled(true);
+            setScreen650(false);
+          }
+          setScreen1000(true);
+          setSideBarFull(false);
+          setSideBarDisabled(true);
+        } else {
+          setScreen1000(false);
+          setSideBarDisabled(false);
+        }
+      }, 100);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(resizeTimeout);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const navigate = useNavigate();
   useEffect(() => {
     const intervalId = setInterval(() => {
-      refreshToken(); 
-    }, 10 * 60 * 1000); 
-  
+      refreshToken();
+    }, 10 * 60 * 1000);
+
     return () => clearInterval(intervalId);
   }, []);
+  useEffect(()=>{
+    if(screen650){
+      document.documentElement.style.setProperty("--body-padding", "0px");
+    }
+    else{
+      document.documentElement.style.setProperty("--body-padding", "69.1px");
+    }
+  },[screen650])
   useEffect(() => {
     let timeoutId = null;
     console.log("refreshed");
@@ -83,9 +135,16 @@ function Main() {
   }
   return user ? (
     <>
-      <Header sideBarFull={sideBarFull} setSideBarFull={setSideBarFull} />
-      <SideBar sideBarFull={sideBarFull} />
-      <Outlet />
+      <Header
+        sideBarFull={sideBarFull}
+        setSideBarFull={setSideBarFull}
+        sideBarDisabled={sideBarDisabled}
+        screen425={screen425}
+        screen650={screen650}
+        setSmallSideBarFull={setSmallSideBarFull}
+      />
+      <SideBar sideBarFull={sideBarFull} screen650={screen650} smallSideBarFull={smallSideBarFull}/>
+      <Outlet context={{screen1000:screen1000}}/>
     </>
   ) : (
     ""
