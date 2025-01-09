@@ -55,6 +55,7 @@ function Search({ setAlbums, setFriends, selector }) {
         <i className="fa-solid fa-magnifying-glass"></i>
       </div>
       <input
+        id="friendAlbumSearchInput"
         ref={inputRef}
         disabled={!isOpen}
         onChange={handleSearch}

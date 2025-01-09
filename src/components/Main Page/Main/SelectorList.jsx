@@ -62,6 +62,7 @@ function SelectorList({ toggleVisibility, onConfirm }) {
         <div className="friend-selector-body">
           <div className="friend-selector-body-top">
             <input
+              id="friendSelectorInput"
               placeholder="Search"
               onChange={searchChange}
               value={search}
