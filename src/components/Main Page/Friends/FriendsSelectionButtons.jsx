@@ -18,7 +18,7 @@ function FriendsSelectionButtons({active, setActive, setFriends, screen1000}){
        </Link>
         
       </div>
-      {location===""?!screen1000?<Search setFriends={setFriends} selector="friend"/>:<input></input>:''}
+      {location===""?<div className={FriendsCSS.searchInput}><Search setFriends={setFriends} selector="friend"/></div>:''}
     </div>
     
   );

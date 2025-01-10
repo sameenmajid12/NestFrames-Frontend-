@@ -67,8 +67,14 @@
   box-shadow: 4px 4px 1px #e2a344;
 }
 .friendsButtonsContainer{
+  position: relative;
   display: flex;
     justify-content: space-between;
+}
+.searchInput{
+  position: absolute;
+  right: 0;
+  top:50%;
 }
 .friendsInput{
   width: 100%;
@@ -249,7 +255,7 @@
   color:var(--text-hover);
   font-size: 14px;
 }
-@media(max-width:757px){
+@media(max-width:650px){
   .friendsContainer{
     row-gap:0;
     

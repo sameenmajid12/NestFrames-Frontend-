@@ -45,6 +45,8 @@ function Main() {
           setSideBarDisabled(true);
         } else {
           setScreen1000(false);
+          setScreen650(false);
+
           setSideBarDisabled(false);
         }
       }, 100);
@@ -65,7 +67,7 @@ function Main() {
     return () => clearInterval(intervalId);
   }, []);
   useEffect(()=>{
-    if(screen650){
+    if(window.innerWidth<=650){
       document.documentElement.style.setProperty("--body-padding", "0px");
     }
     else{
