@@ -3,35 +3,35 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import MessagesCSS from "../../../styles/messages.module.css";
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
-import SelectorList from '../Main/SelectorList'
+import SelectorList from "../Main/SelectorList";
+import { SocketContext } from "../../SocketContext";
 function Messages() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [socketConnection, setSocketConnection] = useState(null);
+  const { socket } = useContext(SocketContext);
   const [messageThreads, setMessageThreads] = useState([]);
   const [activeConversation, setActiveConversation] = useState(null);
   const [friendListVisibility, setFriendListVisibility] = useState(false);
+  const conversationContainer = useRef(null);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
-  useEffect(()=>{
-    const getConvo=async()=>{
-      if(location.pathname.split('/')[2]){
-        const conversationId = location.pathname.split('/')[2];
-        const response = await fetch(`http://localhost:3002/Messages/Conversation/${conversationId}`);
+  useEffect(() => {
+    const getConvo = async () => {
+      if (location.pathname.split("/")[2]) {
+        const conversationId = location.pathname.split("/")[2];
+        const response = await fetch(
+          `http://localhost:3002/Messages/Conversation/${conversationId}`
+        );
         const conversation = await response.json();
-        if(conversation){
+        if (conversation) {
           setActiveConversation(conversation);
         }
       }
-    }
+    };
     getConvo();
-  },[location]);
+  }, [location]);
   useEffect(() => {
     document.body.className = "body-default";
-
-    const socket = io(`http://localhost:3002`);
-    setSocketConnection(socket);
-
     const fetchConversations = async () => {
       const response = await fetch(
         `http://localhost:3002/Messages/${user._id}`
@@ -39,39 +39,94 @@ function Messages() {
       const conversations = await response.json();
       setMessageThreads(conversations);
     };
-
     fetchConversations();
-
     return () => {
-      socket.disconnect();
+      setActiveConversation(null);
     };
   }, [user._id, user.conversations]);
-  const toggleListVisibility = ()=>{
-    setFriendListVisibility(prev=>!prev);
-  }
+  useEffect(() => {
+    if (!socket) return;
 
-  const handleJoinConversation = (conversation) => {
-    if (socketConnection) {
-      socketConnection.emit("joinRoom", conversation);
-      console.log(`Connected to conversation ${conversation._id}`);
+    const addToMessageList = (message, conversation) => {
+      if (message.text.length < 600) {
+        console.log(message.receivedBy);
+        console.log(message.sentBy);
+        console.log(conversation);
+
+        if (conversation) {
+          // Update active conversation
+          if (activeConversation?._id === conversation._id) {
+            setActiveConversation((prev) => ({
+              ...prev,
+              messages: [...prev.messages, message],
+            }));
+          }
+
+          // Update message threads
+          setMessageThreads((prevThreads) => {
+            let conversationIndex;
+            const newThreads = prevThreads.map((thread, index) => {
+              if (thread._id === conversation._id) {
+                conversationIndex = index;
+                return { ...thread, messages: [...thread.messages, message] };
+              }
+              return thread;
+            });
+
+            if (conversationIndex !== undefined) {
+              const firstThread = newThreads[0];
+              if (firstThread._id !== conversation._id) {
+                newThreads.splice(conversationIndex, 1);
+                newThreads.unshift(conversation);
+              }
+            }
+            return newThreads;
+          });
+        }
+      } else {
+        throw new Error("Message too big");
+      }
+    };
+
+    socket.on("messageSent", addToMessageList);
+    socket.on("messageReceived", addToMessageList);
+
+    return () => {
+      socket.off("messageSent", addToMessageList);
+      socket.off("messageReceived", addToMessageList);
+    };
+  }, [socket, messageThreads, activeConversation]); // Add dependencies
+
+  const scrollToBottom = () => {
+    if (conversationContainer.current) {
+      conversationContainer.current?.lastElementChild?.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   };
-
+  const toggleListVisibility = () => {
+    setFriendListVisibility((prev) => !prev);
+  };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-  const getLastMessage = (dateNow) => {
-    const now = new Date(dateNow);
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
+
+  const getLastMessage = (lastTime) => {
+    const messageTime = new Date(lastTime);
+    if(Date.now()-messageTime.getTime()>=(1000*60*60*24)){
+      return (Math.floor(((Date.now()-messageTime.getTime())/(1000*60*60*24)))+'d');
+    }
+    let hours = messageTime.getHours();
+    let minutes = messageTime.getMinutes();
     const ampm = hours >= 12 ? "PM" : "AM";
     hours %= 12;
     hours = hours === 0 ? 12 : hours;
     minutes = minutes < 10 ? "0" + minutes : minutes;
-    const timeString = `${hours}:${minutes}`;
+    const timeString = `${hours}:${minutes}${ampm}`;
     return timeString;
   };
+
   const handleAddFriendToMessages = async (friend) => {
     const username = user.username;
     const friendUsername = friend[0].username;
@@ -80,19 +135,18 @@ function Messages() {
     );
     let conversation = null;
     const convoData = await response.json();
-    const {convoExists} = convoData;
+    const { convoExists } = convoData;
     conversation = convoData.conversation;
     if (
       friend &&
       !messageThreads.some(
         (thread) =>
-          (thread.user2.username=== friendUsername || thread.user1.username=== friendUsername) 
+          thread.user2.username === friendUsername ||
+          thread.user1.username === friendUsername
       )
     ) {
-
       let updatedConversations;
       if (convoExists) {
-        console.log(convoExists);
         updatedConversations = [...messageThreads, conversation];
       } else {
         const response = await fetch(
@@ -108,135 +162,151 @@ function Messages() {
         conversation = await response.json();
         updatedConversations = [...messageThreads, conversation];
       }
-      console.log(conversation);
       setMessageThreads(updatedConversations);
       navigate(`/Messages/${conversation._id}`);
-      handleJoinConversation(conversation);
       setActiveConversation(conversation);
-
-
     } else {
       navigate(`/Messages/${conversation._id}`);
-      handleJoinConversation(conversation);
       setActiveConversation(conversation);
     }
 
     setFriendListVisibility(false);
   };
-  const formatMessage = (message)=>{
-    if(message.length>30){
-      return message.substring(0,30)+"..."
+  const formatMessage = (message) => {
+    if (message.length > 30) {
+      return message.substring(0, 30) + "...";
     }
     return message;
-  }
+  };
   return (
     <>
-    <div className={MessagesCSS.messagesPageContainer}>
-      <div className={MessagesCSS.messagesFriendsSelector}>
-        <div className={MessagesCSS.messagesHeaderContainer}>
-          <div className={MessagesCSS.messagesFriendsHeader}>
-            <h1>Messages</h1>
-            <i
-              onClick={toggleListVisibility}
-              className={`fa-solid fa-pen-to-square ${MessagesCSS.addMessage}`}
-            ></i>
+      <div className={MessagesCSS.messagesPageContainer}>
+        <div className={MessagesCSS.messagesFriendsSelector}>
+          <div className={MessagesCSS.messagesHeaderContainer}>
+            <div className={MessagesCSS.messagesFriendsHeader}>
+              <h1>Messages</h1>
+              <i
+                onClick={toggleListVisibility}
+                className={`fa-solid fa-pen-to-square ${MessagesCSS.addMessage}`}
+              ></i>
+            </div>
+            <div className={MessagesCSS.searchMessage}>
+              <i
+                className={`fa-solid fa-magnifying-glass ${MessagesCSS.searchIcon}`}
+              ></i>
+              <input
+                placeholder="Search Messages"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </div>
           </div>
-          <div className={MessagesCSS.searchMessage}>
-            <i
-              className={`fa-solid fa-magnifying-glass ${MessagesCSS.searchIcon}`}
-            ></i>
-            <input
-              placeholder="Search Messages"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </div>
-        </div>
 
-        <div
-          id="conversationsContainer"
-          className={MessagesCSS.messageThreadsContainer}
-        >
-          {messageThreads.map((conversation) => (
-            <div
-              onClick={() => {
-                navigate(`/Messages/${conversation._id}`);
-                handleJoinConversation(conversation);
-                setActiveConversation(conversation);
-              }}
-              key={conversation._id}
-              className={`${MessagesCSS.threads} ${activeConversation?activeConversation._id===conversation._id?MessagesCSS.activeConversation:'':''}`}
-            >
-              <div className={MessagesCSS.activeLine}></div>
-              <div className={MessagesCSS.threadReceiverInfo}>
-                <img
-                  src={
-                    conversation[
-                      conversation.user1.username === user.username
-                        ? "user2"
-                        : "user1"
-                    ].profilePic?conversation[
-                      conversation.user1.username === user.username
-                        ? "user2"
-                        : "user1"
-                    ].profilePic.fileUrl:'/assets/default-avatar.png'
-                  }
-                ></img>
-                <div className={MessagesCSS.threadReceiverText}>
-                  <p
-                    className={MessagesCSS.threadReceiverUsername}
-                  >
-                    {
+          <div
+            id="conversationsContainer"
+            className={MessagesCSS.messageThreadsContainer}
+          >
+            {messageThreads.map((conversation) => (
+              <div
+                onClick={() => {
+                  navigate(`/Messages/${conversation._id}`);
+                  setActiveConversation(conversation);
+                }}
+                key={conversation._id}
+                className={`${MessagesCSS.threads} ${
+                  activeConversation
+                    ? activeConversation._id === conversation._id
+                      ? MessagesCSS.activeConversation
+                      : ""
+                    : ""
+                }`}
+              >
+                <div className={MessagesCSS.activeLine}></div>
+                <div className={MessagesCSS.threadReceiverInfo}>
+                  <img
+                    src={
                       conversation[
                         conversation.user1.username === user.username
                           ? "user2"
                           : "user1"
-                      ].fullname
+                      ].profilePic
+                        ? conversation[
+                            conversation.user1.username === user.username
+                              ? "user2"
+                              : "user1"
+                          ].profilePic.fileUrl
+                        : "/assets/default-avatar.png"
                     }
-                  </p>
-                  <p className={MessagesCSS.lastMessageSent}>
-                    {conversation.messages.length !== 0
-                      ? formatMessage(conversation.messages[conversation.messages.length - 1]
-                          .text)
-                      : ""}
-                  </p>
-                  <p className={MessagesCSS.messageTime}>
-                  {conversation.messages.length !== 0
-                    ? getLastMessage(
-                        conversation.messages[conversation.messages.length - 1]
-                          .createdAt
-                      )
-                    : ""}
-                  </p>
-                  
+                  ></img>
+                  <div className={MessagesCSS.threadReceiverText}>
+                    <p className={MessagesCSS.threadReceiverUsername}>
+                      {
+                        conversation[
+                          conversation.user1.username === user.username
+                            ? "user2"
+                            : "user1"
+                        ].fullname
+                      }
+                    </p>
+                    <p className={MessagesCSS.lastMessageSent}>
+                      {conversation.messages.length !== 0
+                        ? formatMessage(
+                            conversation.messages[
+                              conversation.messages.length - 1
+                            ].text
+                          )
+                        : ""}
+                    </p>
+                    <p className={MessagesCSS.messageTime}>
+                      {conversation.messages.length !== 0
+                        ? getLastMessage(
+                            conversation.messages[
+                              conversation.messages.length - 1
+                            ].createdAt
+                          )
+                        : ""}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className={MessagesCSS.addMoreMessages}>
-          <i className="fa-solid fa-circle-plus"></i>
-        </div>
-      </div>
-      {activeConversation?<Outlet
-        context={{
-          conversation: activeConversation,
-          setConversation: setActiveConversation,
-          socketConnection,
-          user,
-          messageThreads,
-          setMessageThreads,
-        }}
-      />:<div className={MessagesCSS.messageDefaultPage}>
-          <div className={MessagesCSS.messageDefaultContainer}>
-            <img src="/assets/messageIcon.png"></img>
-            <p>Start a chat<br></br> and <br></br>connect instantly</p>
-            <button>Send message</button>
+            ))}
           </div>
-        </div>}
+          <div className={MessagesCSS.addMoreMessages}>
+            <i className="fa-solid fa-circle-plus"></i>
+          </div>
+        </div>
+        {activeConversation ? (
+          <Outlet
+            context={{
+              conversation: activeConversation,
+              setConversation: setActiveConversation,
+              socketConnection: socket,
+              user,
+              messageThreads,
+              setMessageThreads,
+              conversationContainer,
+              scrollToBottom,
+            }}
+          />
+        ) : (
+          <div className={MessagesCSS.messageDefaultPage}>
+            <div className={MessagesCSS.messageDefaultContainer}>
+              <img src="/assets/messageIcon.png"></img>
+              <p>
+                Start a chat<br></br> and <br></br>connect instantly
+              </p>
+              <button>Send message</button>
+            </div>
+          </div>
+        )}
       </div>
-      {friendListVisibility && <SelectorList toggleVisibility={toggleListVisibility} onConfirm={handleAddFriendToMessages}/>}
-     </>
+      {friendListVisibility && (
+        <SelectorList
+          toggleVisibility={toggleListVisibility}
+          onConfirm={handleAddFriendToMessages}
+        />
+      )}
+    </>
   );
 }
 

@@ -5,23 +5,29 @@ import { useEffect } from "react";
 function Conversation() {
   const [loaded, setLoaded] = useState(false);
   const [message, setMessage] = useState("");
-  const conversationContainer = useRef(null);
+  
   const inputRef = useRef(null);
-  const { conversationId } = useParams();
   const {
     conversation,
-    setConversation,
     socketConnection,
     user,
-    setMessageThreads,
-    messageThreads,
+    conversationContainer,
+    scrollToBottom
   } = useOutletContext();
   const [messageList, setMessageList] = useState([]);
   useEffect(() => {
+    if (conversation) {
+      setLoaded(true);
+      setMessageList(conversation.messages);
+    }
+
     return () => {
-      setConversation(null);
     };
-  }, []);
+  }, [conversation]);
+  
+  useEffect(() => {
+      scrollToBottom();
+    },[conversation]);
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -36,60 +42,11 @@ function Conversation() {
     };
   }, [conversation]);
 
-  useEffect(() => {
-    if (conversation) {
-      setLoaded(true);
-      setMessageList(conversation.messages);
-      if (socketConnection) {
-        function addToMessagelist(message) {
-          
-          if (message.text.length < 600) {
-            setMessageList((prevMessages) => [...prevMessages, message]);
-            setMessageThreads((prevThreads) => {
-              let conversationIndex;
-              const newThreads = prevThreads.map((thread, index) => {
-                if (thread._id === conversation._id) {
-                  conversationIndex = index; 
-                  return { ...thread, messages: [...thread.messages, message] };
-                }
-                return thread;
-              });
-          
-              if (conversationIndex !== undefined) {
-                const firstThread = newThreads[0];
-                if (firstThread._id !== conversation._id) {
-                  const temp = newThreads[0];
-                  newThreads[0] = newThreads[conversationIndex];
-                  newThreads[conversationIndex] = temp;
-                }
-              }
-              console.log(newThreads);
-              return newThreads;
-            });
-          }
-          else{
-            throw new Error("Message too big");
-          }
-        }
-        socketConnection.off("messageSent").on("messageSent", addToMessagelist);
-        socketConnection
-          .off("messageReceived")
-          .on("messageReceived", addToMessagelist);
-      }
-    }
-  }, [conversation]);
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       sendMessage();
     }
   };
-  useEffect(() => {
-    if (conversationContainer.current) {
-      conversationContainer.current?.lastElementChild?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-  }, [messageList]);
 
   let userUsername;
   let receiverUsername;
@@ -188,9 +145,7 @@ function Conversation() {
                       {lastMessageUser === message.sentBy ? (
                         ""
                       ) : (
-                        <div className={MessagesCSS.senderUsername}>
-                          You
-                        </div>
+                        <div className={MessagesCSS.senderUsername}>You</div>
                       )}
                       <p>{message.text}</p>
                     </div>
@@ -203,9 +158,7 @@ function Conversation() {
                         {lastMessageUser === message.sentBy ? (
                           ""
                         ) : (
-                          <div className={MessagesCSS.senderUsername}>
-                            You
-                          </div>
+                          <div className={MessagesCSS.senderUsername}>You</div>
                         )}
 
                         <p>{message.text}</p>
