@@ -56,7 +56,7 @@
   transform: translate(4px, 4px);
   box-shadow: none;;
 }
-.active{
+  .active{
   box-shadow: 4px 4px 1px #e2a344;
   color:var(--background-light);
   background-color: #ffbf60;

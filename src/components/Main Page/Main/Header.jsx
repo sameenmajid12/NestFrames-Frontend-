@@ -66,15 +66,16 @@ function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmal
         />
       )}
       <div className="header-container">
-        <div className="left-header-container">
-          <i
+        <div className={`left-header-container ${screen650?"no-menu-bar":""}`}>
+          
+          {!screen650?<i
             onClick={changeSideBar}
             className="fa-solid fa-bars-staggered menu-bars"
-          ></i>
+          ></i>:''}
           <img className="logo" src="/assets/BOO.png" alt="Logo" />
         </div>
         <MainSearch />
-        <div className="right-header-container">
+        <div className={`right-header-container ${screen650?"no-menu-bar":""}`}>
           <img
             onClick={() => setDropDownVisible(!dropDownVisible)}
             ref={profileImageRef}
