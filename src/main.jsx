@@ -32,6 +32,7 @@ import RequestContent from "./components/Main Page/Media/RequestContent.jsx";
 import Posts from "./components/Main Page/Home/Posts.jsx";
 import { UserProvider } from "./components/UserContext.jsx";
 import { AuthProvider } from "./components/AuthContext.jsx";
+import { SocketProvider } from "./components/SocketContext.jsx";
 import FriendRequests from "./components/Main Page/Friends/FriendRequests.jsx";
 import Conversation from "./components/Main Page/Messages/Conversation.jsx";
 import FriendsSuggested from "./components/Main Page/Friends/FriendsSuggested.jsx";
@@ -166,9 +167,11 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <UserProvider>
+  <UserProvider>
+    <SocketProvider>
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>
-    </UserProvider>
+    </SocketProvider>
+  </UserProvider>
 );

@@ -1,12 +1,13 @@
 import { createContext, useContext, useState } from "react";
 import { UserContext } from "./UserContext";
+import { SocketContext } from "./SocketContext";
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
-  const { logOutUser } = useContext(UserContext);
-
+  const { user, logOutUser } = useContext(UserContext);
+  const { socket } = useContext(SocketContext);
   const refreshToken = async () => {
     try {
       const response = await fetch("http://localhost:3002/Sign-in/refresh", {
@@ -41,6 +42,9 @@ export function AuthProvider({ children }) {
 
   const logOut = () => {
     logOutUser();
+    if(socket && user.username){
+      socket.emit("removeUser", user.username);
+    }
     setToken(null);
     deleteRefreshToken();
     localStorage.removeItem('user');
