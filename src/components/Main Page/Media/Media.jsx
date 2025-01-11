@@ -29,7 +29,8 @@ function Media(){
   return (
     <div 
     className="gallery-page-container">
-      <h1>{active.charAt(0).toUpperCase()+active.slice(1)}{active==="requests"?<span className='album-request-length'> {`(${requests.length})`}</span>:''}</h1>
+      <div className="gallery-page-header">
+      <h1>{active.charAt(0).toUpperCase()+active.slice(1)}{active==="requests"?<span className='album-request-length'> {`(${requests.length})`}</span>:''}</h1></div>
       <div className='h2-container'>
           <div className="selector-container">
             <span className='selector-line'></span>
@@ -51,7 +52,8 @@ function Media(){
               </div>
             </Link>
           </div>
-          {active==="albums"?<Search setAlbums={setAlbums} selector="album"/>:''}
+          <div className='media-search'>
+          {active==="albums"?<Search setAlbums={setAlbums} selector="album"/>:''}</div>
       </div>
       
       <Outlet context={{photos:photos, requests:requests, setRequests:setRequests, albums:albums, setAlbums:setAlbums}}/>

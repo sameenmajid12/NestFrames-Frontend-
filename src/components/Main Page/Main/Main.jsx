@@ -145,7 +145,7 @@ function Main() {
         screen650={screen650}
         setSmallSideBarFull={setSmallSideBarFull}
       />
-      <SideBar sideBarFull={sideBarFull} screen650={screen650} smallSideBarFull={smallSideBarFull}/>
+      <SideBar sideBarFull={sideBarFull} screen650={screen650} smallSideBarFull={smallSideBarFull} setSmallSideBarFull={setSmallSideBarFull}/>
       <Outlet context={{screen1000:screen1000}}/>
     </>
   ) : (
