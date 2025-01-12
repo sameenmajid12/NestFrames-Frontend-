@@ -3,7 +3,7 @@ import "../../../styles/header.css";
 import { Link, useNavigate } from "react-router-dom";
 import MainSearch from "./MainSearch";
 import { UserContext } from "../../UserContext";
-import Create from "./CreatePost";
+import Create from "../Create/CreatePost";
 import { AuthContext } from "../../AuthContext";
 
 function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmallSideBarFull }) {

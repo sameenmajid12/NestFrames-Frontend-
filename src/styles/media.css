@@ -395,8 +395,17 @@
   border-radius: 10px;
   box-sizing: border-box;
   cursor:pointer;
+  text-wrap: nowrap;
+  overflow: hidden;
 }
-
+.create-album-tag-input{
+  width: 100%;
+  background-color: transparent;
+  outline:none;
+  border:none;
+  color:#0e356b;
+  font-size: 0.925rem;
+}
 .create-album-tag-container i, .create-album-upload-photos-container i{
   color:var(--accent-color);
 }
