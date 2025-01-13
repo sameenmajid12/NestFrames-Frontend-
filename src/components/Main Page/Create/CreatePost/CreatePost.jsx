@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "../../../styles/create.css";
+import "../../../../styles/create.css";
 import CreatePostBody from "./CreatePostBody";
 
 function CreatePost({ fileProp, setVisibility, onConfirm }) {
+  const [filePresent, setFilePresent] = useState(false);
+  const [file, setFile] = useState(null);
   useEffect(() => {
     const handleWheel = (event) => {
       event.preventDefault();
@@ -11,14 +13,14 @@ function CreatePost({ fileProp, setVisibility, onConfirm }) {
 
     if (fileProp) { 
       setFilePresent(true);
-      setFile(fileProp);
+      setFile(fileProp); 
+      console.log(fileProp.name);
     }
     return () => {
       document.removeEventListener("wheel", handleWheel);
     };
   }, []);
-  const [filePresent, setFilePresent] = useState(false);
-  const [file, setFile] = useState(null);
+  
   const [postData, setPostData] = useState({});
   
   

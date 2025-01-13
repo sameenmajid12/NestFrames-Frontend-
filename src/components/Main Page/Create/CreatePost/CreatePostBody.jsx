@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../../UserContext";
 
 function CreatePostBody({file,onConfirm}) {
   const [caption, setCaption] = useState("");
+  const [album, setAlbum] = useState(null);
   const [isPublic, setIsPublic] = useState(true);
   const {user} = useContext(UserContext);
   const toggleSwitch = () => {
@@ -49,7 +50,11 @@ function CreatePostBody({file,onConfirm}) {
             <option disabled selected>
               Select Album
             </option>
-            <option>Summer 24</option>
+            {
+              user.albums.map((album)=>{
+                return <option>{album.name}</option>
+              })
+            }
           </select>
         </div>
         <div>
@@ -79,12 +84,12 @@ function CreatePostBody({file,onConfirm}) {
             <div
               onClick={toggleSwitch}
               className={`post-upload-toggle ${
-                isPublic ? "" : "toggle-background-off"
+                isPublic ? "toggle-background-off" : ""
               }`}
             >
               <div
                 className={`post-upload-toggle-switch ${
-                  isPublic ? "" : "toggle-switch-off"
+                  isPublic ? "toggle-switch-off" : ""
                 }`}
               ></div>
             </div>

@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import MessagesCSS from "../../../styles/messages.module.css";
-import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
 import SelectorList from "../Main/SelectorList";
 import { SocketContext } from "../../SocketContext";
 function Messages() {
@@ -49,10 +48,6 @@ function Messages() {
 
     const addToMessageList = (message, conversation) => {
       if (message.text.length < 600) {
-        console.log(message.receivedBy);
-        console.log(message.sentBy);
-        console.log(conversation);
-
         if (conversation) {
           // Update active conversation
           if (activeConversation?._id === conversation._id) {

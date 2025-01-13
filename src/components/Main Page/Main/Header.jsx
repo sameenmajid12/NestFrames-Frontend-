@@ -3,7 +3,8 @@ import "../../../styles/header.css";
 import { Link, useNavigate } from "react-router-dom";
 import MainSearch from "./MainSearch";
 import { UserContext } from "../../UserContext";
-import Create from "../Create/CreatePost";
+import CreatePost from "../Create/CreatePost/CreatePost";
+import CreateAlbum from "../Create/CreateAlbum/CreateAlbum";
 import { AuthContext } from "../../AuthContext";
 
 function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmallSideBarFull }) {
@@ -60,7 +61,7 @@ function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmal
   return (
     <>
       {createContainerVisibility && (
-        <Create
+        <CreatePost
           visibility={createContainerVisibility}
           setVisibility={toggleCreateContainer}
         />
