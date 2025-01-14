@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import "../../../styles/albums.css";
 import AlbumCollaborators from "./AlbumCollaborators";
 
-function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collaborators, setCollaborators }) {
+function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collaborators, setCollaborators, screen1000, screen650 }) {
   const inputRef = useRef(null);
   const [nameChange, setNameChange] = React.useState({
     active: false,
@@ -48,7 +48,7 @@ function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collabo
     <div className="album-head">
       <div className="album-head-left">
         <div className="album-main-header">
-          <h1 id="albumName">
+          <div id="albumName">
             {nameChange.active ? (
               <div className="album-name-change">
                 <input
@@ -81,7 +81,7 @@ function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collabo
                 ></i>
               </>
             )}
-          </h1>
+          </div>
           <div className="album-interactions">
             <div className="album-interaction-icons">
               <i className="fa-solid fa-heart"></i>
@@ -89,9 +89,9 @@ function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collabo
             <div className="album-interaction-icons">
               <i className="fa-solid fa-plus"></i>
             </div>
-            <div className="album-interaction-icons">
+            {!screen650?<div className="album-interaction-icons">
               <i className="fa-solid fa-clock-rotate-left"></i>
-            </div>
+            </div>:""}
             <div className="album-interaction-icons">
               <i className="fa-solid fa-arrow-up-from-bracket"></i>
             </div>
@@ -101,7 +101,7 @@ function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collabo
           <img src={album.coverPhoto.fileUrl} alt="Album Cover" />
         </div>
       </div>
-      <AlbumCollaborators album={album} albumId={albumId} setAlbum={setAlbum} collaborators={collaborators} setCollaborators={setCollaborators}/>
+      {!screen1000?<AlbumCollaborators album={album} albumId={albumId} setAlbum={setAlbum} collaborators={collaborators} setCollaborators={setCollaborators}/>:''}
     </div>
   );
 }

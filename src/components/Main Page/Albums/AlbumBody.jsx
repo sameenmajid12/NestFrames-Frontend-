@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 import "../../../styles/albums.css";
 import AlbumHeader from "./AlbumHeader";
 import AlbumPhotos from "./AlbumPhotos";
@@ -8,6 +8,7 @@ function AlbumBody() {
   useEffect(()=>{
     document.body.className = 'body-default';
   },[]);
+  const { screen1000, screen650 } = useOutletContext();
   const [album, setAlbum] = useState(null);
   const [albumName, setAlbumName] = useState("");
   const [loading, setLoading] = useState(true);
@@ -51,9 +52,11 @@ function AlbumBody() {
         album={album}
         collaborators={collaborators}
         setCollaborators={setCollaborators}
+        screen1000={screen1000}
+        screen650={screen650}
       />
       <hr className="album-body-divider" />
-      <AlbumPhotos album={album} />
+      <AlbumPhotos screen1000={screen1000} album={album} setAlbum={setAlbum} collaborators={collaborators} setCollaborators={setCollaborators} albumId={albumId} />
     </div>
   );
 }
