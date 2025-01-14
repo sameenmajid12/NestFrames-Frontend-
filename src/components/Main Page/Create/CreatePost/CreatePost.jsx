@@ -44,7 +44,7 @@ function CreatePost({ fileProp, setVisibility, onConfirm }) {
         <div className="create-container-header">Create New Post</div>
 
         {filePresent ? (
-          <CreatePostBody file={file} onConfirm={onConfirm}/>
+          <CreatePostBody file={file} onConfirm={onConfirm} setFilePresent={setFilePresent} setVisibility={setVisibility}/>
         ) : (
           <div className="create-container-body">
             <img

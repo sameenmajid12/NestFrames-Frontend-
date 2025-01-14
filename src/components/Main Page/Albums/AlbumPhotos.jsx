@@ -2,10 +2,11 @@ import React from "react";
 import "../../../styles/albums.css";
 
 function AlbumPhotos({ album }) {
+  console.log(album.posts);
   return (
     <div className="album-photos-container">
-      {album.photos.map((photo, index) => (
-        <img key={index} src={photo.fileUrl} alt={`Photo ${index}`} />
+      {album.posts.map((post, index) => (
+        <img key={index} src={post.photo.fileUrl} alt={`Photo ${index}`} />
       ))}
     </div>
   );

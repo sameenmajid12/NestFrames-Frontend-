@@ -33,18 +33,17 @@ function CreateAlbum({ setVisibility }) {
   const navigate = useNavigate();
 
   const [coverPhoto, setCoverPhoto] = useState(null);
-  const [albumName, setAlbumName] = useState(null);
+  const [albumName, setAlbumName] = useState("");
   const [albumPosts, setAlbumPosts] = useState([]);
   const [albumCollaborators, setAlbumCollaborators] = useState([]);
   const [isFriendSelectorVisible, setIsFriendSelectorVisible] = useState(false);
   const [postModalFile, setPostModalFile] = useState(null);
   const [isPostModalVisible, setIsPostModalVisibile] = useState(false);
- 
   const { token } = useContext(AuthContext);
  
 
-  const handlePostModalUpload = (file) => {
-    console.log(file);
+  const handlePostModalUpload = (newPost) => {
+    setAlbumPosts(prev=>[...prev, newPost]);
   };
 
   const toggleFriendSelector = () => {
@@ -61,7 +60,6 @@ function CreateAlbum({ setVisibility }) {
               )
           )
         : selectedFriends;
-
     setAlbumCollaborators((prev) => [...prev, ...newCollaborators]);
     toggleFriendSelector();
   };
@@ -76,21 +74,24 @@ function CreateAlbum({ setVisibility }) {
     if (!albumName) {
       return;
     }
-
     const formData = new FormData();
     formData.append("coverPhoto", coverPhoto);
-    formData.append("albumName", albumName);
+    formData.append("name", albumName);
+    formData.append("users",user._id);
+    albumCollaborators.forEach((collaborator) => {
+      formData.append("users", collaborator._id);
+    });
 
     albumPosts.forEach((post) => {
-      formData.append("posts", post);
+      const { photo, ...otherProps } = post;
+    formData.append(`posts`, JSON.stringify(otherProps));
+
+    // Add the photo property as a separate file
+    if (photo) {
+      formData.append(`photos`, photo);
+    }
     });
-
-    albumCollaborators.forEach((collaborator) => {
-      formData.append("collaborators", collaborator);
-    });
-
-    formData.append("userId", user._id);
-
+    
     const response = await fetch("http://localhost:3002/Albums/Create", {
       method: "POST",
       body: formData,
@@ -98,7 +99,6 @@ function CreateAlbum({ setVisibility }) {
         Authorization: `Bearer ${token}`,
       },
     });
-
     if (response.ok) {
       const { albumId } = await response.json();
       setVisibility(false);
@@ -171,9 +171,7 @@ function CreateAlbum({ setVisibility }) {
                       }
                       onKeyDown={({ key }) => {
                         if (key === "Backspace") {
-                          console.log("pooop");
                           setAlbumCollaborators((prev) => {
-                            console.log(prev.slice(0, -1));
                             return prev.slice(0, -1);
                           });
                         }

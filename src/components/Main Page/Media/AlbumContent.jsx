@@ -41,7 +41,7 @@ function AlbumContent({albumProps}) {
                 >
                   <img src={`${album.coverPhoto.fileUrl}`}></img>
                   <div className="album-info">
-                    <p>{album.name} {albumProps?'':<span className="album-info-collaborators">&nbsp;•  {albumProps?'':`${album.photos.length} Posts`} </span>}</p>
+                    <p>{album.name} {albumProps?'':<span className="album-info-collaborators">&nbsp;•  {albumProps?'':`${album.posts.length} Posts`} </span>}</p>
                     <div className="album-info-right">
                       <div>
                         <i className="fa-solid fa-heart heart"></i>

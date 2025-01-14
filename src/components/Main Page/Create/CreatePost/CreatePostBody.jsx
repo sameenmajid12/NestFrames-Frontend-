@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../../UserContext";
 
-function CreatePostBody({file,onConfirm}) {
+function CreatePostBody({file,onConfirm, setFilePresent, setVisibility}) {
   const [caption, setCaption] = useState("");
   const [album, setAlbum] = useState(null);
   const [isPublic, setIsPublic] = useState(true);
@@ -12,7 +12,10 @@ function CreatePostBody({file,onConfirm}) {
   const handleCaptionChange=(e)=>{
       setCaption(e.target.value);
     }
-    const uploadFile = () => {
+    const handleAlbumChange=(e)=>{
+      setAlbum(e.target.value)
+    }
+    const uploadPost = () => {
       if (file) {
         const formData = new FormData();
         formData.append("file", file);
@@ -26,16 +29,13 @@ function CreatePostBody({file,onConfirm}) {
     };
     const uploadForAlbum = () => {
       if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("userId", user._id);
-        console.log(file);
-        console.log(user._id);
-        console.log(formData);
-        for (let pair of formData.entries()) {
-          console.log(pair[0] + ': ' + pair[1]);
+        const post ={
+          caption:caption,
+          postedBy:user._id,
+          privacy:!isPublic,
+          photo:file
         }
-        onConfirm(formData);
+        onConfirm(post);
       }
       setFilePresent(false);
       setVisibility(false);
@@ -46,13 +46,13 @@ function CreatePostBody({file,onConfirm}) {
       <div className="post-upload-details">
         <div>
           <p className="post-upload-input-headers">Albums</p>
-          <select className="post-upload-album-select">
-            <option disabled selected>
+          <select value={album || ""} onChange={handleAlbumChange} className="post-upload-album-select">
+            <option disabled value="">
               Select Album
             </option>
             {
               user.albums.map((album)=>{
-                return <option>{album.name}</option>
+                return <option value={album._id}>{album.name}</option>
               })
             }
           </select>
@@ -97,7 +97,7 @@ function CreatePostBody({file,onConfirm}) {
         </div>
 
         <button
-          onClick={!onConfirm ? uploadFile : uploadForAlbum}
+          onClick={!onConfirm ? uploadPost : uploadForAlbum}
           className="post-upload-button"
         >
           {!onConfirm ? "Post" : "Upload"}

@@ -37,8 +37,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   background-color: #FFF9EF;
   padding:5px;
   border-radius: 20px;
@@ -52,7 +52,7 @@
   background-color: var(--background-color);
 }
 .album-interaction-icons i{
-  font-size:20px;
+  font-size:18px;
 }
 .album-cover-photo{
   width: 100%;

@@ -12,7 +12,7 @@ function CreateAlbumPostContainer({albumPosts}) {
     <div className="create-album-photos-container">
       <div className="create-album-photo-upload">
         {albumPosts.length > 0 ? (
-          <img src={albumPosts[0 + photoCarouselIndex]}></img>
+          <img src={URL.createObjectURL(albumPosts[0 + photoCarouselIndex].photo)}></img>
         ) : (
           <div className="create-album-photo-plus-container">
             <i
@@ -24,7 +24,7 @@ function CreateAlbumPostContainer({albumPosts}) {
       </div>
       <div className="create-album-photo-upload">
         {albumPosts.length > 1 ? (
-          <img src={albumPosts[1 + photoCarouselIndex]}></img>
+          <img src={URL.createObjectURL(albumPosts[1 + photoCarouselIndex].photo)}></img>
         ) : (
           <div className="create-album-photo-plus-container">
             <i
@@ -36,7 +36,7 @@ function CreateAlbumPostContainer({albumPosts}) {
       </div>
       <div className="create-album-photo-upload">
         {albumPosts.length > 2 ? (
-          <img src={albumPosts[2 + photoCarouselIndex]}></img>
+          <img src={URL.createObjectURL(albumPosts[2 + photoCarouselIndex].photo)}></img>
         ) : (
           <div className="create-album-photo-plus-container">
             <i
