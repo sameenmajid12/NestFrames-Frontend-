@@ -13,7 +13,7 @@
   background-color: #FFEFD8;
 }
 .left-header-container{
-  width: 7rem;
+  width: 4.75rem;
   display: flex;
   align-items: center;
   column-gap: clamp(0.625rem,1.5vw,1.5rem);
@@ -129,7 +129,7 @@
 
 .right-header-container{
   position: relative;
-  width: 112px;
+  width: 4.75rem;
   display: flex;
   justify-content: end;
 }
@@ -223,7 +223,4 @@
 }
 .logo{
  height:clamp(2rem,4vw,2.5rem);
-}
-.no-menu-bar{
-  width:75px;
 }

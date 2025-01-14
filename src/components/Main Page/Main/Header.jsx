@@ -33,14 +33,7 @@ function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmal
       document.body.removeEventListener("mousedown", handleVisibility);
     };
   }, []);
-  useEffect(()=>{
-    if(sideBarFull){
-      document.documentElement.style.setProperty("--body-padding", "165px");
-    }
-    else{
-      document.documentElement.style.setProperty("--body-padding", "69.1px");
-    }
-  },[sideBarFull])
+  
   const toggleCreateContainer = () => {
     setCreateContainerVisibility((prevVisibility) => !prevVisibility);
   };

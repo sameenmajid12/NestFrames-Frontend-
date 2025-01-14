@@ -20,13 +20,16 @@ function Main() {
   const [screen425, setScreen425] = useState(window.innerWidth<=425);
   const [screen650, setScreen650] = useState(window.innerWidth<=650);
   useEffect(() => {
-
     let resizeTimeout;
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
         if (window.innerWidth <= 1000) {
+          setScreen1000(true);
+          setSideBarFull(false);
+          setSideBarDisabled(true);
           if(window.innerWidth<=650){
+            document.documentElement.style.setProperty("--body-padding", "0px");
             setSideBarDisabled(false);
             setScreen650(true);
             if(window.innerWidth<=425){
@@ -37,16 +40,15 @@ function Main() {
             }
           }
           else{
+            document.documentElement.style.setProperty("--body-padding", "69.1px");
             setSideBarDisabled(true);
             setScreen650(false);
           }
-          setScreen1000(true);
-          setSideBarFull(false);
-          setSideBarDisabled(true);
+          
         } else {
           setScreen1000(false);
           setScreen650(false);
-
+          setSideBarFull(true);
           setSideBarDisabled(false);
         }
       }, 100);
@@ -58,6 +60,14 @@ function Main() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  useEffect(()=>{
+    if(sideBarFull){
+      document.documentElement.style.setProperty("--body-padding", "165px");
+    }
+    else if(window.innerWidth>=650){
+        document.documentElement.style.setProperty("--body-padding", "69.1px");
+    }
+  },[sideBarFull])
   const navigate = useNavigate();
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -68,10 +78,10 @@ function Main() {
   }, []);
   useEffect(()=>{
     if(window.innerWidth<=650){
-      document.documentElement.style.setProperty("--body-padding", "0px");
+      
     }
     else{
-      document.documentElement.style.setProperty("--body-padding", "69.1px");
+      
     }
   },[screen650])
   useEffect(() => {

@@ -492,7 +492,7 @@
   transform: translateX(50%);
   border-radius: 50px;
   background-color:var(--accent-color);
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -712,5 +712,8 @@
   .create-album-picture-placeholder{
     width:clamp(12.5rem, 50vw, 18.75rem);
     height:clamp(12.5rem, 50vw, 18.75rem)
+  }
+  .media-add{
+    bottom:72px;
   }
 }
