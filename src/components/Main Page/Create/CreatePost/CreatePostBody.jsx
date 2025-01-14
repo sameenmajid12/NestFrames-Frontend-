@@ -6,6 +6,9 @@ function CreatePostBody({file,onConfirm, setFilePresent, setVisibility}) {
   const [album, setAlbum] = useState(null);
   const [isPublic, setIsPublic] = useState(true);
   const {user} = useContext(UserContext);
+  const selectAlbum=(album)=>{
+    setAlbum(album);
+  }
   const toggleSwitch = () => {
     setIsPublic((prevPrivacy) => !prevPrivacy);
   };
@@ -40,19 +43,20 @@ function CreatePostBody({file,onConfirm, setFilePresent, setVisibility}) {
       setFilePresent(false);
       setVisibility(false);
     };
+    console.log(album);
   return (
     <div className="post-upload-container">
       <img className="post-upload-image" src={URL.createObjectURL(file)}></img>
       <div className="post-upload-details">
         <div>
-          <p className="post-upload-input-headers">Albums</p>
-          <select value={album || ""} onChange={handleAlbumChange} className="post-upload-album-select">
-            <option disabled value="">
-              Select Album
+          <p className="post-upload-input-headers">Album</p>
+          <select style={{color:`${!album?"#114085B3":"var(--text-color)"}`}} value={album || ""} onChange={handleAlbumChange} className="post-upload-album-select">
+            <option  disabled value="">
+              Choose an album
             </option>
             {
               user.albums.map((album)=>{
-                return <option value={album._id}>{album.name}</option>
+                return <option onClick={()=>selectAlbum(album)} value={album._id}>{album.name}</option>
               })
             }
           </select>
@@ -66,14 +70,6 @@ function CreatePostBody({file,onConfirm, setFilePresent, setVisibility}) {
             placeholder="Enter Caption"
             type="text"
           />
-        </div>
-        <div>
-          <p className="post-upload-input-headers">Tagged</p>
-          <input
-            className="post-upload-tag-input"
-            placeholder="Tag friends"
-            type="text"
-          ></input>
         </div>
         <div>
           <p className="post-upload-input-headers">Privacy</p>
