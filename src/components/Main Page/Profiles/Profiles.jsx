@@ -1,20 +1,22 @@
 import ProfileNav from "./ProfileNav";
 import ProfileInfo from "./ProfileInfo";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useOutletContext, useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../AuthContext";
+import Loading from "../Main/Loading";
 function Profiles() {
   const [profile, setProfile] = useState();
   const [loading, setLoading] = useState(true);
   const { username } = useParams();
-  const {token,refreshToken} = useContext(AuthContext);
+  const { token, refreshToken } = useContext(AuthContext);
+  const {screen650} = useOutletContext();
   useEffect(() => {
     document.body.className = "body-default";
     async function getProfile() {
       try {
         let currentToken = token;
-        if(!currentToken){
+        if (!currentToken) {
           currentToken = await refreshToken();
         }
         const response = await fetch(
@@ -37,16 +39,20 @@ function Profiles() {
     }
     getProfile();
   }, [username]);
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
+
   return (
     <div className="profile-page-container">
-      <ProfileInfo profile={profile} setProfile={setProfile} />
-      <ProfileNav profile={profile} setProfile={setProfile} />
-      <div className="profile-content-container">
-        <Outlet context={{ profile }} />
-      </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <ProfileInfo profile={profile} setProfile={setProfile} screen650={screen650}/>
+          <ProfileNav profile={profile} setProfile={setProfile} screen650={screen650}/>
+          <div className="profile-content-container">
+            <Outlet context={{ profile }} />
+          </div>
+        </>
+      )}
     </div>
   );
 }

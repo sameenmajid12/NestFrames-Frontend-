@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import '../../../styles/Profile.css';
 import { Link } from 'react-router-dom';
-function ProfileNav({profile}){
+function ProfileNav({profile, screen650}){
   const [activeTab, setActiveTab] = useState('albums');
   const [profileData, setProfileData] = useState({
     username:''
@@ -28,13 +28,13 @@ function ProfileNav({profile}){
       >
         Photos
       </Link>
-      <Link 
+      {!screen650?<Link 
         to={`/${profileData.username}/Friends`}
         className={`nav-item ${activeTab === 'friends' ? 'active' : ''}`}
         onClick={() => setActiveTab('friends')} 
-      >
-        Friends
-      </Link>
+      >Friends</Link>:""}
+        
+      
       <Link
         to={`/${profileData.username}/Activity`}
         className={`nav-item ${activeTab === 'activity' ? 'active' : ''}`}
@@ -42,13 +42,13 @@ function ProfileNav({profile}){
       >
         Activity
       </Link>
-      <Link
+      {!screen650?<Link
         to={`/${profileData.username}/About`}
         className={`nav-item ${activeTab === 'about' ? 'active' : ''}`}
         onClick={() => setActiveTab('about')}
       >
         About
-      </Link>
+      </Link>:''}
     </div>
   );
 };

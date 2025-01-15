@@ -108,33 +108,7 @@
   column-gap: clamp(0.75rem,1.25vw, 1.25rem);
   column-count: 4;
 }
-@media(max-width:1200px){
-  .albums-container{
-    column-count:3 ;
-  }
-  .profile-albums-container{
-    column-count: 4;
-  }
-  .photos-container{
-    column-count:3 ;
-  }
-}
-@media(max-width:725px){
-  .albums-container{
-    column-count:2 ;
-  }
-  .profile-albums-container{
-    column-count: 3;
-  }
-  .photos-container{
-    column-count: 2;
-  }
-}
-@media(max-width:350px){
-  .albums-container{
-    column-count: 1;
-  }
-}
+
 
 .profile-albums-container{
   column-count: 5;
@@ -721,4 +695,37 @@
   .media-add{
     bottom:72px;
   }
+}
+@media(max-width:1200px){
+  .albums-container{
+    column-count:3 ;
+  }
+  .profile-albums-container{
+    column-count: 4;
+  }
+  .photos-container{
+    column-count:3 ;
+  }
+}
+@media(max-width:725px){
+  .albums-container{
+    column-count:2 ;
+  }
+  .profile-albums-container{
+    column-count: 3;
+  }
+  .photos-container{
+    column-count: 2;
+  }
+}
+@media(max-width:500px){
+  .profile-albums-container{
+    column-count: 2;
+  }
+}
+@media(max-width:350px){
+  .albums-container{
+    column-count: 1;
+  }
+  
 }

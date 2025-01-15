@@ -31,7 +31,9 @@ html, body {
     height: 100%;
     overflow-x: hidden;
 }
-
+h1{
+  color:var(--text-color);
+}
 .body-default{
   padding-left: var(--body-padding);  
   padding-top:var(--header-height);

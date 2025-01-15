@@ -3,7 +3,7 @@ import { UserContext } from "../../UserContext";
 import Add from "./Add";
 import AddPfp from "./AddPfp.jsx";
 
-function ProfileInfo({ profile, setProfile }) {
+function ProfileInfo({ profile, setProfile,screen650 }) {
   const { user, setUser } = useContext(UserContext);
   const [addPfpVisibility, setAddPfpVisibility] = useState(false);
   const isUser = useMemo(
@@ -31,7 +31,7 @@ function ProfileInfo({ profile, setProfile }) {
           onClick={() => {
             isUser ? setAddPfpVisibility(true) : "";
           }}
-          className="profile-images"
+          className="profile-image"
           src={
             profile.profilePic
               ? profile.profilePic.fileUrl
@@ -47,8 +47,8 @@ function ProfileInfo({ profile, setProfile }) {
               <div className="profile-buttons">
                 {isUser ? (
                   <>
-                    <button className="profile-button">Edit Profile</button>
-                    <button className="profile-button">Create Post</button>
+                    <button className="profile-button">{screen650?"Edit":"Edit Profile"}</button>
+                    <button className="profile-button">{screen650?"Create":"Create Post"}</button>
                   </>
                 ) : (
                   <>
