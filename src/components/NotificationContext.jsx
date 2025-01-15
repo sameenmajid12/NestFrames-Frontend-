@@ -9,28 +9,32 @@ export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const { user } = useContext(UserContext);
   const { socket } = useContext(SocketContext);
-
+  let timeoutId;
   const addNotification = (success, message) => {
+    clearTimeout(timeoutId);
     setNotifications((prev) => [...prev, { success, message }]);
 
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       setNotifications((prev) => prev.slice(1));
     }, 10000);
   };
 
   useEffect(() => {
     if (user && socket) {
+      console.log("socket connected for notifications");
       socket.on("notification", (notification) => {
         addNotification(notification.success, notification.message);
       });
     }
     // Clean up the socket listener when component unmounts
     return () => {
-      if (socket) socket.off("notification");
+      if (socket) {
+        socket.off("notification");
+      }
     };
   }, [user, socket]);
 
-  const value = { addNotification,setNotifications };
+  const value = { addNotification, setNotifications };
 
   return (
     <NotificationContext.Provider value={value}>

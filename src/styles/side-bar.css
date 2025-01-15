@@ -45,6 +45,7 @@
 .sideBar-item{
   display: flex;
   align-items: center;
+  position: relative;
   color: var(--text-color);
   text-decoration: none;
   cursor: pointer;
@@ -87,4 +88,35 @@
 }
 .hidden-text{
   display: none;
+}
+.side-bar-friend-icon{
+  position: relative;
+}
+.side-bar-notifications{
+  position: absolute;
+  width: 7px;
+  height:7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top:55%;
+  right:5px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  color:white;
+  
+  background-color: var(--accent-hover);
+}
+.notification-closed{
+  top:0;
+  right:0;
+  transform: translate(-100%,-50%);
+}
+
+@media(max-width:650px){
+  .notification-closed{
+    top:0;
+    right:0;
+    transform: translate(100%, 0);
+  }
 }

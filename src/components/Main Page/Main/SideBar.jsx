@@ -56,7 +56,7 @@ function SideBar({
           <p
             className={`${
               sideBarFull ? "side-bar-text" : "side-bar-small-text"
-            } ${screen650?"hidden-text":""}`}
+            } ${screen650 ? "hidden-text" : ""}`}
           >
             Home
           </p>
@@ -71,18 +71,20 @@ function SideBar({
             closeSmallScreenSideBar();
           }}
         >
-          <i
-            className={`fa-solid fa-user-group ${
-              sideBarFull || screen650 ? "icons" : "side-bar-closed-icons"
-            }`}
-          ></i>
+            <i
+              className={`fa-solid fa-user-group ${
+                sideBarFull || screen650 ? "icons" : "side-bar-closed-icons"
+              }`}
+            ></i>
           <p
             className={`${
               sideBarFull ? "side-bar-text" : "side-bar-small-text"
-            } ${screen650?"hidden-text":""}`}
+            } ${screen650 ? "hidden-text" : ""}`}
           >
             Friends
           </p>
+          {user.friendRequestsReceived.length!==0?<span className={`side-bar-notifications ${!sideBarFull?"notification-closed":''}`}></span>:''}
+
         </div>
 
         <div
@@ -100,9 +102,9 @@ function SideBar({
             }`}
           ></i>
           <p
-           className={`${
-            sideBarFull ? "side-bar-text" : "side-bar-small-text"
-          } ${screen650?"hidden-text":""}`}
+            className={`${
+              sideBarFull ? "side-bar-text" : "side-bar-small-text"
+            } ${screen650 ? "hidden-text" : ""}`}
           >
             Media
           </p>
@@ -125,7 +127,7 @@ function SideBar({
           <p
             className={`${
               sideBarFull ? "side-bar-text" : "side-bar-small-text"
-            } ${screen650?"hidden-text":""}`}
+            } ${screen650 ? "hidden-text" : ""}`}
           >
             Messages
           </p>
@@ -149,7 +151,7 @@ function SideBar({
             <p
               className={`${
                 sideBarFull ? "side-bar-text" : "side-bar-small-text"
-              } ${screen650?"hidden-text":""}`}
+              } ${screen650 ? "hidden-text" : ""}`}
             >
               Profile
             </p>
@@ -158,9 +160,9 @@ function SideBar({
       </div>
 
       <div
-        className={`sideBar-item ${
-          !sideBarFull ? "sideBar-item-closed" : ""
-        } ${screen650?"settings-small":''}`}
+        className={`sideBar-item ${!sideBarFull ? "sideBar-item-closed" : ""} ${
+          screen650 ? "settings-small" : ""
+        }`}
         onClick={() => navigate("/settings")}
       >
         <i
