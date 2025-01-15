@@ -62,7 +62,7 @@ function Main() {
   }, []);
   useEffect(()=>{
     if(sideBarFull){
-      document.documentElement.style.setProperty("--body-padding", "165px");
+      document.documentElement.style.setProperty("--body-padding", "160px");
     }
     else if(window.innerWidth>=650){
         document.documentElement.style.setProperty("--body-padding", "69.1px");

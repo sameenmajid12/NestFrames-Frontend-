@@ -356,7 +356,7 @@
   column-gap: 10px;
   border-radius: 20px;
   color: white;
-  font-size: 18px;
+  font-size: clamp(0.875rem,1.5vw, 1.125rem);
   max-width: 45%;
   word-wrap: break-word;
   word-break: break-word; 
@@ -392,7 +392,7 @@
 
 .senderMessage img,
 .receiverMessage img {
-  width: 36px;
+  width: clamp(1.9375rem,2.75vw,2.25rem);
   border-radius: 18px;
 }
 
@@ -401,11 +401,11 @@
 
 .marginedTextContainer{
   position: relative;
-  margin-left:46px;
+  margin-left:clamp(2.5625rem,3.35vw,2.875rem);
 }
 .senderMarginedTextContainer{
   position: relative;
-  margin-right: 46px;
+  margin-right: clamp(2.5625rem,3.35vw,2.875rem);
 }
 .userMessageSentUsername{
   color:var(--text-color);
@@ -417,7 +417,7 @@
 .receiverUsername, .senderUsername{
   position: absolute;
   color:rgba(0, 0, 0, 0.3);
-  font-size: 14px;
+  font-size: clamp(0.75rem,1vw,0.875rem);
   bottom:100%;
   text-wrap: nowrap;
 }
@@ -477,5 +477,19 @@
   }
   .messagesFriendsSelector{
     width: 100%;
+  }
+  .conversationContainer{
+    padding:0px;
+  }
+  .conversationMessagesContainer{
+    border-radius: 0;
+  }
+  .conversationHeader,.messageInputContainer{
+    padding-right:7px;
+    padding-left:7px;
+  }
+  .conversationHeader{
+    padding-top:10px;
+    padding-bottom: 5px;;
   }
 }
