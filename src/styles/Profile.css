@@ -1,6 +1,7 @@
 .profile-page-container{
   height: calc(100vh - var(--header-height));
   padding:clamp(2.75rem,3vw,3rem) clamp(1rem,3vw,2.75rem);
+  padding-bottom:0;
   overflow: hidden;
   display: flex;
   flex-direction: column;

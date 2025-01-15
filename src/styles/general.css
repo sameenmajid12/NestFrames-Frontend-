@@ -31,6 +31,18 @@ html, body {
     height: 100%;
     overflow-x: hidden;
 }
+body::-webkit-scrollbar{
+  width: 10px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 10px;
+}
 h1{
   color:var(--text-color);
 }
@@ -107,6 +119,93 @@ input{
   border:20px solid #0000000e;
   border-top:20px solid var(--accent-color);
   animation: spin 1.5s linear infinite;
+}
+.notification-container{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:10px;
+  top:100px;
+  right:0;
+  width: 250px;
+  height:50px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  background-color: black;
+  animation: slide 0.4s ease;
+  z-index: 1000;
+  box-shadow: 0px 8px 8px rgba(0,0,0,0.05);
+}
+
+.notification-success{
+  background-color: #E7EBD1;
+  border:1px solid #B9BCA7;
+}
+.notification-error{
+  background-color: #FEDDC7;
+  border:1px solid #CBB19F;
+}
+.notification-left{
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+.notification-left i{
+  font-size: 30px;
+}
+.notification-message{
+
+}
+.success-notification-message-head{
+  color:#5CD6A7;
+}
+.error-notification-message-head{
+  color:#F57969;
+}
+.error-notification-message-message{
+  font-size:12px;
+  color:#F89785;
+}
+.success-notification-message-message{
+  font-size:12px;
+  color:#5cd6a7c0;
+}
+.success-icon{
+  color:#5CD6A7;
+}
+.error-icon{
+  color: #F57969;
+}
+.notification-right{
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.success-right{
+  border-left:1px solid #B9BCA7
+}
+.error-right{
+  border-left:1px solid #CBB19F;
+}
+.success-xmark{
+  padding-left:10px; 
+  color:#5CD6A7;
+  cursor: pointer;
+}
+.error-xmark{
+  padding-left:10px;
+  color:#F57969;
+  cursor: pointer;
+}
+@keyframes slide{
+  0%{
+    transform: translateX(100%);
+
+  }
+  100%{
+    transform: translateX(0%);
+  }
 }
 @keyframes shimmer{
   0%{

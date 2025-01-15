@@ -227,6 +227,6 @@
 }
 @media(max-width:650px){
   .album-page-container{
-    padding-bottom:calc(62px + clamp(1rem,3.5vw,3rem))
+    padding-bottom:calc(var(--small-side-bar-padding) + clamp(1rem,3.5vw,3rem))
   }
 }

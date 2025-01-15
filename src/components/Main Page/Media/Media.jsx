@@ -3,9 +3,10 @@ import '../../../styles/media.css'
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import Search from '../Main/Search';
+import { NotificationContext } from '../../NotificationContext';
 function Media(){
   const { user } = useContext(UserContext)
-
+  const { addNotification } = useContext(NotificationContext);
   const [photos, setPhotos] = useState([]);
   const [albums, setAlbums] = useState(user.albums);
   const [requests, setRequests] = useState(user.albumRequests);

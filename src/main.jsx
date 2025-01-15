@@ -33,6 +33,7 @@ import Posts from "./components/Main Page/Home/Posts.jsx";
 import { UserProvider } from "./components/UserContext.jsx";
 import { AuthProvider } from "./components/AuthContext.jsx";
 import { SocketProvider } from "./components/SocketContext.jsx";
+import { NotificationProvider } from "./components/NotificationContext.jsx";
 import FriendRequests from "./components/Main Page/Friends/FriendRequests.jsx";
 import Conversation from "./components/Main Page/Messages/Conversation.jsx";
 import FriendsSuggested from "./components/Main Page/Friends/FriendsSuggested.jsx";
@@ -170,7 +171,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <UserProvider>
     <SocketProvider>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <NotificationProvider>
+          <RouterProvider router={router} />
+        </NotificationProvider>
       </AuthProvider>
     </SocketProvider>
   </UserProvider>

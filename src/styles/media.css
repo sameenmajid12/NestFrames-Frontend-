@@ -718,6 +718,11 @@
     column-count: 2;
   }
 }
+@media(max-width:650px){
+  .gallery-page-container{
+    padding-bottom:var(--small-side-bar-padding);
+  }
+}
 @media(max-width:500px){
   .profile-albums-container{
     column-count: 2;
