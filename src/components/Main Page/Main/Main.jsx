@@ -86,7 +86,6 @@ function Main() {
   },[screen650])
   useEffect(() => {
     let timeoutId = null;
-    console.log("refreshed");
     async function updateOnRefresh() {
       try {
         let currentToken = token;
@@ -112,11 +111,9 @@ function Main() {
 
           const userUpdates = await response.json();
           setUser(userUpdates);
-          console.log(userUpdates);
           localStorage.setItem("user", JSON.stringify(userUpdates));
           setLoadingUser(false);
         } else {
-          console.log("signed out");
           navigate("/Sign-in");
         }
       } catch (error) {
@@ -139,7 +136,6 @@ function Main() {
   useEffect(() => {
     if (!user && !loadingUser) {
       navigate("/sign-in");
-      console.log("signed out through use effect");
     }
   }, [user, navigate]);
   if (isLoading) {

@@ -9,7 +9,6 @@ function SideBar({
   smallSideBarFull,
   setSmallSideBarFull,
 }) {
-  console.log(sideBarFull);
   const [active, setActive] = useState("");
   const { user } = useContext(UserContext);
   const location = useLocation();

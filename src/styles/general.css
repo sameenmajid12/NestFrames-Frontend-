@@ -1,5 +1,6 @@
 :root{
   --body-padding:165px;
+  --small-side-bar-padding:62px;
   --text-color:#114085;
   --text-hover:#113f85cb;
   --accent-color:#FFB74D;
@@ -9,7 +10,6 @@
   --border-color:#d3cdc2;
   --input-text:#3D3D3D;
   --header-height:clamp(calc(0.8rem + 40px),7.25vw,calc(1.25rem + 45px));
-  --messagesFriendsSelector-width: 330px; 
 }
 @font-face {
   font-family: 'itim';

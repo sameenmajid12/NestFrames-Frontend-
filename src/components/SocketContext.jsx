@@ -11,7 +11,6 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     const newSocket = io(`http://localhost:3002`);
     setSocket(newSocket);
-    console.log(newSocket);
     return () => {
       newSocket.emit("removeUser", user.username);
       newSocket.disconnect();
@@ -19,7 +18,6 @@ export const SocketProvider = ({ children }) => {
   }, []);
   useEffect(() => {
     if (user && socket) {
-      console.log(`Registering user: ${user.username}`);  
       socket.emit("registerUser", user.username);
     }
   }, [user, socket]);
