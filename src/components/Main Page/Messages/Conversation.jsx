@@ -5,14 +5,16 @@ import { useEffect } from "react";
 function Conversation() {
   const [loaded, setLoaded] = useState(false);
   const [message, setMessage] = useState("");
-  
+
   const inputRef = useRef(null);
   const {
     conversation,
+    setConversation,
+    screen1000,
     socketConnection,
     user,
     conversationContainer,
-    scrollToBottom
+    scrollToBottom,
   } = useOutletContext();
   const [messageList, setMessageList] = useState([]);
   useEffect(() => {
@@ -21,13 +23,12 @@ function Conversation() {
       setMessageList(conversation.messages);
     }
 
-    return () => {
-    };
+    return () => {};
   }, [conversation]);
-  
+
   useEffect(() => {
-      scrollToBottom();
-    },[conversation]);
+    scrollToBottom();
+  }, [conversation]);
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -87,7 +88,11 @@ function Conversation() {
   return loaded ? (
     <div className={MessagesCSS.conversationContainer}>
       <div className={MessagesCSS.conversationHeader}>
-        {receiverName}
+        <div>
+          {screen1000 ? <i onClick={()=>setConversation(null)}class="fa-solid fa-circle-chevron-left"></i> : ""}
+          {receiverName}
+        </div>
+
         <i className="fa-solid fa-ellipsis"></i>
       </div>
       <div

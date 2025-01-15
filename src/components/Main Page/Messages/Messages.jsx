@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useOutlet, useOutletContext } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import MessagesCSS from "../../../styles/messages.module.css";
 import SelectorList from "../Main/SelectorList";
@@ -12,6 +12,7 @@ function Messages() {
   const [friendListVisibility, setFriendListVisibility] = useState(false);
   const conversationContainer = useRef(null);
   const { user } = useContext(UserContext);
+  const { screen1000 } = useOutletContext();
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
@@ -168,15 +169,15 @@ function Messages() {
     setFriendListVisibility(false);
   };
   const formatMessage = (message) => {
-    if (message.length > 30) {
-      return message.substring(0, 30) + "...";
+    if (message.length > 20) {
+      return message.substring(0, 20) + "...";
     }
     return message;
   };
   return (
     <>
       <div className={MessagesCSS.messagesPageContainer}>
-        <div className={MessagesCSS.messagesFriendsSelector}>
+        {!screen1000||!activeConversation?<div className={MessagesCSS.messagesFriendsSelector}>
           <div className={MessagesCSS.messagesHeaderContainer}>
             <div className={MessagesCSS.messagesFriendsHeader}>
               <h1>Messages</h1>
@@ -269,10 +270,11 @@ function Messages() {
           <div className={MessagesCSS.addMoreMessages}>
             <i className="fa-solid fa-circle-plus"></i>
           </div>
-        </div>
+        </div>:""}
         {activeConversation ? (
           <Outlet
             context={{
+              screen1000:screen1000,
               conversation: activeConversation,
               setConversation: setActiveConversation,
               socketConnection: socket,
