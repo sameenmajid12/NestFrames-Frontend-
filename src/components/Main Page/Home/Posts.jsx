@@ -1,82 +1,94 @@
-function Posts(){
-  const posts = [
-    {
-      profileUsername:'@kristinagutierrez',
-      profileImg:'./assets/kristina.jpg',
-      imgSrc:'./assets/Screenshot 2024-07-31 025753.png',
-      postType:'addedToAlbum',
-      postedByFriend:true,
-      reactions:[{
-        reactUser:'@athenaesposito',
-        reactionType:'love',
-        reactionComment:'Very cool Post',
-        reactionTime:new Date()
-      }]
+import { useContext } from "react";
+import { useOutletContext } from "react-router-dom";
+import { UserContext } from "../../UserContext";
+function Posts() {
+  const { user } = useContext(UserContext);
+  const { posts } = useOutletContext();
+  const isUser = (profile) => {
+    return profile.username === user.username;
+  };
+  const isFriend = (profile) => {
+    return user.friends.some((friend) => friend.username === profile.username);
+  };
+  const isPending = () => {
+    return user.friendRequestsSent.some(
+      (request) => request.username === profile.username
+    );
+  };
 
-    },{
-      profileUsername:'@saragallo26',
-      profileImg:'./assets/kristina.jpg',
-      postType:'createdAlbum',
-      imgSrc:'./assets/Screenshot 2024-07-31 025724.png',
-      postedByFriend:false,
-      reactions:[{
-        reactUser:'@athenaesposito',
-        reactionType:'love',
-        reactionComment:'Very cool Post',
-        reactionTime:new Date()
-      }]
-
-    }
-
-  ]
-  const postComponent = posts.map((post,index)=>{
-    return(<div key={index} className="posts">
-      <div className="post-header">
-        <div className="post-header-details">
-          <img className="user-picture" src={post.profileImg}></img>
-          <div className="">
-            <p className="user-username">{post.profileUsername}</p>
-            {post.postType==='addedToAlbum'?<p>Added a photo to <span className="album-name">Summer 2024</span></p>:<p>Created a new Album <span className="album-name"> Summer 2024</span></p>}
-          </div>
-        </div>  
-        <div className="post-header-right">
-          {post.postedByFriend?<button className="posted-by-friend">Friend</button>:<button className="not-posted-by-friend">Add</button>}
-          <div className="ellipsis">
-            <i className="fa-solid fa-ellipsis  fa-xl" style={{color:"#444"}}></i>
-          </div>
-          
-        </div>
-      </div>
-      <div className="post-content">
-        <div className="post-image">
-          <img src={post.imgSrc}></img>
-          <div className="post-interaction-container">
-            <div className="post-interaction">
-              <i className="fa-solid fa-heart fa-xl" style={{color:"white"}}></i>
-              <p>React</p>
+  return (
+    
+      posts.map((post, index) => {
+        return (
+          <div key={index} className="posts">
+            <div className="post-header">
+              <div className="post-header-details">
+                <img
+                  className="user-picture"
+                  src={post.postedBy.profilePic?post.postedBy.profilePic.fileUrl:'/assets/default-avatar.png'}
+                ></img>
+                <div className="">
+                  <p className="user-username">{post.postedBy.username}</p>
+                  {post.postType === "addedToAlbum" ? (
+                    <p className="post-header-type">
+                      Added a photo to{" "}
+                      <span className="album-name">
+                        {post.album ? post.album : ""}
+                      </span>
+                    </p>
+                  ) : (
+                    <p className="post-header-type">
+                      Created a new Album{" "}
+                      <span className="album-name"> Summer 2024</span>
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="post-header-right">
+                <button className="post-button">
+                  {isFriend(post.postedBy) ? (
+                    <>
+                      Friend{" "}
+                      <i className="fa-solid fa-caret-down friend-chevron"></i>
+                    </>
+                  ) : (
+                    "Add"
+                  )}{" "}
+                </button>
+                <div className="ellipsis">
+                  <i
+                    className="fa-solid fa-ellipsis  fa-xl"
+                    style={{ color: "#444" }}
+                  ></i>
+                </div>
+              </div>
             </div>
-            <div className="post-interaction">
-              <i className="fa-solid fa-comment fa-xl" style={{color: "#ffffff"}}></i>
-              <p>Comment</p>
-            </div>
-            <div className="post-interaction">
-              <i className="fa-solid fa-arrow-up-from-bracket fa-xl" style={{color: "#ffffff"}}></i>
-              <p>Share</p>
-            </div>
-            
-            
-          </div>
-        </div>
-      </div>
-      <div className="post-reactions">
+            <div className="post-caption">{post.caption}</div>
+            <div className="post-content">
+              <div className="post-image">
+                <img src={post.photo.fileUrl}></img>
+              </div>
+              <div className="post-interaction-container">
+                <div className="post-interactions-left">
+                  <div className="post-interaction">
+                    <i className="fa-regular fa-heart fa-xl"></i>
+                    <p>{post.likes}</p>
+                  </div>
+                  <div className="post-interaction">
+                    <i className="fa-regular fa-comment fa-xl"></i>
+                    <p>4</p>
+                  </div>
+                </div>
 
-        </div>
-        <hr></hr>
-    </div>)
-  });
-  return(
-    <div>{postComponent}</div>
-  )
+                <div className="post-interaction">
+                  <i className="fa-regular fa-bookmark"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })
+  );
 }
 
 export default Posts;

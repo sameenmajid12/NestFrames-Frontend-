@@ -1,31 +1,92 @@
 import { Outlet } from "react-router-dom";
-import '../../../styles/home.css'
-import { useEffect,useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import "../../../styles/home.css";
+import { useEffect, useContext, useState, useRef } from "react";
 import { UserContext } from "../../UserContext";
-function Home(){
-  const {user} = useContext(UserContext);
-  const navigate=useNavigate();
-  useEffect(()=>{
-    document.body.className = 'body-home';
-    return ()=>{
-      document.body.className = '';
+import { AuthContext } from "../../AuthContext";
+import InfiniteScroll from "react-infinite-scroll-component";
+function Home() {
+  const { user } = useContext(UserContext);
+  const { token } = useContext(AuthContext);
+  const containerRef = useRef(null);
+  const [posts, setPosts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(0);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    document.body.className = "body-home";
+    return () => {
+      document.body.className = "";
+    };
+  }, []);
+  useEffect(() => {
+    getPosts();
+  }, [user, page]);
+
+  const getPosts = async () => {
+    try {
+      if (loading) {
+        return;
+      }
+      setLoading(true);
+      console.log("getting posts");
+      const limit = 5;
+      const skip = page * 5;
+      const response = await fetch(
+        `http://localhost:3002/users/${user.username}/getPosts?skip=${skip}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setPosts((prev) => [...prev, ...data.posts]);
+        setHasMore(data.hasMore);
+        setInitialLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-  },[])
- 
- 
-  return(
-    <div className="home-page-container">
-        <div className="post-container">
-          <Outlet/>
-          
-        </div>
+  };
+  useEffect(() => {
+    if (!initialLoading && containerRef.current) {
+      document.body.addEventListener("scroll", handleScroll);
+    }
+  }, [containerRef, initialLoading]);
+  const handleScroll = () => {
+    if (
+      document.body.scrollTop + document.body.clientHeight >=
+      document.body.scrollHeight
+    ) {
+      setPage((prev) => prev + 1);
+    }
+  };
+  if (initialLoading) return;
+  return (
+    <div className="home-page-container" ref={containerRef}>
+      <InfiniteScroll
+        className="post-container"
+        dataLength={posts.length}
+        hasMore={hasMore}
+        loader={<div className="post-loader-container"><div className="post-loader"></div></div>}
+        endMessage={<div className="post-end-container"><img src="/assets/panda.png"></img><p>You’ve scrolled to the bottom! Make some posts to fill up the feed!</p></div>}
+        scrollThreshold={0.9}
+      >
+        <Outlet
+          context={{ posts: posts, hasMore: hasMore, setPage: setPage }}
+        />
+      </InfiniteScroll>
       <div className="home-side-container">
-        <h1 className="home-side-header">Popular Events</h1>
+        <div className="popular-albums">
+          <h1 className="home-side-header">Popular Albums</h1>
+        </div>
       </div>
     </div>
-    
-  )
+  );
 }
 
 export default Home;

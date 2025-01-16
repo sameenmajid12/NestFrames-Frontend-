@@ -1,38 +1,56 @@
 .home-page-container{
+  position: relative;
   display: flex;
   column-gap: 40px;
   color:var(--text-color);
-  width: 700px;
+  width: clamp( 28rem,35vw,35rem);
+  
 }
 
 .posts{
   display: flex;
   flex-direction:column ;
   row-gap: 10px;
-  padding:10px 40px;
+  padding:20px;
+  padding-bottom:15px;
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.15);
+  border-radius: 15px;
 }
 .post-container{
+  position: relative;
   box-sizing: border-box;
-  border-left: 1px solid #dfd0bb;
-  border-right: 1px solid #dfd0bb;
   width:100%;
   display: flex;
   flex-direction: column;
+  row-gap: 15px;
+  overflow: visible;
+  border-radius: 15px;
+  padding:8px;
+}
+.post-container:first-child{
+  margin-top:15px;
 }
 .home-side-container{
-  width:300px;
+  width:clamp(15rem,17vw,18.75rem);
   height:450px;
   background-color: #fff5e5;
-  position: fixed;
-  right: 180px;
-  top:102px;
+  position: absolute;
+  right: 0;
+  transform: translateX(calc(100% + 20px));
+  top:15px;
   padding:20px 20px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.507);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   border-radius:10px;
+}
+.popular-albums{
+  position: fixed;
+  width:100%;
+  height:100%;
 }
 .home-side-header{
   text-wrap: nowrap;
-  font-size:35px;
+  font-size:clamp(1rem,1.8vw,1.5rem);
+  color:rgba(0,0,0,0.5);
 }
 
 .post-header{
@@ -46,51 +64,55 @@
   column-gap:10px ;
 }
 .user-picture{
-  width: 75px;
+  width: 40px;
   border-radius: 40px;
 }
 .user-username{
   margin:0;
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 400;
 }
 .post-header-type{
   color:#113f85be;
-  font-size:17px;
+  font-size:14px;
 }
 .post-header-right{
   display: flex;
   align-items: center;
-  column-gap: 10px;
+  column-gap: 5px;
 }
 .posts-horizontal-dots{
   rotate: 90deg;
   color:rgb(54, 54, 54)
 }
-.posted-by-friend{
-  background-color: #4A90E2;
-  border:none;
-  color:White;
-  width:90px;
-  height:30px;
-  border-radius: 15px;
-  font-family: 'Itim';
-  font-size:16px;
-}
-.not-posted-by-friend{
-  width: 90px;
-  height:30px;
+.post-button{
+  position: relative;
+  padding: 6px 25px;
   background-color: var(--accent-color);
   border:none;
   border-radius: 15px;
   color:white;
   font-family: 'Itim';
-  font-size:16px;
+  font-size:12px;
+  font-weight:200;
+  cursor: pointer;
+}
+.friend-chevron{
+  font-size:12px;
+}
+.post-button:hover{
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+  background-color: var(--accent-hover);
+}
+.post-caption{
+  color:var(--text-hover);
+  font-size: 14px;
+  margin-top:-6px;
 }
 .post-content{
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
 }
 .post-image img{
   border-radius: 10px;
@@ -99,7 +121,6 @@
   display: block;
 }
 .post-image{
-  position: relative;
   display: block;  
   cursor: pointer;
 
@@ -108,24 +129,19 @@
   box-sizing: border-box;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  z-index: 111;
-  background-color: rgba(0, 0, 0, 0.507);
-  padding:20px 20px;
-  position:absolute;
-  bottom:-61px;
-  left:0;
-  right:0;
   display: flex;
-  justify-content: space-around;
-  transition: all 0.25s ease;
+  justify-content: space-between;
+  color:rgba(0,0,0,0.5);
+  font-size:20px;
 }
-
-.post-image:hover .post-interaction-container{
-  bottom:0;
-  
+.post-interactions-left{
+  display: flex;
+  column-gap: 15px;
+  font-size:16px
 }
 
 .ellipsis{
+  font-size:12px;
   padding:7px;
   border-radius:50px;
   cursor: pointer;
@@ -140,11 +156,44 @@
 }
 
 .post-interaction{
-  box-sizing: border-box;
   display: flex;
   align-items: center;
-  column-gap: 10px;
+  column-gap: 5px;
 }
 .post-interaction p{
-  color:white;
+  font-size:14px;
+}
+
+.post-loader-container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.post-loader{
+  width: 35px;
+  height: 35px;
+  border: 4px solid rgba(0,0,0,0.1);
+  border-top:4px solid var(--accent-color);
+  border-radius: 30px;
+  animation:spin 0.7s linear infinite 
+}
+.post-end-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  font-size: 14px;
+  color:rgba(0,0,0,0.5);
+}
+.post-end-container img{
+  width: 30px;
+  animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+  0%{
+    transform: rotate(0%);
+  }
+  100%{
+    transform: rotate(100%);
+  }
 }
