@@ -31,7 +31,7 @@ function AddPfp({ setVisibility, setProfile }) {
       const formData = new FormData();
       formData.append('file', imageFile);
       formData.append('userId',user._id);
-      const response = await fetch('http://localhost:3002/photos/uploadProfilePic',{
+      const response = await fetch('http://localhost:3002/posts/uploadProfilePic',{
         method:'Post',
         body:formData
       });

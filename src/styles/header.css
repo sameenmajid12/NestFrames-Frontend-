@@ -36,14 +36,14 @@
   border:none;
   border-radius: 50px;
   background-color: #faf4ea;
-  box-shadow: 0 0 2px black;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
   padding-left: clamp(2.125rem, 4vw, 2.5rem);
   transition:all 0.1s ease;
+  color:rgba(0,0,0,0.7)
 }
 
 .input-bar:focus{
-  background-color: #ece5d7;
-  outline:none;
+  outline:1px solid rgba(0, 0, 0, 0.2);
 }
 
 .search-icon{
@@ -51,7 +51,7 @@
   top:50%;
   transform: translateY(-50%);
   left:clamp(0.75rem,2vw,1rem);
-  color:#3d3d3d;
+  color:rgba(0, 0, 0, 0.6);
 }
 
 

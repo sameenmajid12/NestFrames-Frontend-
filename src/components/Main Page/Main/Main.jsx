@@ -19,6 +19,7 @@ function Main() {
   const [screen1000, setScreen1000] = useState(window.innerWidth<=1000);
   const [screen425, setScreen425] = useState(window.innerWidth<=425);
   const [screen650, setScreen650] = useState(window.innerWidth<=650);
+  
   useEffect(() => {
     let resizeTimeout;
     const handleResize = () => {

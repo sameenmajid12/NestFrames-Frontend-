@@ -36,6 +36,7 @@ function CreatePostBody({file,onConfirm, setFilePresent, setVisibility}) {
           caption:caption,
           postedBy:user._id,
           privacy:!isPublic,
+          timestamp:Date.now(),
           photo:file
         }
         onConfirm(post);

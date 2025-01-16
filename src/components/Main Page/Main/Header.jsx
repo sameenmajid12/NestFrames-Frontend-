@@ -26,7 +26,6 @@ function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmal
       setDropDownVisible(false);
     }
   };
-
   useEffect(() => {
     document.body.addEventListener("mousedown", handleVisibility);
     return () => {
