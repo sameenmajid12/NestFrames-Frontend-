@@ -94,6 +94,16 @@
 .activeConversation{
   background-color: rgba(0,0,0,0.05);
 }
+.unreadMessage{
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 20px;
+  right:20px;
+  top:50%;
+  transform: translateY(-50%);
+  color:var(--accent-hover)
+}
 .activeLine{
   visibility: hidden;
   position: absolute;
@@ -136,7 +146,7 @@
   position: absolute;
   font-size:clamp(0.875rem,1.5vw,1rem);
   color:#113f859c;
-  top:20px;
+  top:15px;
   right:15px;
 }
 .activeConversation .messageTime{
