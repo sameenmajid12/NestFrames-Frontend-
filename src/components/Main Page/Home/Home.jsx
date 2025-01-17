@@ -4,6 +4,8 @@ import { useEffect, useContext, useState, useRef } from "react";
 import { UserContext } from "../../UserContext";
 import { AuthContext } from "../../AuthContext";
 import InfiniteScroll from "react-infinite-scroll-component";
+import PopularAlbums from "./PopularAlbums";
+import FindFriends from "./FindFriends";
 function Home() {
   const { user } = useContext(UserContext);
   const { token } = useContext(AuthContext);
@@ -68,6 +70,7 @@ function Home() {
   if (initialLoading) return;
   return (
     <div className="home-page-container" ref={containerRef}>
+      <FindFriends/>
       <InfiniteScroll
         className="post-container"
         dataLength={posts.length}
@@ -80,11 +83,7 @@ function Home() {
           context={{ posts: posts, hasMore: hasMore, setPage: setPage }}
         />
       </InfiniteScroll>
-      <div className="home-side-container">
-        <div className="popular-albums">
-          <h1 className="home-side-header">Popular Albums</h1>
-        </div>
-      </div>
+      <PopularAlbums/>
     </div>
   );
 }

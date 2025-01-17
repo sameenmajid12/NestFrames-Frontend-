@@ -28,7 +28,7 @@ function Posts() {
                   src={post.postedBy.profilePic?post.postedBy.profilePic.fileUrl:'/assets/default-avatar.png'}
                 ></img>
                 <div className="">
-                  <p className="user-username">{post.postedBy.username}</p>
+                  <p className="user-username">{post.postedBy.fullname}</p>
                   {post.postType === "addedToAlbum" ? (
                     <p className="post-header-type">
                       Added a photo to{" "}
