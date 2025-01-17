@@ -6,11 +6,15 @@ import { AuthContext } from "../../AuthContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PopularAlbums from "./PopularAlbums";
 import FindFriends from "./FindFriends";
+import {NotificationContext} from '../../NotificationContext';
 function Home() {
   const { user } = useContext(UserContext);
   const { token } = useContext(AuthContext);
+  const {addNotification} = useContext(NotificationContext);
   const containerRef = useRef(null);
   const [posts, setPosts] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [friends, setFriends] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -24,7 +28,46 @@ function Home() {
   useEffect(() => {
     getPosts();
   }, [user, page]);
+  useEffect(()=>{
+    getPopularAlbums();
+    getSuggestedFriends();
+  },[])
+  const getPopularAlbums = async()=>{
+      try{
+        const response = await fetch("http://localhost:3002/albums/get/popular");
+        if(response.ok){
+          const data = await response.json();
+          setAlbums(data.albums);
+        }
+        else{
+          addNotification(false, data.message);
+          console.log(data.message);
+        }
+      }
+      catch(error){
 
+      }
+  }
+  const getSuggestedFriends = async()=>{
+    try{
+      const response = await fetch(`http://localhost:3002/users/${user._id}/findFriends`,{
+        headers:{
+          "Authorization":`Bearer ${token}`
+        }
+      });
+      if(response.ok){
+        const data = await response.json();
+        console.log(data);
+        setFriends(data.friends);
+      }
+      else{
+        addNotification(false, data.message);
+        console.log(data.message);
+      }
+    }
+    catch(error){
+    }
+  }
   const getPosts = async () => {
     try {
       if (loading) {
@@ -70,7 +113,7 @@ function Home() {
   if (initialLoading) return;
   return (
     <div className="home-page-container" ref={containerRef}>
-      <FindFriends/>
+      {posts && friends && albums?<><FindFriends friends={friends}/>
       <InfiniteScroll
         className="post-container"
         dataLength={posts.length}
@@ -83,7 +126,8 @@ function Home() {
           context={{ posts: posts, hasMore: hasMore, setPage: setPage }}
         />
       </InfiniteScroll>
-      <PopularAlbums/>
+      <PopularAlbums albums={albums}/>
+    </>:''}
     </div>
   );
 }

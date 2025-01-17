@@ -1,7 +1,7 @@
 .home-page-container{
   position: relative;
   display: flex;
-  column-gap: 20px;
+  column-gap: 10px;
   color:var(--text-color);
   
 }
@@ -29,26 +29,122 @@
 .post-container:first-child{
   margin-top:15px;
 }
-.home-side-container{
-  width:clamp(15rem, 18vw, 18.75rem);
-  height:450px;
-  background-color: #fff5e5;
+.find-friends-container, .popular-albums-container{
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  background-color: var(--background-color);
   position: sticky;
   top:23px;
-  padding:10px 20px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  border-radius:10px;
+  border-radius:15px;
 }
-.home-side-container h1{
-  font-size:1.25rem;
+.find-friends-header, .popular-albums-header{
+  font-size:1rem;
   font-weight: 200;
+  padding:10px 15px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
 }
-.home-side-header{
-  text-wrap: nowrap;
-  font-size:clamp(1rem,1.8vw,1.5rem);
-  color:rgba(0,0,0,0.5);
+.popular-albums-container{
+  width:clamp(13rem, 16vw, 15.625rem);
+}
+.find-friends-container{
+  width: clamp(13rem, 16vw, 15.625rem);
+}
+.find-friends-body{
+  display: flex;
+  flex-direction: column;
+}
+.find-friend{
+  padding:10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
 }
 
+.find-friend:last-child{
+  border-bottom: none;
+  padding-bottom:15px;
+}
+.find-friend:first-child{
+  padding-top:15px;
+}
+.find-friend-details{
+  display: flex;
+  column-gap: 3px;
+  align-items: center;
+}
+.find-friend-image{
+  width:30px;
+  height:30px;
+  border-radius: 20px;
+}
+.find-friend-name h3{
+  font-size: 0.875rem;
+  font-weight: 200;
+}
+.find-friend-name p{
+  font-size:0.75rem;
+  color:var(--text-hover);
+}
+.find-friend-add{
+  width:50px;
+  height: 25px;
+  border-radius: 20px;
+  font-size:0.75rem;
+  color:white;
+  border:none;
+  background-color: var(--accent-color);
+  cursor: pointer;
+}
+.find-friend-add:hover{
+  background-color: var(--accent-hover);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
+.popular-albums-body{
+  display: flex;
+  flex-direction: column;
+}
+.popular-album:last-child{
+  border-bottom:none;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+.popular-album{
+  padding:15px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+.popular-album:hover{
+  background-color: rgba(0, 0, 0, 0.03);
+}
+.popular-album-details{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.popular-album-name{
+  font-size: 0.875rem;
+  font-weight: 200;
+}
+.popular-album-stats-container{
+  display: flex;
+  column-gap: 5px;
+}
+.popular-album-stat{
+  font-size: 0.625rem;
+  color:var(--text-hover);
+}
+
+.popular-album-cover{
+  max-height:35px;
+  border-radius: 5px;
+}
 .post-header{
   display: flex;
   align-items: center;
