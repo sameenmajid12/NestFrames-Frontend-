@@ -11,6 +11,7 @@
   --input-text:#3D3D3D;
   --header-height:clamp(calc(0.8rem + 40px),7.25vw,calc(1.25rem + 45px));
 }
+
 @font-face {
   font-family: 'itim';
   src: url('/Itim-Regular.woff') format('woff');
@@ -30,6 +31,7 @@ html, body {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
+    
 }
 body::-webkit-scrollbar{
   width: 7px;
@@ -127,9 +129,9 @@ input{
   align-items: center;
   justify-content: space-between;
   padding:10px;
-  top:100px;
+  top:80px;
   right:0;
-  width: 250px;
+  width: clamp(14rem,20vw,15.625rem);
   height:50px;
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
@@ -141,11 +143,11 @@ input{
 
 .notification-success{
   background-color: #E7EBD1;
-  border:1px solid #B9BCA7;
+  border:1px solid #b9bca750;
 }
 .notification-error{
   background-color: #FEDDC7;
-  border:1px solid #CBB19F;
+  border:1px solid #cbb19f65;
 }
 .notification-left{
   display: flex;
@@ -159,17 +161,19 @@ input{
 
 }
 .success-notification-message-head{
+  font-size:clamp(0.875rem,0.75vw,1rem);
+
   color:#5CD6A7;
 }
 .error-notification-message-head{
   color:#F57969;
 }
 .error-notification-message-message{
-  font-size:12px;
+  font-size:clamp(0.5rem,0.75vw,0.75rem);
   color:#F89785;
 }
 .success-notification-message-message{
-  font-size:12px;
+  font-size:clamp(0.625rem,1vw,0.75rem);
   color:#5cd6a7c0;
 }
 .success-icon{

@@ -25,17 +25,20 @@ function Search({ setAlbums, setFriends, selector }) {
     const searchArr = () => {
       if (search.trim().length > 0) {
         const regex = new RegExp(search, "i");
-        if(selector==="album"){
-          const filtered = user.albums.filter((album) => regex.test(album.name));
+        if (selector === "album") {
+          const filtered = user.albums.filter((album) =>
+            regex.test(album.name)
+          );
           setAlbums(filtered);
           console.log(filtered);
-        }
-        else{
-          const filtered = user.friends.filter((friend) => regex.test(friend.fullname) || regex.test(friend.username));
+        } else {
+          const filtered = user.friends.filter(
+            (friend) =>
+              regex.test(friend.fullname) || regex.test(friend.username)
+          );
           setFriends(filtered);
         }
-      }
-       else {
+      } else {
         selector === "album"
           ? setAlbums(user.albums)
           : setFriends(user.friends);
@@ -55,6 +58,7 @@ function Search({ setAlbums, setFriends, selector }) {
         <i className="fa-solid fa-magnifying-glass"></i>
       </div>
       <input
+        autocomplete="off"
         id="friendAlbumSearchInput"
         ref={inputRef}
         disabled={!isOpen}

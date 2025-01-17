@@ -16,7 +16,7 @@ export const NotificationProvider = ({ children }) => {
 
     timeoutId = setTimeout(() => {
       setNotifications((prev) => prev.slice(1));
-    }, 10000);
+    }, 1000000);
   };
 
   useEffect(() => {
