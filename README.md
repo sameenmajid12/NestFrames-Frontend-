@@ -10,7 +10,7 @@ NestFrames is a social media web app focused on collaborative group albums, wher
 ## Tech Stack
 - **Frontend**: ReactJS with React Context for global state management and CSS with responsive design
 - **Backend**:Communicates with a REST API powered by Express.js
-- **Database**: MongoDB (for storing user data, posts, albums, etc.)
+- **Database**: MongoDB for storing user data, posts, albums, and more.
 - **Websockets**: Socket.io for real-time messaging and notifications
 ## Responsive Design
 The app features a fully responsive design, leveraging media queries and CSS techniques like clamp() to dynamically adjust the layout and content, ensuring an optimal user experience across various screen sizes and devices.
