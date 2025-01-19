@@ -56,7 +56,6 @@ function Messages() {
     const addToMessageList = (message, conversation) => {
       if (message.text.length < 600) {
         if (conversation) {
-          // Update active conversation
           if (activeConversation?._id === conversation._id) {
             setActiveConversation((prev) => ({
               ...prev,
@@ -64,17 +63,12 @@ function Messages() {
             }));
           }
 
-          // Update message threads
           setMessageThreads((prevThreads) => {
-            let conversationIndex;
-            const newThreads = prevThreads.map((thread, index) => {
-              if (thread._id === conversation._id) {
-                conversationIndex = index;
-                return { ...thread, messages: [...thread.messages, message] };
-              }
-              return thread;
-            });
-
+            const conversationIndex = prevThreads.findIndex(
+              (thread) => thread._id === conversation._id
+            );
+            console.log(conversationIndex);
+            let newThreads = prevThreads;
             if (conversationIndex !== undefined) {
               const firstThread = newThreads[0];
               if (firstThread._id !== conversation._id) {
@@ -97,7 +91,7 @@ function Messages() {
       socket.off("messageSent", addToMessageList);
       socket.off("messageReceived", addToMessageList);
     };
-  }, [socket, messageThreads, activeConversation]); // Add dependencies
+  }, [socket, messageThreads, activeConversation]);
 
   const scrollToBottom = () => {
     if (conversationContainer.current) {
@@ -188,16 +182,27 @@ function Messages() {
     if (!conversation.messages || conversation.messages.length === 0) {
       return null;
     }
-    let index = conversation.messages.length-1;
-    while(index>=0){
-      if(conversation.messages[index].sentBy!==user._id){
-        console.log(conversation.messages[index].read);
-        return conversation.messages[index].read;
+    let index = conversation.messages.length - 1;
+    while (index >= 0) {
+      if (conversation.messages[index].sentBy !== user._id) {
+        return conversation.messages[index];
       }
       index--;
     }
     return null;
   };
+  useEffect(() => {
+    if(messageThreads && activeConversation){
+      setMessageThreads((prev) =>
+        prev.map((conversation) => {
+          return conversation._id === activeConversation._id
+            ? activeConversation
+            : conversation;
+        })
+      );
+    }
+   
+  }, [activeConversation]);
   return (
     <>
       <div className={MessagesCSS.messagesPageContainer}>
@@ -227,71 +232,84 @@ function Messages() {
               id="conversationsContainer"
               className={MessagesCSS.messageThreadsContainer}
             >
-              {messageThreads.map((conversation) => (
-                <div
-                  onClick={() => {
-                    navigate(`/Messages/${conversation._id}`);
-                    setActiveConversation(conversation);
-                  }}
-                  key={conversation._id}
-                  className={`${MessagesCSS.threads} ${
-                    activeConversation
-                      ? activeConversation._id === conversation._id
-                        ? MessagesCSS.activeConversation
+              {messageThreads.map((conversation) => {
+                const lastUnreadMessage = checkRead(conversation);
+                return (
+                  <div
+                    onClick={() => {
+                      navigate(`/Messages/${conversation._id}`);
+                      setActiveConversation(conversation);
+                    }}
+                    key={conversation._id}
+                    className={`${MessagesCSS.threads} ${
+                      activeConversation
+                        ? activeConversation._id === conversation._id
+                          ? MessagesCSS.activeConversation
+                          : ""
                         : ""
-                      : ""
-                  }`}
-                >
-                  {checkRead(conversation)===false?<i class={`fa-solid fa-circle-dot ${MessagesCSS.unreadMessage}`}></i>:''}
-                  <div className={MessagesCSS.activeLine}></div>
-                  <div className={MessagesCSS.threadReceiverInfo}>
-                    <img
-                      src={
-                        conversation[
-                          conversation.user1.username === user.username
-                            ? "user2"
-                            : "user1"
-                        ].profilePic
-                          ? conversation[
-                              conversation.user1.username === user.username
-                                ? "user2"
-                                : "user1"
-                            ].profilePic.fileUrl
-                          : "/assets/default-avatar.png"
-                      }
-                    ></img>
-                    <div className={MessagesCSS.threadReceiverText}>
-                      <p className={MessagesCSS.threadReceiverUsername}>
-                        {
+                    }`}
+                  >
+                    {lastUnreadMessage ? (
+                      !lastUnreadMessage.read ? (
+                        <i
+                          class={`fa-solid fa-circle-dot ${MessagesCSS.unreadMessage}`}
+                        ></i>
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      ""
+                    )}
+                    <div className={MessagesCSS.activeLine}></div>
+                    <div className={MessagesCSS.threadReceiverInfo}>
+                      <img
+                        src={
                           conversation[
                             conversation.user1.username === user.username
                               ? "user2"
                               : "user1"
-                          ].fullname
+                          ].profilePic
+                            ? conversation[
+                                conversation.user1.username === user.username
+                                  ? "user2"
+                                  : "user1"
+                              ].profilePic.fileUrl
+                            : "/assets/default-avatar.png"
                         }
-                      </p>
-                      <p className={MessagesCSS.lastMessageSent}>
-                        {conversation.messages.length !== 0
-                          ? formatMessage(
-                              conversation.messages[
-                                conversation.messages.length - 1
-                              ].text
-                            )
-                          : ""}
-                      </p>
-                      <p className={MessagesCSS.messageTime}>
-                        {conversation.messages.length !== 0
-                          ? getLastMessage(
-                              conversation.messages[
-                                conversation.messages.length - 1
-                              ].createdAt
-                            )
-                          : ""}
-                      </p>
+                      ></img>
+                      <div className={MessagesCSS.threadReceiverText}>
+                        <p className={MessagesCSS.threadReceiverUsername}>
+                          {
+                            conversation[
+                              conversation.user1.username === user.username
+                                ? "user2"
+                                : "user1"
+                            ].fullname
+                          }
+                        </p>
+                        <p className={MessagesCSS.lastMessageSent}>
+                          {conversation.messages.length !== 0
+                            ? formatMessage(
+                                conversation.messages[
+                                  conversation.messages.length - 1
+                                ].text
+                              )
+                            : ""}
+                        </p>
+                        <p className={MessagesCSS.messageTime}>
+                          {conversation.messages.length !== 0
+                            ? getLastMessage(
+                                conversation.messages[
+                                  conversation.messages.length - 1
+                                ].createdAt
+                              )
+                            : ""}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <div className={MessagesCSS.addMoreMessages}>
               <i className="fa-solid fa-circle-plus"></i>
@@ -306,12 +324,13 @@ function Messages() {
               screen1000: screen1000,
               conversation: activeConversation,
               setConversation: setActiveConversation,
-              socketConnection: socket,
+              socket,
               user,
               messageThreads,
               setMessageThreads,
               conversationContainer,
               scrollToBottom,
+              checkRead,
             }}
           />
         ) : (

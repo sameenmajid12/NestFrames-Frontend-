@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import MessagesCSS from "../../../styles/messages.module.css";
 import { useOutletContext, useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -11,14 +11,26 @@ function Conversation() {
     conversation,
     setConversation,
     screen1000,
-    socketConnection,
+    socket,
     user,
+    checkRead,
     conversationContainer,
     scrollToBottom,
   } = useOutletContext();
   const [messageList, setMessageList] = useState([]);
   useEffect(() => {
     if (conversation) {
+      const lastMessage = checkRead(conversation);
+      if(lastMessage?!lastMessage.read:false){
+        setConversation((prev) => ({
+          ...prev,
+          messages: prev.messages.map((message) =>
+            message._id === lastMessage._id ? { ...message, read: true } : message
+          ),
+        }));        
+        socket.emit("read",conversation);
+        
+      };
       setLoaded(true);
       setMessageList(conversation.messages);
     }
@@ -72,14 +84,14 @@ function Conversation() {
   const handleMessage = (e) => setMessage(e.target.value);
   const sendMessage = async () => {
     if (message) {
-      if (socketConnection && conversationContainer.current) {
+      if (socket && conversationContainer.current) {
         const sentMessage = {
           sentBy: user._id,
           receivedBy: receiverUsername,
           createdAt: Date.now(),
           text: message,
         };
-        socketConnection.emit("messageSent", sentMessage);
+        socket.emit("messageSent", sentMessage);
         setMessage("");
       }
     }
@@ -89,7 +101,7 @@ function Conversation() {
     <div className={MessagesCSS.conversationContainer}>
       <div className={MessagesCSS.conversationHeader}>
         <div>
-          {screen1000 ? <i onClick={()=>setConversation(null)}class="fa-solid fa-circle-chevron-left"></i> : ""}
+          {screen1000 ? <i onClick={()=>setConversation(null)}className="fa-solid fa-circle-chevron-left"></i> : ""}
           {receiverName}
         </div>
 
