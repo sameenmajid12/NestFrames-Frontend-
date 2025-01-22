@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../../UserContext";
+import Add from "../Profiles/AddFriend";
 function Posts() {
   const { user } = useContext(UserContext);
   const { posts } = useOutletContext();
@@ -10,12 +11,12 @@ function Posts() {
   const isFriend = (profile) => {
     return user.friends.some((friend) => friend.username === profile.username);
   };
-  const isPending = () => {
+  const isRequested = (profile) => {
     return user.friendRequestsSent.some(
       (request) => request.username === profile.username
     );
   };
-
+  
   return (
     
       posts.map((post, index) => {
@@ -45,16 +46,16 @@ function Posts() {
                 </div>
               </div>
               <div className="post-header-right">
-                <button className="post-button">
                   {isFriend(post.postedBy) ? (
-                    <>
+                    <button className="post-button">
                       Friend{" "}
                       <i className="fa-solid fa-caret-down friend-chevron"></i>
-                    </>
-                  ) : (
-                    "Add"
-                  )}{" "}
-                </button>
+                    </button>
+                  ) : isRequested(post.postedBy)?(
+                    <button className="post-button">
+                    Requested
+                  </button>
+                  ) : isUser(post.postedBy)?(<button className="post-button">Edit post</button>):<Add stylingClass={'post-button'} receiverUsername={post.postedBy.username}/>}
                 <div className="ellipsis">
                   <i
                     className="fa-solid fa-ellipsis  fa-xl"

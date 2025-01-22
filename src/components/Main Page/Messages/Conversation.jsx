@@ -1,6 +1,6 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef } from "react";
 import MessagesCSS from "../../../styles/messages.module.css";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
 function Conversation() {
   const [loaded, setLoaded] = useState(false);

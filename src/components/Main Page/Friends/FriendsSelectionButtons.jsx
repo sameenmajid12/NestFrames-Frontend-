@@ -1,7 +1,6 @@
 import FriendsCSS from '../../../styles/friends.module.css';
 import { Link, useLocation, useOutletContext } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Search from '../Main/Search';
+import Search from '../Utils/Search';
 function FriendsSelectionButtons({active, setActive, setFriends, screen1000}){
   const location = useLocation().pathname.split("/")[2] || "";
   return(

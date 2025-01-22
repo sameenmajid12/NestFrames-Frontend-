@@ -3,7 +3,7 @@ import { useLocation, useOutletContext } from "react-router-dom";
 import "../../../styles/albums.css";
 import AlbumHeader from "./AlbumHeader";
 import AlbumPhotos from "./AlbumPhotos";
-import Loading from "../Main/Loading";
+import Loading from "../Utils/Loading";
 function AlbumBody() {
   useEffect(()=>{
     document.body.className = 'body-default';

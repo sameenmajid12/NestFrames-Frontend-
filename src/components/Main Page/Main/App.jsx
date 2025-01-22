@@ -3,10 +3,10 @@ import Header from "./Header.jsx";
 import SideBar from "./SideBar.jsx";
 import { Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../../UserContext.jsx";
-import Loading from "./Loading.jsx";
+import Loading from "../Utils/Loading.jsx";
 import { AuthContext } from "../../AuthContext.jsx";
 
-function Main() {
+function App() {
   const { user, setUser } = useContext(UserContext);
   const { token, setToken, refreshToken, logOut } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
@@ -154,10 +154,11 @@ function Main() {
       />
       <SideBar sideBarFull={sideBarFull} screen650={screen650} smallSideBarFull={smallSideBarFull} setSmallSideBarFull={setSmallSideBarFull}/>
       <Outlet context={{screen1000:screen1000, screen650:screen650}}/>
+      
     </>
   ) : (
     ""
   );
 }
 
-export default Main;
+export default App;

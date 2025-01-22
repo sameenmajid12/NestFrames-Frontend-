@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 import { SocketContext } from "./SocketContext";
-import Notification from "./Main Page/Main/Notification";
+import Notification from "./Main Page/Utils/Notification";
 
 export const NotificationContext = createContext();
 

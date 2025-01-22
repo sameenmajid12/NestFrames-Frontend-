@@ -113,7 +113,7 @@ function Home() {
   if (initialLoading) return;
   return (
     <div className="home-page-container" ref={containerRef}>
-      {posts && friends && albums?<><FindFriends friends={friends}/>
+      {posts && friends && albums?<><FindFriends friends={friends} setFriends={setFriends}/>
       <InfiniteScroll
         className="post-container"
         dataLength={posts.length}

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import Main from "./components/Main Page/Main/Main.jsx";
+import App from "./components/Main Page/Main/App.jsx";
 import Signin from "./components/Authentication/Signin.jsx";
 import NotFound from "./components/Not found Page/NotFound.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -40,7 +40,7 @@ import FriendsSuggested from "./components/Main Page/Friends/FriendsSuggested.js
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main />,
+    element: <App />,
     errorElement: <NotFound />,
     children: [
       {

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import FriendsCSS from "../../../styles/friends.module.css";
-import Loading from "../Main/Loading";
+import Loading from "../Utils/Loading";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import {UserContext} from '../../UserContext';
 import { AuthContext } from "../../AuthContext";

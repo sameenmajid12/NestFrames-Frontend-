@@ -1,10 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 function PopularAlbums({albums}) {
+  const navigate = useNavigate();
   return (
     <div className="popular-albums-container">
       <h1 className="popular-albums-header">Popular Albums</h1>
       <div className="popular-albums-body">
         {albums.map((album)=>{
-          return(<div key={album._id} className="popular-album">
+          return(<div onClick={()=>navigate(`/album/${album._id}`)} key={album._id} className="popular-album">
             <div className="popular-album-details">
               <h2 className="popular-album-name">{album.name}</h2>
               <div className="popular-album-stats-container">

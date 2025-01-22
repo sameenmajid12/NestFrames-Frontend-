@@ -1,10 +1,10 @@
 import { useContext, useState, useEffect, useMemo } from "react";
 import { UserContext } from "../../UserContext";
-import Add from "./Add";
+import Add from "./AddFriend.jsx";
 import AddPfp from "./AddPfp.jsx";
 
 function ProfileInfo({ profile, setProfile,screen650 }) {
-  const { user, setUser } = useContext(UserContext);
+  const { user} = useContext(UserContext);
   const [addPfpVisibility, setAddPfpVisibility] = useState(false);
   const isUser = useMemo(
     () => profile.username === user.username,
@@ -66,7 +66,7 @@ function ProfileInfo({ profile, setProfile,screen650 }) {
                     ) : isPending ? (
                       <button className="profile-button">Requested</button>
                     ) : (
-                      <Add user={user} setUser={setUser}/>
+                      <Add stylingClass={"profile-button"} receiverUsername={profile.username}/>
                     )}
                   </>
                 )}

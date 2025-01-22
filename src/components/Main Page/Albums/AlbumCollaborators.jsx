@@ -1,5 +1,5 @@
   import "../../../styles/albums.css";
-  import SelectorList from "../Main/SelectorList";
+  import SelectorList from "../Utils/SelectorList";
   import { useState } from "react";
   function AlbumCollaborators({
     albumId,

@@ -1,7 +1,6 @@
 import { useContext,useState } from "react";
 import { UserContext } from "../../UserContext";
 import FriendsCSS from '../../../styles/friends.module.css';
-import FriendsSelectionButtons from "./FriendsSelectionButtons";
 import { useOutletContext } from "react-router-dom";
 
 function FriendRequests(){

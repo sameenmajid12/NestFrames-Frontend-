@@ -1,0 +1,33 @@
+.friend-drop-down-container{
+  margin-top:70px;
+  position: relative;
+  bottom:-10px;
+  width:max-content;
+  height: max-content;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 10px;
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.friend-drop-down-option{
+  color:rgba(0,0,0,0.4);
+  font-size: 0.75rem;
+  width: 100%;
+  padding:7px 20px;
+  text-align: center;
+  border-bottom:1px solid rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+.friend-drop-down-option:hover{
+  color:var(--accent-color)
+}
+.friend-drop-down-option:last-child{
+  border-bottom:none;
+}
+.friend-drop-down-option:last-child:hover{
+  color:rgb(255, 72, 72);
+}
+

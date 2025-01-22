@@ -3,12 +3,11 @@ import {
   Outlet,
   useLocation,
   useNavigate,
-  useOutlet,
   useOutletContext,
 } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import MessagesCSS from "../../../styles/messages.module.css";
-import SelectorList from "../Main/SelectorList";
+import SelectorList from "../Utils/SelectorList";
 import { SocketContext } from "../../SocketContext";
 function Messages() {
   const [searchTerm, setSearchTerm] = useState("");

@@ -4,11 +4,13 @@ import { Outlet, useOutletContext, useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../AuthContext";
-import Loading from "../Main/Loading";
+import  {UserContext} from '../../UserContext';
+import Loading from "../Utils/Loading";
 function Profiles() {
   const [profile, setProfile] = useState();
   const [loading, setLoading] = useState(true);
   const { username } = useParams();
+  const {user} = useContext(UserContext);
   const { token, refreshToken } = useContext(AuthContext);
   const {screen650} = useOutletContext();
   useEffect(() => {
@@ -19,18 +21,23 @@ function Profiles() {
         if (!currentToken) {
           currentToken = await refreshToken();
         }
-        const response = await fetch(
-          `http://localhost:3002/users/${username}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${currentToken}`,
-            },
-            credentials: "include",
-          }
-        );
-        const profileData = await response.json();
-        setProfile(profileData);
+        if(username === user.username){
+          setProfile(user);
+        }
+        else{
+          const response = await fetch(
+            `http://localhost:3002/users/${username}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${currentToken}`,
+              },
+              credentials: "include",
+            }
+          );
+          const profileData = await response.json();
+          setProfile(profileData);
+        }
       } catch (error) {
         console.log(`Error fetching profile data, ${error}`);
       } finally {

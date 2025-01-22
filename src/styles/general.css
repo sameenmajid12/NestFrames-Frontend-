@@ -203,6 +203,15 @@ input{
   color:#F57969;
   cursor: pointer;
 }
+
+.add-loader{
+width:14px;
+height:14px;
+border-radius: 50%;
+border:2px solid white;
+border-top: 2px solid #fcd59a;
+animation: spin 0.75s linear infinite;
+}
 @keyframes slide{
   0%{
     transform: translateX(100%);
