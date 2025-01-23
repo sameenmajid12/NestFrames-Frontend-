@@ -1,5 +1,5 @@
 
-function Notification({success,message, setNotifications}) {
+function SentNotification({success,message, setNotifications}) {
   return(
     <div className={`notification-container notification-${success?"success":"error"}`}>
       <div className="notification-left">
@@ -16,4 +16,4 @@ function Notification({success,message, setNotifications}) {
   )
 }
 
-export default Notification;
+export default SentNotification;

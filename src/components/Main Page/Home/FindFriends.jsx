@@ -37,7 +37,7 @@ function FindFriends({ friends, setFriends }) {
             <div onClick={()=>navigate(`/${friend.username}`)} className="find-friend-details">
               <img
                 className="find-friend-image"
-                src={friend.profilePic.fileUrl}
+                src={friend.profilePic?friend.profilePic.fileUrl:'/assets/default-avatar.png'}
                 alt={`${friend.fullname}'s profile`}
               />
               <div className="find-friend-name">

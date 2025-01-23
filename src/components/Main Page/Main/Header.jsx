@@ -6,8 +6,11 @@ import { UserContext } from "../../UserContext";
 import CreatePost from "../Create/CreatePost/CreatePost";
 import CreateAlbum from "../Create/CreateAlbum/CreateAlbum";
 import { AuthContext } from "../../AuthContext";
+import NotificationDropDown from "./NotificationDropDown";
+import { NotificationContext } from "../../NotificationContext";
 
 function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmallSideBarFull }) {
+  const {receivedNotifications} = useContext(NotificationContext);
   const dropDownRef = useRef(null);
   const profileImageRef = useRef(null);
   const { logOut } = useContext(AuthContext);
@@ -16,7 +19,7 @@ function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmal
   const [dropDownVisible, setDropDownVisible] = useState(false);
   const [createContainerVisibility, setCreateContainerVisibility] =
     useState(false);
-
+  const [notificationVisibility, setNotificationVisibility] = useState(false);
   const handleVisibility = (e) => {
     if (
       dropDownRef.current &&
@@ -69,7 +72,7 @@ function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmal
         </div>
         <MainSearch />
         <div className={`right-header-container ${screen650?"no-menu-bar":""}`}>
-        <div className="notification-header-icon"><i className="fa-regular fa-bell "><span className="notification-header-number"></span></i></div>
+        <div className="notification-header-icon"><i className="fa-regular fa-bell "><span className="notification-header-number"></span></i>{notificationVisibility && <NotificationDropDown setVisibility={setNotificationVisibility} notifications={receivedNotifications}/>}</div>
           <img
             onClick={() => setDropDownVisible(!dropDownVisible)}
             ref={profileImageRef}

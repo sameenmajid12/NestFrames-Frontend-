@@ -4,7 +4,7 @@ import { UserContext } from "../../UserContext";
 import { NotificationContext } from '../../NotificationContext';
 import { SocketContext } from "../../SocketContext";
 function Add({stylingClass, receiverUsername}){
-  const {addNotification} = useContext(NotificationContext);
+  const {addSentNotification} = useContext(NotificationContext);
   const {token} = useContext(AuthContext);
   const {socket} = useContext(SocketContext);
   const {user,setUser} = useContext(UserContext);
@@ -20,13 +20,13 @@ function Add({stylingClass, receiverUsername}){
       body:JSON.stringify({senderId:user._id,receiverUsername:receiverUsername})
     });
     if(response.ok){
-      addNotification(true, "Friend request sent!"); 
-      socket.emit("notification",{receiverUsername:receiverUsername, message:"You have a new friend request!",success:true});
+      addSentNotification(true, `Friend request sent to ${receiverUsername}!`);
+      socket.emit("notification",{receiverUsername:receiverUsername, sender:user, message:`You have a new friend request from ${user.username}!`,createdAt:Date.now(), read:false});
       setLoading(false);
     }
     else{
       setLoading(false);
-      addNotification(false, "Request could not be sent!")
+      addSentNotification(false, "Request could not be sent!")
     }
     const data = await response.json();
     const friend = data.receiver;
@@ -34,7 +34,7 @@ function Add({stylingClass, receiverUsername}){
     setUser(prev=>({...prev, friendRequestsSent:newFriendRequests}));
   }
   return(
-    <button onClick={sendRequest}className={stylingClass || ""}>{!loading?'Add':<div className="add-loader"></div>}</button>
+    <button onClick={sendRequest} className={stylingClass || ""}>{!loading?'Add':<div className="add-loader"></div>}</button>
   )
 }
 
