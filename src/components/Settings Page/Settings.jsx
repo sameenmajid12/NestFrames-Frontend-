@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "../../styles/settings.css";
 import { useContext, useEffect } from "react";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../Main Page/Contexts/UserContext";
 import { useState } from "react";
 function Settings() {
   useEffect(() => {

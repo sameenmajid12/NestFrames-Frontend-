@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../../styles/side-bar.css";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 
 function SideBar({
   sideBarFull,

@@ -262,3 +262,68 @@
 .logo{
  height:clamp(2rem,4vw,2.5rem);
 }
+
+
+
+.notification-drop-down-container{
+  width:300px;
+  height:max-content;
+  position:absolute;
+  top:calc(100% + 10px) ;
+  right: 0;
+  background-color:var(--background-color);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+.notification-drop-down-header{
+  font-size:1rem;
+  font-weight: 200;
+  padding:10px 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+.notification-drop-down-none{
+  font-size:12px;
+  padding:10px 15px;
+  color:var(--text-color);
+}
+.notification-drop-down-body i{
+  color:var(--accent-color);
+}
+
+.notification-drop-down-notification{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:10px 15px;
+  border-bottom:1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.notification-drop-down-notification:last-child{
+  border-bottom:none
+}
+.notification-drop-down-details{
+  display: flex;
+  column-gap: 7px;
+  align-items: center;
+  max-width: 90%;
+}
+.notification-drop-down-details p {
+  font-size:12px;
+  color:var(--text-color);
+  height: max-content;
+}
+.notification-drop-down-image{
+  max-width: 60px;
+  height: 30px;
+  border-radius: 50%;
+}
+.notification-read{
+  width: 9px;
+  height:9px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  position: absolute;
+  right:15px;
+  top:50%;
+  transform: translateY(-50%);
+}

@@ -1,5 +1,5 @@
 import { useContext,useState } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 import FriendsCSS from '../../../styles/friends.module.css';
 import { useOutletContext } from "react-router-dom";
 

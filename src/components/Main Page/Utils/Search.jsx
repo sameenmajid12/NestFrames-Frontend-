@@ -1,6 +1,6 @@
 import "../../../styles/media.css";
 import { useEffect, useState, useRef, useContext } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 function Search({ setAlbums, setFriends, selector }) {
   const { user } = useContext(UserContext);
   const [search, setSearch] = useState("");

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import "../../../styles/Profile.css";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 function AddPfp({ setVisibility, setProfile }) {
   const [imageFile, setImageFile] = useState(null);
   const [filePresent, setFilePresent] = useState(false);

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import FriendsCSS from "../../../styles/friends.module.css";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 import { useOutletContext } from "react-router-dom";
 
 function FriendsSuggested() {

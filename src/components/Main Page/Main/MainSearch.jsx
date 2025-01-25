@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 function MainSearch() {
   const { user } = useContext(UserContext);
   const [searchQuery, setSearchQuery] = useState("");

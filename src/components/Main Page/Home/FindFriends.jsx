@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 import Add from "../Profiles/AddFriend";
 import { useNavigate } from "react-router-dom";
 

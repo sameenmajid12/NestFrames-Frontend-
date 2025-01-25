@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../../../UserContext";
+import { UserContext } from "../../Contexts/UserContext";
 
 function CreatePostBody({file,onConfirm, setFilePresent, setVisibility}) {
   const [caption, setCaption] = useState("");

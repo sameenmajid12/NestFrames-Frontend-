@@ -2,19 +2,25 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import "../../../styles/header.css";
 import { Link, useNavigate } from "react-router-dom";
 import MainSearch from "./MainSearch";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 import CreatePost from "../Create/CreatePost/CreatePost";
-import CreateAlbum from "../Create/CreateAlbum/CreateAlbum";
-import { AuthContext } from "../../AuthContext";
-import NotificationDropDown from "./NotificationDropDown";
-import { NotificationContext } from "../../NotificationContext";
+import { AuthContext } from "../Contexts/AuthContext";
+import NotificationDropDown from "../Notifications/NotificationDropDown";
+import { NotificationContext } from "../Contexts/NotificationContext";
 
-function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmallSideBarFull }) {
-  const {receivedNotifications} = useContext(NotificationContext);
+function Header({
+  sideBarFull,
+  setSideBarFull,
+  sideBarDisabled,
+  screen650,
+  setSmallSideBarFull,
+}) {
+  const { receivedNotifications } = useContext(NotificationContext);
   const dropDownRef = useRef(null);
+  const notificationBellRef = useRef(null);
   const profileImageRef = useRef(null);
   const { logOut } = useContext(AuthContext);
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [dropDownVisible, setDropDownVisible] = useState(false);
   const [createContainerVisibility, setCreateContainerVisibility] =
@@ -35,22 +41,20 @@ function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmal
       document.body.removeEventListener("mousedown", handleVisibility);
     };
   }, []);
-  
+
   const toggleCreateContainer = () => {
     setCreateContainerVisibility((prevVisibility) => !prevVisibility);
   };
 
   function changeSideBar() {
-    if(!screen650){
+    if (!screen650) {
       if (!sideBarDisabled) {
         const sideBarFullVisible = !sideBarFull;
         setSideBarFull(sideBarFullVisible);
       }
+    } else {
+      setSmallSideBarFull((prev) => !prev);
     }
-    else{
-      setSmallSideBarFull(prev=>!prev);
-    }
-    
   }
 
   return (
@@ -62,17 +66,35 @@ function Header({ sideBarFull, setSideBarFull, sideBarDisabled,screen650,setSmal
         />
       )}
       <div className="header-container">
-        <div className={`left-header-container ${screen650?"no-menu-bar":""}`}>
-          
-          {!screen650?<i
-            onClick={changeSideBar}
-            className="fa-solid fa-bars-staggered menu-bars"
-          ></i>:''}
-          <img className="logo" src="/assets/BOO.png" alt="Logo"/>
+        <div
+          className={`left-header-container ${screen650 ? "no-menu-bar" : ""}`}
+        >
+          {!screen650 ? (
+            <i
+              onClick={changeSideBar}
+              className="fa-solid fa-bars-staggered menu-bars"
+            ></i>
+          ) : (
+            ""
+          )}
+          <img className="logo" src="/assets/BOO.png" alt="Logo" />
         </div>
         <MainSearch />
-        <div className={`right-header-container ${screen650?"no-menu-bar":""}`}>
-        <div className="notification-header-icon"><i className="fa-regular fa-bell "><span className="notification-header-number"></span></i>{notificationVisibility && <NotificationDropDown setVisibility={setNotificationVisibility} notifications={receivedNotifications}/>}</div>
+        <div
+          className={`right-header-container ${screen650 ? "no-menu-bar" : ""}`}
+        >
+          <div ref={notificationBellRef} onClick={()=>setNotificationVisibility(prev=>!prev)} className="notification-header-icon">
+            <i className="fa-regular fa-bell ">
+              <span className="notification-header-number"></span>
+            </i>
+            {notificationVisibility && (
+              <NotificationDropDown
+                setVisibility={setNotificationVisibility}
+                receivedNotifications={receivedNotifications}
+                notificationBellRef={notificationBellRef}
+              />
+            )}
+          </div>
           <img
             onClick={() => setDropDownVisible(!dropDownVisible)}
             ref={profileImageRef}

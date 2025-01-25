@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import Header from "./Header.jsx";
 import SideBar from "./SideBar.jsx";
 import { Outlet, useNavigate } from "react-router-dom";
-import { UserContext } from "../../UserContext.jsx";
+import { UserContext } from "../Contexts/UserContext.jsx";
 import Loading from "../Utils/Loading.jsx";
-import { AuthContext } from "../../AuthContext.jsx";
+import { AuthContext } from "../Contexts/AuthContext.jsx";
 
 function App() {
   const { user, setUser } = useContext(UserContext);

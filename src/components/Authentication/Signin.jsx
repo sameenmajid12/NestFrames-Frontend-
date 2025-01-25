@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/sign-in.css";
 import { useContext } from "react";
-import { UserContext } from "../UserContext";
-import { AuthContext } from "../AuthContext";
+import { UserContext } from '../Main Page/Contexts/UserContext';
+import { AuthContext } from "../Main Page/Contexts/AuthContext";
 function Signin() {
   const navigate = useNavigate();
   useEffect(() => {

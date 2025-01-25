@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useMemo } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 import Add from "./AddFriend.jsx";
 import AddPfp from "./AddPfp.jsx";
 

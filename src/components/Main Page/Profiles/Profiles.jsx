@@ -3,8 +3,8 @@ import ProfileInfo from "./ProfileInfo";
 import { Outlet, useOutletContext, useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { useState } from "react";
-import { AuthContext } from "../../AuthContext";
-import  {UserContext} from '../../UserContext';
+import { AuthContext } from '../Contexts/AuthContext';
+import  {UserContext} from '../Contexts/UserContext';
 import Loading from "../Utils/Loading";
 function Profiles() {
   const [profile, setProfile] = useState();

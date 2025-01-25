@@ -2,8 +2,8 @@ import { useContext } from "react";
 import FriendsCSS from "../../../styles/friends.module.css";
 import Loading from "../Utils/Loading";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import {UserContext} from '../../UserContext';
-import { AuthContext } from "../../AuthContext";
+import {UserContext} from '../Contexts/UserContext';
+import { AuthContext } from "../Contexts/AuthContext";
 function FriendsContent({friendProp}) {
   const {user,setUser} = useContext(UserContext);
   const {token} = useContext(AuthContext);

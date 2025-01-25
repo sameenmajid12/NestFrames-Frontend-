@@ -36,7 +36,7 @@
   background-color: var(--background-color);
   position: sticky;
   top:23px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
   border-radius:15px;
 }
 .find-friends-header, .popular-albums-header{

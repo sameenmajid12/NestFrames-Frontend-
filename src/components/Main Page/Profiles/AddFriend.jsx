@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { AuthContext } from "../../AuthContext";
-import { UserContext } from "../../UserContext";
-import { NotificationContext } from '../../NotificationContext';
-import { SocketContext } from "../../SocketContext";
+import { AuthContext } from "../Contexts/AuthContext";
+import { UserContext } from "../Contexts/UserContext";
+import { NotificationContext } from '../Contexts/NotificationContext';
+import { SocketContext } from "../Contexts/SocketContext";
 function Add({stylingClass, receiverUsername}){
   const {addSentNotification} = useContext(NotificationContext);
   const {token} = useContext(AuthContext);
@@ -20,8 +20,9 @@ function Add({stylingClass, receiverUsername}){
       body:JSON.stringify({senderId:user._id,receiverUsername:receiverUsername})
     });
     if(response.ok){
+      console.log(user.profilePic);
       addSentNotification(true, `Friend request sent to ${receiverUsername}!`);
-      socket.emit("notification",{receiverUsername:receiverUsername, sender:user, message:`You have a new friend request from ${user.username}!`,createdAt:Date.now(), read:false});
+      socket.emit("notification",{receiverUsername:receiverUsername, sender:user, message:`You have a new friend request from ${user.username}!`,createdAt:Date.now(), read:false, image:user.profilePic});
       setLoading(false);
     }
     else{

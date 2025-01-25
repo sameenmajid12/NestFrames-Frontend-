@@ -1,5 +1,5 @@
 import FriendsContent from "../../Friends/FriendsContent";
-import { UserContext } from "../../../UserContext";
+import { UserContext } from "../../Contexts/UserContext";
 import { useContext } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 function ProfileFriends() {

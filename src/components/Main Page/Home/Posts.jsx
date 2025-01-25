@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useOutletContext } from "react-router-dom";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 import Add from "../Profiles/AddFriend";
 function Posts() {
   const { user } = useContext(UserContext);

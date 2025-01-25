@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../../UserContext";
+import { UserContext } from "../../Contexts/UserContext";
 import SelectorList from "../../Utils/SelectorList";
 import CreatePost from "../CreatePost/CreatePost";
-import { AuthContext } from "../../../AuthContext";
+import { AuthContext } from "../../Contexts/AuthContext";
 import CreateAlbumPostUpload from "./CreateAlbumPostUpload";
 import CreateAlbumCoverPhoto from "./CreateAlbumCoverPhoto";
 import CreateAlbumPostContainer from './CreateAlbumPostContainer';

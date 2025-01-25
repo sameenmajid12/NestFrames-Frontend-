@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext } from 'react';
 import '../../../styles/media.css'
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../Contexts/UserContext';
 import Search from '../Utils/Search';
-import { NotificationContext } from '../../NotificationContext';
+import { NotificationContext } from '../Contexts/NotificationContext';
 function Media(){
   const { user } = useContext(UserContext)
   const { addNotification } = useContext(NotificationContext);

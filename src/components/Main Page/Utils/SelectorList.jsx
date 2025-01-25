@@ -1,4 +1,4 @@
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 import "../../../styles/list.css";
 import { useContext, useEffect, useState } from "react";
 

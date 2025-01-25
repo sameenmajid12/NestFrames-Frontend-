@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 import "../../../styles/home.css";
 import { useEffect, useContext, useState, useRef } from "react";
-import { UserContext } from "../../UserContext";
-import { AuthContext } from "../../AuthContext";
+import { UserContext } from "../Contexts/UserContext";
+import { AuthContext } from "../Contexts/AuthContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PopularAlbums from "./PopularAlbums";
 import FindFriends from "./FindFriends";
-import {NotificationContext} from '../../NotificationContext';
+import {NotificationContext} from '../Contexts/NotificationContext';
 function Home() {
   const { user } = useContext(UserContext);
   const { token } = useContext(AuthContext);

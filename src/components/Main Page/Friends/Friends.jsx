@@ -1,9 +1,9 @@
 import { Outlet, Link, useParams, useLocation, useOutletContext } from "react-router-dom";
 import FriendsCSS from "../../../styles/friends.module.css";
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../Contexts/UserContext";
 import FriendsSelectionButtons from "./FriendsSelectionButtons";
-import { AuthContext } from "../../AuthContext";
+import { AuthContext } from "../Contexts/AuthContext";
 function Friends() {
   useEffect(() => {
     document.body.className = "body-default";
