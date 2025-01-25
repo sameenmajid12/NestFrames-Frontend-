@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import Header from "./Header.jsx";
 import SideBar from "./SideBar.jsx";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ function App() {
   const [loadingUser, setLoadingUser] = useState(true);
   const [sideBarFull, setSideBarFull] = useState(true);
   const [smallSideBarFull, setSmallSideBarFull] = useState(false);
+  const searchRef = useRef(null);
   const [sideBarDisabled, setSideBarDisabled] = useState(
     window.innerWidth <= 1000 || false
   );
@@ -124,7 +125,6 @@ function App() {
         timeoutId = setTimeout(() => setIsLoading(false), 1000);
       }
     }
-
     updateOnRefresh();
 
     return () => {
@@ -133,7 +133,9 @@ function App() {
       }
     };
   }, []);
-
+  useEffect(()=>{
+    console.log(searchRef);
+  },[searchRef.current])
   useEffect(() => {
     if (!user && !loadingUser) {
       navigate("/sign-in");
@@ -151,9 +153,10 @@ function App() {
         screen425={screen425}
         screen650={screen650}
         setSmallSideBarFull={setSmallSideBarFull}
+        searchRef={searchRef}
       />
       <SideBar sideBarFull={sideBarFull} screen650={screen650} smallSideBarFull={smallSideBarFull} setSmallSideBarFull={setSmallSideBarFull}/>
-      <Outlet context={{screen1000:screen1000, screen650:screen650}}/>
+      <Outlet context={{screen1000:screen1000, screen650:screen650, searchRef:searchRef}}/>
       
     </>
   ) : (

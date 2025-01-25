@@ -9,13 +9,12 @@ function Friends() {
     document.body.className = "body-default";
   }, []);
   const { user } = useContext(UserContext);
-  const {screen1000} = useOutletContext();
-  console.log(screen1000);
+  const {screen1000, searchRef} = useOutletContext();
   const [requests, setRequests] = useState(user.friendRequestsReceived);
   const [friends, setFriends] = useState(user.friends);
   const [active, setActive] = useState("Friends");
   const location = useLocation();
-  useEffect(() => {}, [location]);
+  useEffect(() => {console.log(searchRef)}, []);
   const {token} = useContext(AuthContext);
   return (
     <div className={FriendsCSS.friendsPageContainer}>
@@ -39,9 +38,10 @@ function Friends() {
         setFriends={setFriends}
         screen1000={screen1000}
       />
-      <div className={FriendsCSS.friendsOuletContainer}>
+      <div className={`${FriendsCSS.friendsOuletContainer} ${!friends.length>0?FriendsCSS.empty:''}`}>
         <Outlet
           context={{
+            searchRef:searchRef,
             requests: requests,
             setRequests: setRequests,
             friends: friends,

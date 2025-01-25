@@ -1,6 +1,6 @@
 .friendsPageContainer{
   padding:max(2.5%,0.625rem) max(2.5%,0.625rem);
-  
+  height: calc(100dvh - var(--header-height));
   display: flex;
   flex-direction: column;
   row-gap: min(2rem,3vw);
@@ -83,8 +83,12 @@
 .friendsOuletContainer{
   width: 100%;
 }
+.friendsOuletContainer .empty{
+  flex:1;
+}
 .friendsContainer{
   width: 100%;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(clamp(340px, 33%, 375px), 1fr));
   gap: clamp(1.25rem,2vw, 1.875rem);
@@ -251,6 +255,49 @@
 .mutualFriends{
   color:var(--text-hover);
   font-size: 14px;
+}
+
+.friendsEmptyState{
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+.friendsEmptyStateBody{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.friendsEmptyStateBody h2{
+  color:var(--text-color);
+  font-size:clamp(2rem,3.5vw,2.75rem);
+  font-weight: 200;
+}
+.friendsEmptyStateBody p{
+  color:var(--text-hover);
+  font-size:clamp(0.75rem,1.5vw,1rem) ;
+}
+.friendsEmptyStateText{
+  text-align: center;
+  padding-bottom:20px;
+}
+.friendsEmptyStateBody img{
+  padding-bottom:10px;
+  width: clamp(15rem,30vw,20rem);
+  padding-top:50px;
+}
+.friendsEmptyStateBody button{
+  padding:clamp(0.5rem,1vw,0.625rem) clamp(3rem,4vw,3.75rem);
+  color:var(--background-light);
+  background-color: var(--accent-color);
+  border-radius: 40px;
+  font-size:clamp(0.75rem,1vw,0.875rem);
+  outline:none;
+  border:none;
+  cursor: pointer;
+}
+.friendsEmptyStateBody button:hover{
+  background-color: var(--accent-hover);
+  box-shadow:0px 0px 2px rgba(0, 0, 0, 0.2);
 }
 @media(max-width:650px){
   .friendsContainer{

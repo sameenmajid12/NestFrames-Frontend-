@@ -1,12 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
-function MainSearch() {
+function MainSearch({searchRef}) {
   const { user } = useContext(UserContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  useEffect(()=>{
+    console.log(searchRef);
+  },[])
   const handleChange = ({ target }) => {
     setSearchQuery(target.value);
     if (target.value.length > 0) {
@@ -31,6 +34,9 @@ function MainSearch() {
         }
       }
     };
+    if(searchQuery.length===0){
+      setSearchResults([]);
+    }
     const timeoutId = setTimeout(search, 150);
     return () => {
       clearTimeout(timeoutId);
@@ -42,6 +48,7 @@ function MainSearch() {
       setIsActive(false);
       setSearchQuery("");
       setNotFound(false);
+      setSearchResults([]);
     }, 100);
   };
   const checkFriend = (profile) => {
@@ -51,6 +58,7 @@ function MainSearch() {
     <div className="search-bar-container">
       <i className="fa-solid fa-magnifying-glass search-icon"></i>
       <input
+        ref={searchRef}
         autoComplete="off"
         id="mainSearchInput"
         value={searchQuery}

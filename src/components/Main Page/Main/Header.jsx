@@ -14,6 +14,7 @@ function Header({
   sideBarDisabled,
   screen650,
   setSmallSideBarFull,
+  searchRef
 }) {
   const { receivedNotifications } = useContext(NotificationContext);
   const dropDownRef = useRef(null);
@@ -37,6 +38,7 @@ function Header({
   };
   useEffect(() => {
     document.body.addEventListener("mousedown", handleVisibility);
+    console.log(searchRef);
     return () => {
       document.body.removeEventListener("mousedown", handleVisibility);
     };
@@ -79,7 +81,7 @@ function Header({
           )}
           <img className="logo" src="/assets/BOO.png" alt="Logo" />
         </div>
-        <MainSearch />
+        <MainSearch searchRef={searchRef} />
         <div
           className={`right-header-container ${screen650 ? "no-menu-bar" : ""}`}
         >
