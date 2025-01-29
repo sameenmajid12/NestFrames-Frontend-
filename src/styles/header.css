@@ -270,7 +270,7 @@
   height:max-content;
   position:absolute;
   top:calc(100% + 10px) ;
-  right: 0;
+  right: 55px;
   background-color:var(--background-color);
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
   border-radius: 10px;

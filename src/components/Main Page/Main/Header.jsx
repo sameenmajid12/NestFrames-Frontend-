@@ -85,18 +85,26 @@ function Header({
         <div
           className={`right-header-container ${screen650 ? "no-menu-bar" : ""}`}
         >
-          <div ref={notificationBellRef} onClick={()=>setNotificationVisibility(prev=>!prev)} className="notification-header-icon">
+          <div
+            ref={notificationBellRef}
+            onClick={() => setNotificationVisibility((prev) => !prev)}
+            className="notification-header-icon"
+          >
             <i className="fa-regular fa-bell ">
-              <span className="notification-header-number"></span>
+              {receivedNotifications.length !== 0 ? (
+                 <span className="notification-header-number"></span>
+              ) : (
+                ''
+              )}
             </i>
-            {notificationVisibility && (
-              <NotificationDropDown
-                setVisibility={setNotificationVisibility}
-                receivedNotifications={receivedNotifications}
-                notificationBellRef={notificationBellRef}
-              />
-            )}
           </div>
+          {notificationVisibility && (
+            <NotificationDropDown
+              setVisibility={setNotificationVisibility}
+              receivedNotifications={receivedNotifications}
+              notificationBellRef={notificationBellRef}
+            />
+          )}
           <img
             onClick={() => setDropDownVisible(!dropDownVisible)}
             ref={profileImageRef}

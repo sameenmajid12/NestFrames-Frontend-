@@ -4,12 +4,11 @@ function NotificationDropDown({
   setVisibility,
   notificationBellRef,
 }) {
-  console.log(receivedNotifications);
   const containerRef = useRef(null);
   const handleVisibility = (e) => {
     console.log(e.target);
     if (
-      containerRef.current &&
+      containerRef.current&&
       !containerRef.current.contains(e.target) &&
       !notificationBellRef.current.contains(e.target)
     ) {
