@@ -28,7 +28,7 @@ function Conversation() {
             message._id === lastMessage._id ? { ...message, read: true } : message
           ),
         }));        
-        socket.emit("read",conversation);
+        socket.emit("read",{conversation:conversation, lastMessage:lastMessage});
         
       };
       setLoaded(true);
@@ -105,7 +105,7 @@ function Conversation() {
           {receiverName}
         </div>
 
-        <i className="fa-solid fa-ellipsis"></i>
+        <i className={`fa-solid fa-ellipsis ${MessagesCSS.ellipsis}`}></i>
       </div>
       <div
         key={conversation._id}

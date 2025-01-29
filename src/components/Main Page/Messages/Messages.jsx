@@ -182,16 +182,13 @@ function Messages() {
       return null;
     }
     let index = conversation.messages.length - 1;
-    while (index >= 0) {
-      if (conversation.messages[index].sentBy !== user._id) {
-        return conversation.messages[index];
-      }
-      index--;
+    if (conversation.messages[index].sentBy !== user._id) {
+      return conversation.messages[index];
     }
     return null;
   };
   useEffect(() => {
-    if(messageThreads && activeConversation){
+    if (messageThreads && activeConversation) {
       setMessageThreads((prev) =>
         prev.map((conversation) => {
           return conversation._id === activeConversation._id
@@ -200,7 +197,6 @@ function Messages() {
         })
       );
     }
-   
   }, [activeConversation]);
   return (
     <>
@@ -251,7 +247,7 @@ function Messages() {
                     {lastUnreadMessage ? (
                       !lastUnreadMessage.read ? (
                         <i
-                          class={`fa-solid fa-circle-dot ${MessagesCSS.unreadMessage}`}
+                          class={`fa-solid fa-circle-dot ${MessagesCSS.unreadMessageDot}`}
                         ></i>
                       ) : (
                         ""
@@ -286,7 +282,7 @@ function Messages() {
                             ].fullname
                           }
                         </p>
-                        <p className={MessagesCSS.lastMessageSent}>
+                        <p className={`${lastUnreadMessage?!lastUnreadMessage.read?MessagesCSS.unreadMessageText:MessagesCSS.lastMessageSent :MessagesCSS.lastMessageSent}`}>
                           {conversation.messages.length !== 0
                             ? formatMessage(
                                 conversation.messages[

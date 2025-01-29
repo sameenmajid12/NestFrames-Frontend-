@@ -45,6 +45,11 @@ body::-webkit-scrollbar-track {
   background-color: transparent;
   border-radius: 10px;
 }
+@media (max-width:650px) {
+  body::-webkit-scrollbar{
+    width: 0px;
+  }
+}
 h1{
   color:var(--text-color);
 }
