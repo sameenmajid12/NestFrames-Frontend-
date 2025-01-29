@@ -38,7 +38,6 @@ function Header({
   };
   useEffect(() => {
     document.body.addEventListener("mousedown", handleVisibility);
-    console.log(searchRef);
     return () => {
       document.body.removeEventListener("mousedown", handleVisibility);
     };
@@ -103,6 +102,7 @@ function Header({
               setVisibility={setNotificationVisibility}
               receivedNotifications={receivedNotifications}
               notificationBellRef={notificationBellRef}
+              screen650={screen650}
             />
           )}
           <img

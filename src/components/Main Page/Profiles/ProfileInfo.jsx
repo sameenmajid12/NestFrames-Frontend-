@@ -3,16 +3,15 @@ import { UserContext } from "../Contexts/UserContext";
 import Add from "./AddFriend.jsx";
 import AddPfp from "./AddPfp.jsx";
 
-function ProfileInfo({ profile, setProfile,screen650 }) {
-  const { user} = useContext(UserContext);
+function ProfileInfo({ profile, setProfile, screen650 }) {
+  const { user } = useContext(UserContext);
   const [addPfpVisibility, setAddPfpVisibility] = useState(false);
   const isUser = useMemo(
     () => profile.username === user.username,
     [profile.username, user.username]
   );
   const isFriend = useMemo(
-    () =>
-      user.friends.some((friend) => friend.username === profile.username),
+    () => user.friends.some((friend) => friend.username === profile.username),
     [user.friends, profile.username]
   );
   const isPending = useMemo(
@@ -22,10 +21,18 @@ function ProfileInfo({ profile, setProfile,screen650 }) {
       ),
     [user.friendRequestsSent, profile.username]
   );
-
+  const isIncoming = useMemo(
+    () =>
+      user.friendRequestsReceived.some(
+        (request) => request.username === profile.username
+      ),
+    [user.friendRequestsReceived, profile.username]
+  );
   return (
     <>
-      {addPfpVisibility && <AddPfp setProfile={setProfile} setVisibility={setAddPfpVisibility} />}
+      {addPfpVisibility && (
+        <AddPfp setProfile={setProfile} setVisibility={setAddPfpVisibility} />
+      )}
       <div className="profile-info-container">
         <img
           onClick={() => {
@@ -47,8 +54,12 @@ function ProfileInfo({ profile, setProfile,screen650 }) {
               <div className="profile-buttons">
                 {isUser ? (
                   <>
-                    <button className="profile-button">{screen650?"Edit":"Edit Profile"}</button>
-                    <button className="profile-button">{screen650?"Create":"Create Post"}</button>
+                    <button className="profile-button">
+                      {screen650 ? "Edit" : "Edit Profile"}
+                    </button>
+                    <button className="profile-button">
+                      {screen650 ? "Create" : "Create Post"}
+                    </button>
                   </>
                 ) : (
                   <>
@@ -65,15 +76,18 @@ function ProfileInfo({ profile, setProfile,screen650 }) {
                       </button>
                     ) : isPending ? (
                       <button className="profile-button">Requested</button>
+                    ) : isIncoming ? (
+                      <button className="profile-button">Accept</button>
                     ) : (
-                      <Add stylingClass={"profile-button"} receiverUsername={profile.username}/>
+                      <Add
+                        stylingClass={"profile-button"}
+                        receiverUsername={profile.username}
+                      />
                     )}
                   </>
                 )}
                 <div className="profile-ellipsis-container">
-                  <i
-                    className="fa-solid fa-ellipsis profile-ellipsis"
-                  ></i>
+                  <i className="fa-solid fa-ellipsis profile-ellipsis"></i>
                 </div>
               </div>
             </div>

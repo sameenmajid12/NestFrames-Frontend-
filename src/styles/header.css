@@ -266,7 +266,7 @@
 
 
 .notification-drop-down-container{
-  width:300px;
+  width:clamp(17rem,35vw,18.75rem);
   height:max-content;
   position:absolute;
   top:calc(100% + 10px) ;
@@ -276,10 +276,16 @@
   border-radius: 10px;
 }
 .notification-drop-down-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size:1rem;
   font-weight: 200;
   padding:10px 15px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+.notification-drop-down-header i{
+  cursor: pointer;
 }
 .notification-drop-down-none{
   font-size:12px;
@@ -289,7 +295,11 @@
 .notification-drop-down-body i{
   color:var(--accent-color);
 }
-
+@media(max-width:450px){
+  .notification-drop-down-container{
+    right:20px;
+  }
+}
 .notification-drop-down-notification{
   display: flex;
   justify-content: space-between;

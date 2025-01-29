@@ -3,6 +3,7 @@ function NotificationDropDown({
   receivedNotifications,
   setVisibility,
   notificationBellRef,
+  screen650
 }) {
   const containerRef = useRef(null);
   const handleVisibility = (e) => {
@@ -23,7 +24,7 @@ function NotificationDropDown({
   }, []);
   return (
     <div ref={containerRef} className="notification-drop-down-container">
-      <h1 className="notification-drop-down-header">Notifications</h1>
+      <h1 className="notification-drop-down-header">Notifications{screen650?<i onClick={()=>setVisibility(prev=>!prev)} className="fa-solid fa-multiply"></i>:''}</h1>
       <div className="notification-drop-down-body">
         {receivedNotifications.length > 0 ? (
           receivedNotifications.map((notification, index) => {
