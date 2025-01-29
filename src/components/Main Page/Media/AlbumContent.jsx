@@ -28,7 +28,7 @@ function AlbumContent({albumProps}) {
   return (
     <>
       {createAlbumVisibility && <CreateAlbum setVisibility={showCreateAlbum} />}
-      <div className={`albums-container ${albumProps?'profile-albums-container':''}`}>
+      <div className={`${user.albums.length===0?'empty-albums-container':'albums-container'} ${albumProps?'profile-albums-container':''}`}>
         {albums
           ? albums.map((album) => {
               return (
@@ -61,11 +61,13 @@ function AlbumContent({albumProps}) {
           : ""}
         {!albumProps?user ? (
           user.albums.length === 0 ? (
-            <div onClick={showCreateAlbum} className="album-add">
-              <div className="album-plus-background">
-                <i className="fa-solid fa-plus"></i>
+            <div className="album-empty-state-container">
+              <img className="album-empty-state-image" src='/assets/AlbumEmpty.png'></img>
+              <div className="album-empty-state-text">
+                <h2>No albums found</h2>
+                <p>Create an album and get started now!</p>
               </div>
-              <p>Create album</p>
+              <button className="album-empty-state-button" onClick={showCreateAlbum}>Create new album</button>
             </div>
           ) : (
             <div onClick={showCreateAlbum} className="media-add">

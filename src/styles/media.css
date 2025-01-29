@@ -1,5 +1,9 @@
 .gallery-page-container{
   padding:max(2.5%,0.625rem) max(2.5%,1rem);
+  height: calc(100dvh - var(--header-height));
+  display: flex;
+  flex-direction: column;
+
 }
 .gallery-page-header{
   display: flex;
@@ -18,7 +22,7 @@
     justify-content: center;
     margin-top: 10px;
     position: relative;
-
+    margin-bottom:20px;
 }
 .selector{
   display: flex;
@@ -108,38 +112,48 @@
   column-gap: clamp(0.75rem,1.25vw, 1.25rem);
   column-count: 4;
 }
-
+.empty-albums-container{
+  flex:1;
+  display: flex;
+  justify-content: center;
+}
 
 .profile-albums-container{
   column-count: 5;
   margin-top:0px;
 }
-.album-add{
-  
-  border-radius:10px;
-  background-color: rgba(0,0,0,0.2);
+.album-empty-state-container{
   display: flex;
-  flex-direction:column;
-  justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
-
-.album-plus-background{
-  width:50px;
-  height:50px;
-  display:flex;
-  align-items:center;
-  justify-content: center;
-  border-radius:30px;
-  background-color: var(--accent-color);
+.album-empty-state-text{
+  text-align: center;
+  padding-bottom:20px;
 }
-.album-add i{
-  font-size:30px;
-  color:white;
-}
-.album-add p{
+.album-empty-state-text h2{
   color:var(--text-color);
-  font-size:22px;
+  font-size:clamp(2rem,3.5vw,2.75rem);
+  font-weight: 200;
+}
+.album-empty-state-text p{
+  color:var(--text-hover);
+  font-size:clamp(0.75rem,1.5vw,1rem) ;
+}
+.album-empty-state-image{
+  padding-bottom:10px;
+  width: clamp(15rem,30vw,20rem);
+  padding-top:clamp(2.75rem, 3.125rem - 2vw, 3.125rem);
+}
+.album-empty-state-button{
+  padding:clamp(0.5rem,1vw,0.625rem) clamp(3rem,4vw,3.75rem);
+  color:var(--background-light);
+  background-color: var(--accent-color);
+  border-radius: 40px;
+  font-size:clamp(0.75rem,1vw,0.875rem);
+  outline:none;
+  border:none;
+  cursor: pointer;
 }
 .album-cover-container{
   margin-bottom:10px;
@@ -721,6 +735,9 @@
 @media(max-width:650px){
   .gallery-page-container{
     padding-bottom:var(--small-side-bar-padding);
+  }
+  .album-empty-state-image{
+    padding-top:120px
   }
 }
 @media(max-width:500px){

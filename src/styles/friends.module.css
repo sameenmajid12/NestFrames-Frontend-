@@ -312,6 +312,9 @@
     padding-left:0.1rem;
     box-shadow: none;
   }
+  .friendsEmptyStateBody img{
+    padding-top:120px
+  }
 }
 @media(max-width:1000px){
   .friendsHeader{
