@@ -1,6 +1,38 @@
 # NestFrames - Social Media Web App (Frontend)
 NestFrames is a social media web app focused on collaborative group albums, where users can create, share, and interact with photos in an engaging and intuitive way. Designed to provide a seamless experience, NestFrames allows users to manage their albums, posts, messages, and profiles—all with real-time notifications.
 
+## Getting Started  
+
+Follow these steps to set up and run NestFrames locally.  
+
+### Prerequisites  
+Before you begin, ensure you have:  
+-  **Git** installed ([Download Git](https://git-scm.com/downloads))  
+-  **Node.js** (LTS version) installed ([Download Node.js](https://nodejs.org/))  
+-  A **GitHub account**  
+
+### Cloning the Repository  
+To get NestFrames running on your local machine:  
+```sh
+# Clone the repository
+git clone https://github.com/Saminraiyan12/NestFrames-Frontend-.git
+```
+```sh
+# Navigate into the project directory
+cd NestFrames
+```
+```sh
+# Install dependencies
+npm install
+```
+```sh
+# Start the development server
+npm run dev
+```
+- Once the server starts, open http://localhost:5173/ (or the Vite default URL) in your browser.
+- Make sure both the frontend and backend are running at the same time. The frontend will typically run on http://localhost:5173 and the backend will run on http://localhost:3000.
+- To start the backend server refer to https://github.com/Saminraiyan12/NestFrames-Backend-
+
 ## Features
 - **User Profiles**: Users can create and manage their own profiles with personal details, profile pictures, and bio information.
 - **Albums & Posts**: Users can create collaborative albums, upload posts, and share their content with friends or groups.
