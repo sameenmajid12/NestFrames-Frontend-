@@ -16,17 +16,20 @@ To get NestFrames running on your local machine:
 ```sh
 # Clone the repository
 git clone https://github.com/Saminraiyan12/NestFrames-Frontend-.git
-
+```
+```sh
 # Navigate into the project directory
 cd NestFrames
-
+```
 # Install dependencies
 npm install
-
+```sh
 # Start the development server
 npm run dev
 ```
 Once the server starts, open http://localhost:5173/ (or the Vite default URL) in your browser.
+Make sure both the frontend and backend are running at the same time. The frontend will typically run on http://localhost:5173 and the backend will run on http://localhost:3000.
+To start the backend server refer to https://github.com/Saminraiyan12/NestFrames-Backend-
 
 ## Features
 - **User Profiles**: Users can create and manage their own profiles with personal details, profile pictures, and bio information.
