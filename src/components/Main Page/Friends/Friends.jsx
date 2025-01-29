@@ -12,21 +12,23 @@ function Friends() {
   const {screen1000, searchRef} = useOutletContext();
   const [requests, setRequests] = useState(user.friendRequestsReceived);
   const [friends, setFriends] = useState(user.friends);
-  const [active, setActive] = useState("Friends");
   const location = useLocation();
-  useEffect(() => {console.log(searchRef)}, []);
+  const [active, setActive] = useState("friends");
+  useEffect(()=>{
+    setActive(location.pathname.split("/")[2]?location.pathname.split("/")[2].toLowerCase():"friends");
+  },[location]);
   const {token} = useContext(AuthContext);
   return (
     <div className={FriendsCSS.friendsPageContainer}>
       <div className={FriendsCSS.friendsHeader}>
-        {active === "Friends" ? (
+        {active === "friends" ? (
           <h1 className={FriendsCSS.header}>Friends</h1>
-        ) : active === "Requests" ? (
+        ) : active === "requests" ? (
           <h1 className={FriendsCSS.requestHeader}>
             Requests{" "}
             <span className={FriendsCSS.requestCount}>({requests.length})</span>
           </h1>
-        ) : active === "Suggested" ? (
+        ) : active === "suggested" ? (
           <h1 className={FriendsCSS.requestHeader}>Suggested</h1>
         ) : (
           ""
