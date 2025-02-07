@@ -2,10 +2,11 @@ import { useState, useRef } from "react";
 import MessagesCSS from "../../../styles/messages.module.css";
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
+import MessageMenu from "../Utils/MessageMenu";
 function Conversation() {
   const [loaded, setLoaded] = useState(false);
   const [message, setMessage] = useState("");
-
+  const [messageMenuVis, setMessageMenuVis] = useState(false);
   const inputRef = useRef(null);
   const {
     conversation,
@@ -60,7 +61,10 @@ function Conversation() {
       sendMessage();
     }
   };
-
+  const toggleMenuVisibility=()=>{
+    setMessageMenuVis(prev=>!prev);
+    console.log(messageMenuVis);
+  }
   let userUsername;
   let receiverUsername;
   let receiverName;
@@ -105,7 +109,7 @@ function Conversation() {
           {receiverName}
         </div>
 
-        <i className={`fa-solid fa-ellipsis ${MessagesCSS.ellipsis}`}></i>
+        <i onClick={toggleMenuVisibility} className={`fa-solid fa-ellipsis ${MessagesCSS.ellipsis}`}>{messageMenuVis && <MessageMenu setVisibility={toggleMenuVisibility} conversation={conversation}/>}</i>
       </div>
       <div
         key={conversation._id}

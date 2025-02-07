@@ -159,7 +159,7 @@ function Messages() {
           }
         );
         conversation = await response.json();
-        updatedConversations = [...messageThreads, conversation];
+        updatedConversations = [conversation,...messageThreads];
       }
       setMessageThreads(updatedConversations);
       navigate(`/Messages/${conversation._id}`);

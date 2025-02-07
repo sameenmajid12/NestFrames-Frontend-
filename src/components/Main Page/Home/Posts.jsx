@@ -1,10 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
 import Add from "../Profiles/AddFriend";
+import PostMenu from "../Utils/PostMenu";
 function Posts() {
   const { user } = useContext(UserContext);
   const { posts } = useOutletContext();
+  const [postMenuVisibility, setPostMenuVisibility] = useState(false);
+  const toggleVisibility = ()=>{
+    setPostMenuVisibility(prev=>!prev);
+  }
   const isUser = (profile) => {
     return profile.username === user.username;
   };
@@ -57,10 +62,13 @@ function Posts() {
                   </button>
                   ) : isUser(post.postedBy)?(<button className="post-button">Edit post</button>):<Add stylingClass={'post-button'} receiverUsername={post.postedBy.username}/>}
                 <div className="ellipsis">
-                  <i
+                  <i onClick={toggleVisibility}
                     className="fa-solid fa-ellipsis  fa-xl"
                     style={{ color: "#444" }}
                   ></i>
+                  {
+                    postMenuVisibility && <PostMenu toggleVisibility={toggleVisibility}/>
+                  }
                 </div>
               </div>
             </div>

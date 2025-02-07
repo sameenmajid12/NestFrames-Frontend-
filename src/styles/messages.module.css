@@ -343,6 +343,7 @@
 
 }
 .ellipsis{
+  position: relative;
   color:red;
 }
 .messageSend{

@@ -2,10 +2,15 @@ import { useContext, useState, useEffect, useMemo } from "react";
 import { UserContext } from "../Contexts/UserContext";
 import Add from "./AddFriend.jsx";
 import AddPfp from "./AddPfp.jsx";
+import ProfileMenu from "../Utils/ProfileMenu.jsx";
 
 function ProfileInfo({ profile, setProfile, screen650 }) {
   const { user } = useContext(UserContext);
   const [addPfpVisibility, setAddPfpVisibility] = useState(false);
+  const [menuVisibility, setMenuVisibility] = useState(false);
+  const toggleMenuVisibility = ()=>{
+    setMenuVisibility(prev=>!prev);
+  }
   const isUser = useMemo(
     () => profile.username === user.username,
     [profile.username, user.username]
@@ -87,11 +92,12 @@ function ProfileInfo({ profile, setProfile, screen650 }) {
                   </>
                 )}
                 <div className="profile-ellipsis-container">
-                  <i className="fa-solid fa-ellipsis profile-ellipsis"></i>
+                  <i onClick={toggleMenuVisibility} className="fa-solid fa-ellipsis profile-ellipsis"></i>
+                  {menuVisibility && <ProfileMenu toggleVisibility={toggleMenuVisibility}/>}
                 </div>
               </div>
             </div>
-            <p>@{profile.username}</p>
+            <p className="profile-username">@{profile.username}</p>
           </div>
           <div className="profile-about">
             <p>Long Island | RU'27</p>

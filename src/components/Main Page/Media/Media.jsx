@@ -13,7 +13,6 @@ function Media(){
   const [active, setActive] = useState("albums");
   useEffect(()=>{
     document.body.className = 'body-default';
-    getPhotos();
   },[]);
   const location = useLocation();
   
@@ -21,11 +20,7 @@ function Media(){
     setActive(location.pathname.split("/")[2]||"albums");
   },[location]);
   
-  async function getPhotos(){
-    const photos = await fetch(`http://localhost:3002/photos/${user._id}`);
-    const photoSrcs = await photos.json();
-    setPhotos(photoSrcs);
-  }
+ 
 
   return (
     <div 

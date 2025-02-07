@@ -31,3 +31,36 @@
   color:rgb(255, 72, 72);
 }
 
+
+
+.menu-container{
+  position: absolute;
+  top:110%; 
+  right:0;
+  background-color: var(--background-color);
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.15);
+  color:var(--text-color);
+  font-size: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  text-wrap: nowrap;
+  border-radius: 10px;
+  font-weight: 400;
+}
+.menu-container p{
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  padding:7px 15px;
+  text-align: center;
+}
+.menu-container p:hover{
+  background-color: rgba(0,0,0,0.15);
+}
+.menu-container p:first-child{
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.menu-container p:last-child{
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom:none;
+}
