@@ -17,7 +17,7 @@
   overflow: scroll;
 }
 .messagesFriendsSelector::-webkit-scrollbar{
-  width: 5px;
+  width: 3px;
 }
 .messagesFriendsSelector::-webkit-scrollbar-thumb{
   border-radius: 10px;
