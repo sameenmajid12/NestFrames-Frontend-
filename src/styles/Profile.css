@@ -113,13 +113,16 @@ a{
   width: clamp(1.5rem,2vw,1.875rem);
   height:clamp(1.5rem,2vw,1.875rem);
   display: flex;
-  align-items: center;
+  align-items: center;  
   justify-content: center;
   border-radius: 30px;
   cursor: pointer;
   position: relative;
 }
 .profile-ellipsis-container:hover{
+  background-color: rgba(0,0,0,0.1);
+}
+.ellipsis-active{
   background-color: rgba(0,0,0,0.1);
 }
 .profile-ellipsis{

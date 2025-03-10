@@ -91,7 +91,7 @@ function ProfileInfo({ profile, setProfile, screen650 }) {
                     )}
                   </>
                 )}
-                <div className="profile-ellipsis-container">
+                <div className={`profile-ellipsis-container ${menuVisibility?'ellipsis-active':''}`}>
                   <i onClick={toggleMenuVisibility} className="fa-solid fa-ellipsis profile-ellipsis"></i>
                   {menuVisibility && <ProfileMenu toggleVisibility={toggleMenuVisibility}/>}
                 </div>
