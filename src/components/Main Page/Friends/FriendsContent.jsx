@@ -16,7 +16,7 @@ function FriendsContent({ friendProp }) {
   }
   const message = async (friend) => {
     const response = await fetch(
-      `http://localhost:3002/users/${user._id}/message/${friend._id}`,
+      `http://localhost:3002/messages/${user._id}/message/${friend._id}`,
       {
         method: "GET",
         headers: {

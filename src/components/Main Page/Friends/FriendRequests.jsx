@@ -10,7 +10,7 @@ function FriendRequests(){
     const requestElement = e.target.closest(`.${FriendsCSS.request}`);
     const username = requestElement.querySelector(`.${FriendsCSS.username}`).dataset.username;
     const userId = user._id;
-    const response = await fetch(`http://localhost:3002/users/${userId}/accept-request`,{
+    const response = await fetch(`http://localhost:3002/friends/${userId}/accept-request`,{
       method:"PUT",
       body:JSON.stringify({username}),
       headers: {

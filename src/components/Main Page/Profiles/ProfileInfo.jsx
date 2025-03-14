@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect, useMemo } from "react";
 import { UserContext } from "../Contexts/UserContext";
-import Add from "./AddFriend.jsx";
+import AddFriend from "../Utils/AddFriend.jsx";
 import AddPfp from "./AddPfp.jsx";
 import ProfileMenu from "../Utils/ProfileMenu.jsx";
 
@@ -84,7 +84,7 @@ function ProfileInfo({ profile, setProfile, screen650 }) {
                     ) : isIncoming ? (
                       <button className="profile-button">Accept</button>
                     ) : (
-                      <Add
+                      <AddFriend
                         stylingClass={"profile-button"}
                         receiverUsername={profile.username}
                       />

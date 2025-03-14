@@ -3,7 +3,7 @@ import { AuthContext } from "../Contexts/AuthContext";
 import { UserContext } from "../Contexts/UserContext";
 import { NotificationContext } from '../Contexts/NotificationContext';
 import { SocketContext } from "../Contexts/SocketContext";
-function Add({stylingClass, receiverUsername}){
+function AddFriend({stylingClass, receiverUsername}){
   const {addSentNotification} = useContext(NotificationContext);
   const {token} = useContext(AuthContext);
   const {socket} = useContext(SocketContext);
@@ -11,7 +11,7 @@ function Add({stylingClass, receiverUsername}){
   const [loading, setLoading] = useState(false);
   const sendRequest = async()=>{
     setLoading(true);
-    const response = await fetch(`http://localhost:3002/users/${receiverUsername}/add`,{
+    const response = await fetch(`http://localhost:3002/friends/${receiverUsername}/add`,{
       method:"POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,4 +39,4 @@ function Add({stylingClass, receiverUsername}){
   )
 }
 
-export default Add;
+export default AddFriend;
