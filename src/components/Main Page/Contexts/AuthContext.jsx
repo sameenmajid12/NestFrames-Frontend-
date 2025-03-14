@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   const { socket } = useContext(SocketContext);
   const refreshToken = async () => {
     try {
-      const response = await fetch("http://localhost:3002/Sign-in/refresh", {
+      const response = await fetch("http://localhost:3002/auth/refresh", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
   };
 
   const deleteRefreshToken = async() => {
-    await fetch("http://localhost:3002/sign-in/logOut",{
+    await fetch("http://localhost:3002/auth/logOut",{
       method:"POST",
       credentials:"include"
     });

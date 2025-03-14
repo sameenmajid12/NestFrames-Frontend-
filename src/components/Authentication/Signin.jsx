@@ -50,7 +50,7 @@ function Signin() {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      const response = await fetch("http://localhost:3002/Sign-in", {
+      const response = await fetch("http://localhost:3002/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

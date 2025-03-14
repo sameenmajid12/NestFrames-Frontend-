@@ -20,7 +20,7 @@ function Register() {
   });
 
   const handleSubmit = async () => {
-    const response = await fetch('http://localhost:3002/Register', {
+    const response = await fetch('http://localhost:3002/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
