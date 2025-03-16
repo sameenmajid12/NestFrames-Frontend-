@@ -1,11 +1,15 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../components/Main Page/Contexts/UserContext";
 import { AuthContext } from "../components/Main Page/Contexts/AuthContext";
+import { NotificationContext } from "../components/Main Page/Contexts/NotificationContext";
+import { SocketContext } from "../components/Main Page/Contexts/SocketContext";
 function useFriendsActions() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { user, setUser } = useContext(UserContext);
   const { token } = useContext(AuthContext);
+  const {addSentNotification} = useContext(NotificationContext);
+  const {socket} = useContext(SocketContext);
   const sendRequest = async (username) => {
     try {
       setLoading(true);
@@ -26,8 +30,9 @@ function useFriendsActions() {
         throw new Error(errorData.message || "Failed to send request");
       }
       const data = await response.json();
+      console.log(data);
       addSentNotification(true, `Friend request sent to ${username}!`);
-      socket.emit("notification",{receiverUsername:receiverUsername, sender:user, message:`You have a new friend request from ${user.username}!`,createdAt:Date.now(), read:false, image:user.profilePic});
+      socket.emit("notification",{receiverUsername:username, sender:user, message:`You have a new friend request from ${user.username}!`,createdAt:Date.now(), read:false, image:user.profilePic});
       setUser((prev)=>({...prev, friendRequestsSent:[...prev.friendRequestsSent, data.receiver]}));
     } catch (error) {
       setError(error.message);

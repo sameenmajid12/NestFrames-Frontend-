@@ -8,7 +8,7 @@ function FriendsSuggested() {
   const { user, setUser } = useContext(UserContext);
   const { token } = useOutletContext();
   const [suggested, setSuggested] = useState([]);
-  const {sendRequest} = useFriendsActions();
+  const {sendRequest, loading} = useFriendsActions();
   useEffect(() => {
     const getSuggested = async () => {
       const response = await fetch(
@@ -83,7 +83,7 @@ function FriendsSuggested() {
                 className={FriendsCSS.acceptButton}
                 disabled={suggestedFriend.isAdded}
               >
-                {suggestedFriend.isAdded ? "Added" : "Add"}
+                {loading?<div className="add-loader"></div>:suggestedFriend.isAdded ? "Added" : "Add"}
               </button>
             </div>
           </div>
