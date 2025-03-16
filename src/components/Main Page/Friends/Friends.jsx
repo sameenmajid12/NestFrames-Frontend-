@@ -1,4 +1,4 @@
-import { Outlet, Link, useParams, useLocation, useOutletContext } from "react-router-dom";
+import {Outlet, useLocation, useOutletContext} from "react-router-dom";
 import FriendsCSS from "../../../styles/friends.module.css";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../Contexts/UserContext";
@@ -9,15 +9,26 @@ function Friends() {
     document.body.className = "body-default";
   }, []);
   const { user } = useContext(UserContext);
-  const {screen1000, searchRef} = useOutletContext();
+  const { token } = useContext(AuthContext);
+  const { screen1000, searchRef } = useOutletContext();
   const [requests, setRequests] = useState(user.friendRequestsReceived);
   const [friends, setFriends] = useState(user.friends);
   const location = useLocation();
   const [active, setActive] = useState("friends");
-  useEffect(()=>{
-    setActive(location.pathname.split("/")[2]?location.pathname.split("/")[2].toLowerCase():"friends");
-  },[location]);
-  const {token} = useContext(AuthContext);
+  useEffect(() => {
+    if (user) {
+      setFriends(user.friends);
+      setRequests(user.friendRequestsReceived);
+    }
+  }, [user.friends, user.friendRequestsReceived]);
+  useEffect(() => {
+    setActive(
+      location.pathname.split("/")[2]
+        ? location.pathname.split("/")[2].toLowerCase()
+        : "friends"
+    );
+  }, [location]);
+
   return (
     <div className={FriendsCSS.friendsPageContainer}>
       <div className={FriendsCSS.friendsHeader}>
@@ -40,18 +51,22 @@ function Friends() {
         setFriends={setFriends}
         screen1000={screen1000}
       />
-      <div className={`${FriendsCSS.friendsOuletContainer} ${!friends.length>0?FriendsCSS.empty:''}`}>
+      <div
+        className={`${FriendsCSS.friendsOuletContainer} ${
+          !friends.length > 0 ? FriendsCSS.empty : ""
+        }`}
+      >
         <Outlet
           context={{
-            searchRef:searchRef,
+            searchRef: searchRef,
             requests: requests,
             setRequests: setRequests,
             friends: friends,
             setFriends: setFriends,
             active: active,
             setActive: setActive,
-            token:token,
-            screen1000:screen1000
+            token: token,
+            screen1000: screen1000,
           }}
         />
       </div>

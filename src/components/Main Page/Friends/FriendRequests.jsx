@@ -1,42 +1,9 @@
-import { useContext,useState } from "react";
-import { UserContext } from "../Contexts/UserContext";
 import FriendsCSS from '../../../styles/friends.module.css';
 import { useOutletContext } from "react-router-dom";
-
+import useFriendsActions from "../../../hooks/useFriendsActions";
 function FriendRequests(){
-  const { user,setUser } = useContext(UserContext);
-  const {requests,setFriends, setRequests, token} = useOutletContext();
-  async function handleRequest(e){
-    const requestElement = e.target.closest(`.${FriendsCSS.request}`);
-    const username = requestElement.querySelector(`.${FriendsCSS.username}`).dataset.username;
-    const userId = user._id;
-    const response = await fetch(`http://localhost:3002/friends/${userId}/accept-request`,{
-      method:"PUT",
-      body:JSON.stringify({username}),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization":`Bearer ${token}`
-      }
-    })
-    const {status} = response;
-    if(status===200||status===409){
-      const data = await response.json();
-      const friend = data.sender;
-      const updatedFriends = [...user.friends, friend];
-      const updatedRequests = requests.filter((req)=>req.username!==friend.username);
-      setRequests(updatedRequests);
-      if(status===200){
-        setFriends(updatedFriends);
-        setUser(prev=>({...prev, friends:updatedFriends, friendRequestsReceived:updatedRequests}));
-      }
-      else{
-        setUser(prev=>({...prev, friendRequestsReceived:updatedRequests}));
-      }
-    }
-    else{
-
-    }
-  }
+  const {requests} = useOutletContext();
+  const {acceptRequest, ignoreRequest} = useFriendsActions(); 
   return (
       <div className={FriendsCSS.requestContainer}>
         
@@ -47,12 +14,12 @@ function FriendRequests(){
                 <img className={FriendsCSS.requestUserImage} src={request.profilePic?request.profilePic.fileUrl:'../assets/default-avatar.png'}/>
                 <div>
                   <h2 className={FriendsCSS.name}>{request.fullname}</h2>
-                  <p className={FriendsCSS.username} data-username={request.username}>@{request.username}</p>
+                  <p className={FriendsCSS.username}>@{request.username}</p>
                 </div>
               </div>
               <div className={FriendsCSS.requestButtons}>
-                <button className={FriendsCSS.ignoreButton}>Ignore</button>
-                <button onClick={(e)=>{handleRequest(e)}}className={FriendsCSS.acceptButton}>Accept</button>
+                <button onClick={()=>ignoreRequest(request.username)} className={FriendsCSS.ignoreButton}>Ignore</button>
+                <button onClick={()=>acceptRequest(request.username)}className={FriendsCSS.acceptButton}>Accept</button>
               </div>
             </div>
           )

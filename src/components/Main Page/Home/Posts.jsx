@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
-import Add from "../Profiles/AddFriend";
+import AddFriend from "../Utils/AddFriend";
 import PostMenu from "../Utils/PostMenu";
 function Posts() {
   const { user } = useContext(UserContext);
@@ -60,7 +60,7 @@ function Posts() {
                     <button className="post-button">
                     Requested
                   </button>
-                  ) : isUser(post.postedBy)?(<button className="post-button">Edit post</button>):<Add stylingClass={'post-button'} receiverUsername={post.postedBy.username}/>}
+                  ) : isUser(post.postedBy)?(<button className="post-button">Edit post</button>):<AddFriend stylingClass={'post-button'} receiverUsername={post.postedBy.username}/>}
                 <div className="ellipsis">
                   <i onClick={toggleVisibility}
                     className="fa-solid fa-ellipsis  fa-xl"

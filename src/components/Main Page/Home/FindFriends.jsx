@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../Contexts/UserContext";
-import Add from "../Profiles/AddFriend";
+import AddFriend from "../Utils/AddFriend";
 import { useNavigate } from "react-router-dom";
 
 function FindFriends({ friends, setFriends }) {
@@ -48,7 +48,7 @@ function FindFriends({ friends, setFriends }) {
             {handleRequestCheck(friend) ? (
               <button className="find-friend-requested"><i className="fa-solid fa-check"></i></button>
             ) : (
-              <Add stylingClass={"find-friend-add"} receiverUsername={friend.username}/>
+              <AddFriend stylingClass={"find-friend-add"} receiverUsername={friend.username}/>
             )}
           </div>
         )):<div className="find-friend-empty">No friend suggestions at the moment. Check back later! 📦 </div>}

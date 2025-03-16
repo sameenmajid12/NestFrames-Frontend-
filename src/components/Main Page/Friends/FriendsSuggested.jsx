@@ -2,11 +2,13 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import FriendsCSS from "../../../styles/friends.module.css";
 import { UserContext } from "../Contexts/UserContext";
 import { useOutletContext } from "react-router-dom";
+import useFriendsActions from "../../../hooks/useFriendsActions";
 
 function FriendsSuggested() {
   const { user, setUser } = useContext(UserContext);
   const { token } = useOutletContext();
   const [suggested, setSuggested] = useState([]);
+  const {sendRequest} = useFriendsActions();
   useEffect(() => {
     const getSuggested = async () => {
       const response = await fetch(
@@ -25,28 +27,6 @@ function FriendsSuggested() {
     };
     getSuggested();
   }, [user._id]);
-
-  const add = async (friend) => {
-    const response = await fetch(
-      `http://localhost:3002/users/${friend.username}/add`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          senderId: user._id,
-          receiverUsername: friend.username,
-        }),
-      }
-    );
-    const data = await response.json();
-    setUser((prev) => ({
-      ...prev,
-      friendRequestsSent: [...prev.friendRequestsSent, data.receiver],
-    }));
-  };
   const ignore = (friend) => {
     setSuggested((prev) =>
       prev.filter((prevSuggested) => prevSuggested.user._id !== friend._id)
@@ -99,7 +79,7 @@ function FriendsSuggested() {
                 Ignore
               </button>
               <button
-                onClick={() => add(suggestedFriend.user)}
+                onClick={() => sendRequest(suggestedFriend.user.username)}
                 className={FriendsCSS.acceptButton}
                 disabled={suggestedFriend.isAdded}
               >

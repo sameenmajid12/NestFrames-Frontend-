@@ -12,7 +12,7 @@ function FriendsSelectionButtons({active, setActive, setFriends, screen1000}){
         <button className={`${FriendsCSS.button} ${active==='suggested'?FriendsCSS.active:''}`}>Suggested</button>
        </Link>
        <Link to="/friends/requests">
-        <button className={`${FriendsCSS.button} ${active==='Requests'?FriendsCSS.active:''}`}>Requests</button>
+        <button className={`${FriendsCSS.button} ${active==='requests'?FriendsCSS.active:''}`}>Requests</button>
        </Link>
         
       </div>
