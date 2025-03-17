@@ -1,65 +1,89 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../Contexts/UserContext";
 
-function CreatePostBody({file,onConfirm, setFilePresent, setVisibility}) {
+function CreatePostBody({
+  file,
+  onConfirm,
+  setFilePresent,
+  setVisibility,
+  albumName,
+}) {
   const [caption, setCaption] = useState("");
-  const [album, setAlbum] = useState(null);
+  const [album, setAlbum] = useState(albumName ? albumName : null);
   const [isPublic, setIsPublic] = useState(true);
-  const {user} = useContext(UserContext);
-  const selectAlbum=(album)=>{
-    setAlbum(album);
-  }
+  const { user } = useContext(UserContext);
+  const selectAlbum = (album) => {
+    if (!albumName) {
+      setAlbum(album);
+    }
+  };
   const toggleSwitch = () => {
     setIsPublic((prevPrivacy) => !prevPrivacy);
   };
-  const handleCaptionChange=(e)=>{
-      setCaption(e.target.value);
-    }
-    const handleAlbumChange=(e)=>{
-      setAlbum(e.target.value)
-    }
-    const uploadPost = () => {
-      if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("userId", user._id);
-        fetch("http://localhost:3002/photos/upload", {
-          method: "POST",
-          body: formData,
-        });
-        setFilePresent(false);
-      }
-    };
-    const uploadForAlbum = () => {
-      if (file) {
-        const post ={
-          caption:caption,
-          postedBy:user._id,
-          privacy:!isPublic,
-          timestamp:Date.now(),
-          photo:file
-        }
-        onConfirm(post);
-      }
+  const handleCaptionChange = (e) => {
+    setCaption(e.target.value);
+  };
+  const handleAlbumChange = (e) => {
+    setAlbum(e.target.value);
+  };
+  const uploadPost = () => {
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("userId", user._id);
+      fetch("http://localhost:3002/photos/upload", {
+        method: "POST",
+        body: formData,
+      });
       setFilePresent(false);
-      setVisibility(false);
-    };
-    console.log(album);
+    }
+  };
+  const uploadForAlbum = () => {
+    if (file) {
+      const post = {
+        caption: caption,
+        postedBy: user._id,
+        privacy: !isPublic,
+        timestamp: Date.now(),
+        photo: file,
+      };
+      onConfirm(post);
+    }
+    setFilePresent(false);
+    setVisibility(false);
+  };
+  console.log(album);
   return (
     <div className="post-upload-container">
       <img className="post-upload-image" src={URL.createObjectURL(file)}></img>
       <div className="post-upload-details">
         <div>
           <p className="post-upload-input-headers">Album</p>
-          <select style={{color:`${!album?"#114085B3":"var(--text-color)"}`}} value={album || ""} onChange={handleAlbumChange} className="post-upload-album-select">
-            <option  disabled value="">
-              Choose an album
-            </option>
-            {
-              user.albums.map((album)=>{
-                return <option onClick={()=>selectAlbum(album)} value={album._id}>{album.name}</option>
-              })
-            }
+          <select
+            style={{ color: `${!album ? "#114085B3" : "var(--text-color)"}` }}
+            value={album || ""}
+            onChange={handleAlbumChange}
+            className="post-upload-album-select"
+          >
+            {albumName ? (
+              <option selected>{albumName}</option>
+            ) : (
+              <>
+                <option disabled value="">
+                  Choose an album
+                </option>
+                {user.albums.map((album) => {
+                  return (
+                    <option
+                      onClick={() => selectAlbum(album)}
+                      value={album._id}
+                    >
+                      {album.name}
+                    </option>
+                  );
+                })}
+              </>
+            )}
           </select>
         </div>
         <div>

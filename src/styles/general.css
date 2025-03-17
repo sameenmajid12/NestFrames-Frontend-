@@ -228,13 +228,13 @@ animation: spin 0.75s linear infinite;
 }
 @keyframes shimmer{
   0%{
-    filter:brightness(70%);
+    filter:brightness(85%);
   }
   50%{
     filter:brightness(100%);
   }
   100%{
-    filter: brightness(70%);
+    filter: brightness(85%);
   }
 }
 @keyframes spin{

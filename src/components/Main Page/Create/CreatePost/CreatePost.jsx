@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../../../styles/create.css";
 import CreatePostBody from "./CreatePostBody";
 
-function CreatePost({ fileProp, setVisibility, onConfirm }) {
+function CreatePost({ fileProp, albumName, setVisibility, onConfirm }) {
   const [filePresent, setFilePresent] = useState(false);
   const [file, setFile] = useState(null);
   useEffect(() => {
@@ -20,10 +20,7 @@ function CreatePost({ fileProp, setVisibility, onConfirm }) {
       document.removeEventListener("wheel", handleWheel);
     };
   }, []);
-  
-  const [postData, setPostData] = useState({});
-  
-  
+    
   const fileInputChange = (e) => {
     if (e.target.files) {
       setFilePresent(true);
@@ -32,10 +29,8 @@ function CreatePost({ fileProp, setVisibility, onConfirm }) {
       document.querySelector(".create-image").src = imageUrl;
     }
   };
-  
-
   return (
-    <div className={!fileProp ? "create-container-page" : ""}>
+    <div className={"create-container-page"}>
       <div className="create-container">
         <i
           onClick={() => setVisibility(false)}
@@ -44,7 +39,7 @@ function CreatePost({ fileProp, setVisibility, onConfirm }) {
         <div className="create-container-header">Create New Post</div>
 
         {filePresent ? (
-          <CreatePostBody file={file} onConfirm={onConfirm} setFilePresent={setFilePresent} setVisibility={setVisibility}/>
+          <CreatePostBody file={file} onConfirm={onConfirm} setFilePresent={setFilePresent} setVisibility={setVisibility} albumName={albumName}/>
         ) : (
           <div className="create-container-body">
             <img

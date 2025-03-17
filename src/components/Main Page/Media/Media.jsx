@@ -7,7 +7,7 @@ import { NotificationContext } from '../Contexts/NotificationContext';
 function Media(){
   const { user } = useContext(UserContext)
   const { addNotification } = useContext(NotificationContext);
-  const [photos, setPhotos] = useState([]);
+  const [posts, setPosts] = useState(user.posts);
   const [albums, setAlbums] = useState(user.albums);
   const [requests, setRequests] = useState(user.albumRequests);
   const [active, setActive] = useState("albums");
@@ -52,7 +52,7 @@ function Media(){
           {active==="albums"?<Search setAlbums={setAlbums} selector="album"/>:''}</div>
       </div>
       
-      <Outlet context={{photos:photos, requests:requests, setRequests:setRequests, albums:albums, setAlbums:setAlbums}}/>
+      <Outlet context={{posts:posts, requests:requests, setRequests:setRequests, albums:albums, setAlbums:setAlbums}}/>
     </div>
   )
 }

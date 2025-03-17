@@ -6,7 +6,7 @@ import CreatePost from "../CreatePost/CreatePost";
 import { AuthContext } from "../../Contexts/AuthContext";
 import CreateAlbumPostUpload from "./CreateAlbumPostUpload";
 import CreateAlbumCoverPhoto from "./CreateAlbumCoverPhoto";
-import CreateAlbumPostContainer from './CreateAlbumPostContainer';
+import CreateAlbumPostContainer from "./CreateAlbumPostContainer";
 function CreateAlbum({ setVisibility }) {
   const { user } = useContext(UserContext);
 
@@ -40,10 +40,9 @@ function CreateAlbum({ setVisibility }) {
   const [postModalFile, setPostModalFile] = useState(null);
   const [isPostModalVisible, setIsPostModalVisibile] = useState(false);
   const { token } = useContext(AuthContext);
- 
 
   const handlePostModalUpload = (newPost) => {
-    setAlbumPosts(prev=>[...prev, newPost]);
+    setAlbumPosts((prev) => [...prev, newPost]);
   };
 
   const toggleFriendSelector = () => {
@@ -64,8 +63,6 @@ function CreateAlbum({ setVisibility }) {
     toggleFriendSelector();
   };
 
-  
-
   const handleAlbumNameChange = (e) => {
     setAlbumName(e.target.value);
   };
@@ -77,21 +74,20 @@ function CreateAlbum({ setVisibility }) {
     const formData = new FormData();
     formData.append("coverPhoto", coverPhoto);
     formData.append("name", albumName);
-    formData.append("users",user._id);
+    formData.append("users", user._id);
     albumCollaborators.forEach((collaborator) => {
       formData.append("users", collaborator._id);
     });
 
     albumPosts.forEach((post) => {
       const { photo, ...otherProps } = post;
-    formData.append(`posts`, JSON.stringify(otherProps));
+      formData.append(`posts`, JSON.stringify(otherProps));
 
-    // Add the photo property as a separate file
-    if (photo) {
-      formData.append(`photos`, photo);
-    }
+      if (photo) {
+        formData.append(`photos`, photo);
+      }
     });
-    
+
     const response = await fetch("http://localhost:3002/Albums/Create", {
       method: "POST",
       body: formData,
@@ -108,19 +104,20 @@ function CreateAlbum({ setVisibility }) {
 
   return (
     <>
-      <div className="create-album-page">
-        {postModalFile && isPostModalVisible ? (
-          <CreatePost
-            onConfirm={handlePostModalUpload}
-            fileProp={postModalFile}
-            setVisibility={setIsPostModalVisibile}
-          />
-        ) : isFriendSelectorVisible ? (
-          <SelectorList
-            onConfirm={handleAddFriends}
-            toggleVisibility={toggleFriendSelector}
-          />
-        ) : (
+      {postModalFile && isPostModalVisible ? (
+        <CreatePost
+          onConfirm={handlePostModalUpload}
+          fileProp={postModalFile}
+          setVisibility={setIsPostModalVisibile}
+          albumName={albumName || "Album name"}
+        />
+      ) : isFriendSelectorVisible ? (
+        <SelectorList
+          onConfirm={handleAddFriends}
+          toggleVisibility={toggleFriendSelector}
+        />
+      ) : (
+        <div className="create-album-page">
           <div className="create-album-container">
             <div className="create-album-header">
               <p>Create album</p>
@@ -188,7 +185,7 @@ function CreateAlbum({ setVisibility }) {
                 setIsPostModalVisibile={setIsPostModalVisibile}
                 setPostModalFile={setPostModalFile}
               />
-              <CreateAlbumPostContainer albumPosts={albumPosts}/>
+              <CreateAlbumPostContainer albumPosts={albumPosts} />
               <button
                 onClick={handleCreateAlbum}
                 className="create-album-button"
@@ -197,8 +194,8 @@ function CreateAlbum({ setVisibility }) {
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 }

@@ -2,7 +2,7 @@ import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import CreatePost from "../Create/CreatePost/CreatePost";
 function PhotosContent() {
-  const { photos } = useOutletContext();
+  const { posts } = useOutletContext();
   const [createVisibility, setCreateVisibility] = useState(false);
   const toggleCreate = () =>{
     setCreateVisibility((prevVisibility)=>!prevVisibility);
@@ -11,11 +11,11 @@ function PhotosContent() {
     <>
       {createVisibility && <CreatePost visibility={createVisibility} setVisibility={setCreateVisibility}/>}
       <div className="photos-container">
-        {photos.map((photo, index) => {
-          console.log(photo);
+        {posts.map((post, index) => {
+          console.log(post);
           return (
             <div key={index}>
-              <img className="photos" src={photo}></img>
+              <img className="photos" src={post.photo.fileUrl}></img>
             </div>
           );
         })}
