@@ -8,8 +8,8 @@ function useFriendsActions() {
   const [error, setError] = useState(null);
   const { user, setUser } = useContext(UserContext);
   const { token } = useContext(AuthContext);
-  const {addSentNotification} = useContext(NotificationContext);
-  const {socket} = useContext(SocketContext);
+  const { addSentNotification } = useContext(NotificationContext);
+  const { socket } = useContext(SocketContext);
   const sendRequest = async (username) => {
     try {
       setLoading(true);
@@ -32,8 +32,18 @@ function useFriendsActions() {
       const data = await response.json();
       console.log(data);
       addSentNotification(true, `Friend request sent to ${username}!`);
-      socket.emit("notification",{receiverUsername:username, sender:user, message:`You have a new friend request from ${user.username}!`,createdAt:Date.now(), read:false, image:user.profilePic});
-      setUser((prev)=>({...prev, friendRequestsSent:[...prev.friendRequestsSent, data.receiver]}));
+      socket.emit("notification", {
+        receiverUsername: username,
+        sender: user,
+        message: `You have a new friend request from ${user.username}!`,
+        createdAt: Date.now(),
+        read: false,
+        image: user.profilePic,
+      });
+      setUser((prev) => ({
+        ...prev,
+        friendRequestsSent: [...prev.friendRequestsSent, data.receiver],
+      }));
     } catch (error) {
       setError(error.message);
     } finally {
@@ -54,20 +64,26 @@ function useFriendsActions() {
           },
         }
       );
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.message);
-        throw new Error(errorData.message || "Failed to accept request");
-      }
-
       const data = await response.json();
-      setUser((prev) => ({
-        ...prev,
-        friends: [...prev.friends, data.sender],
-        friendRequestsReceived: prev.friendRequestsReceived.filter(
-          (request) => request.username !== username
-        ),
-      }));
+      if (response.ok) {
+        setUser((prev) => ({
+          ...prev,
+          friends: [...prev.friends, data.sender],
+          friendRequestsReceived: prev.friendRequestsReceived.filter(
+            (request) => request.username !== username
+          ),
+        }));
+      } else if (response.status === 400) {
+        setUser((prev) => ({
+          ...prev,
+          friendRequestsReceived: prev.friendRequestsReceived.filter(
+            (request) => request.username !== username
+          ),
+        }));
+      } else {
+        setError(data.message);
+        throw new Error(data.message || "Failed to accept request");
+      }
     } catch (error) {
       setError(error.message);
     } finally {
