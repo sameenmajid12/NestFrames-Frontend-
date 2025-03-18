@@ -1,14 +1,17 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import "../../../styles/albums.css";
 import AlbumCollaborators from "./AlbumCollaborators";
+import useAlbumActions from "../../../hooks/useAlbumActions";
+import { UserContext } from "../Contexts/UserContext";
 
-function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collaborators, setCollaborators, screen1000, screen650 }) {
+function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collaborators, screen1000, screen650 }) {
   const inputRef = useRef(null);
   const [nameChange, setNameChange] = React.useState({
     active: false,
     newName: "",
   });
-
+  const {user} = useContext(UserContext);
+  const {likeAlbum} = useAlbumActions();
   const toggleNameChange = () => {
     setNameChange((prev) => ({ ...prev, active: !prev.active }));
     setTimeout(() => {
@@ -83,8 +86,8 @@ function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collabo
             )}
           </div>
           <div className="album-interactions">
-            <div className="album-interaction-icons">
-              <i className="fa-solid fa-heart"></i>
+            <div className={`album-interaction-icons ${album.likedBy.includes(user._id)?'album-liked':''}`}>
+              <i onClick={()=>likeAlbum(albumId, setAlbum)} className='fa-solid fa-heart '></i>
             </div>
             <div className="album-interaction-icons">
               <i className="fa-solid fa-plus"></i>
@@ -101,7 +104,7 @@ function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collabo
           <img src={album.coverPhoto.fileUrl} alt="Album Cover" />
         </div>
       </div>
-      {!screen1000?<AlbumCollaborators album={album} albumId={albumId} setAlbum={setAlbum} collaborators={collaborators} setCollaborators={setCollaborators}/>:''}
+      {!screen1000?<AlbumCollaborators album={album} collaborators={collaborators} />:''}
     </div>
   );
 }
