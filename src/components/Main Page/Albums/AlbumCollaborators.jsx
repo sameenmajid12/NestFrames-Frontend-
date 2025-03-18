@@ -1,12 +1,16 @@
-  import "../../../styles/albums.css";
+  import useAlbumActions from "../../../hooks/useAlbumActions";
+import "../../../styles/albums.css";
+import { AuthContext } from "../Contexts/AuthContext";
+import { NotificationContext } from "../Contexts/NotificationContext";
   import SelectorList from "../Utils/SelectorList";
-  import { useState } from "react";
+  import { useContext, useState } from "react";
   function AlbumCollaborators({
-    albumId,
     collaborators,
-    setCollaborators,
-    screen1000
+    album
   }) {
+    console.log(album);
+    const {token} = useContext(AuthContext);
+    const {sendInvitation} = useAlbumActions();
     const [friendListVisibility, setFriendListVisibility] = useState(false);
     const [collaboratorVisibility, setCollaboratorVisibility] = useState(false);
     const toggleFriendVisibility = () => {
@@ -15,35 +19,12 @@
     const toggleCollaboratorVisibility = () => {
       setCollaboratorVisibility((prev) => !prev);
     };
-    console.log(collaborators);
-    const addCollaborator = async (users) => {
-      let userIds = [];
-      users.forEach((user) => {
-        userIds.push(user._id);
-      });
-      const response = await fetch(
-        `http://localhost:3002/albums/${albumId}/collaborators`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userIds: userIds }),
-        }
-      );
-      if (response.ok) {
-        const newUsers = await response.json();
-        console.log(newUsers);
-        setCollaborators((prev) => [...prev, ...newUsers.users]);
-        setFriendListVisibility(false);
-      }
-    };
     return (
       <>
         {friendListVisibility && (
           <SelectorList
             toggleVisibility={toggleFriendVisibility}
-            onConfirm={addCollaborator}
+            onConfirm={(selectedUsers)=>sendInvitation(selectedUsers, album._id)}
           />
         )}
         {

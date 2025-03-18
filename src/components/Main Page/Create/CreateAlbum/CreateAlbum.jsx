@@ -7,8 +7,10 @@ import { AuthContext } from "../../Contexts/AuthContext";
 import CreateAlbumPostUpload from "./CreateAlbumPostUpload";
 import CreateAlbumCoverPhoto from "./CreateAlbumCoverPhoto";
 import CreateAlbumPostContainer from "./CreateAlbumPostContainer";
+import { NotificationContext } from "../../Contexts/NotificationContext";
 function CreateAlbum({ setVisibility }) {
   const { user } = useContext(UserContext);
+  const {addSentNotification} = useContext(NotificationContext);
 
   useEffect(() => {
     const albumNameInput = document.querySelector(".create-album-name");
@@ -95,10 +97,14 @@ function CreateAlbum({ setVisibility }) {
         Authorization: `Bearer ${token}`,
       },
     });
+    const data = await response.json();
     if (response.ok) {
-      const { albumId } = await response.json();
-      setVisibility(false);
+      addSentNotification(true, 'Succesfully created album')
+      const { albumId } = data;
+      setVisibility(false);w
       navigate(`/album/${albumId}`);
+    }else{
+      addSentNotification(false, data.message)
     }
   };
 
@@ -154,7 +160,6 @@ function CreateAlbum({ setVisibility }) {
                     <input
                       className="create-album-tag-input"
                       onChange={(e) => {
-                        // Prevent editing the input by resetting the value
                         e.target.value = albumCollaborators
                           .map((friend) => `@${friend.username}`)
                           .join(", ");

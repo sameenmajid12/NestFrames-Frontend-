@@ -43,7 +43,6 @@ export const NotificationProvider = ({ children }) => {
     if (user && socket) {
       socket.on("notification", (notification) => {
         console.log(notification);
-        console.log()
         addReceivedNotification(notification);
       });
     }

@@ -52,6 +52,10 @@
   color:var(--accent-color);
 
 }
+.album-interaction-icons.album-liked{
+  box-shadow: 4px 4px 1px #F57969;
+  color:#F57969;
+}
 .album-interaction-icons:hover{
   background-color: var(--background-color);
 }

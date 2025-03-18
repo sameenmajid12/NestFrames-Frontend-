@@ -20,7 +20,10 @@ function Media(){
     setActive(location.pathname.split("/")[2]||"albums");
   },[location]);
   
- 
+ useEffect(()=>{
+  setAlbums(user.albums);
+  setRequests(user.albumRequests);
+ },[user.albums,user.albumRequests])
 
   return (
     <div 

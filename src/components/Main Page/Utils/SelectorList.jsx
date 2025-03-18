@@ -54,6 +54,7 @@ function SelectorList({ toggleVisibility, onConfirm }) {
   }, [search]);
   const handleConfirm = ()=>{
     onConfirm(selected);
+    toggleVisibility();
   }
   return (
     <div className="list-page">
