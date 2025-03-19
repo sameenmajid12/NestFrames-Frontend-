@@ -7,15 +7,36 @@ function useAlbumActions() {
   const { user, setUser } = useContext(UserContext);
   const { addSentNotification } = useContext(NotificationContext);
   const { token } = useContext(AuthContext);
-  const createAlbum = () => {};
-  const sendRequest = () => {}; //Sent from a user not in the album
+
+
+  const sendRequest = async (albumId) => {
+    const response = await fetch(
+      `https://localhost:3002/albums/${albumId}/send-request`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user._id }),
+      }
+    );
+    const data = await response.json();
+    if (response.ok) {
+      addSentNotification(true, data.message);
+    } else {
+      addSentNotification(false, data.message);
+    }
+  }; //Sent from a user not in the album
+
+
   const sendInvitation = async (users, albumId) => {
     let userIds = [];
     users.forEach((user) => {
       userIds.push(user._id);
     });
     const response = await fetch(
-      `http://localhost:3002/albums/${albumId}/invite-collaborators`,
+      `http://localhost:3002/albums/${albumId}/send-invite`,
       {
         method: "PATCH",
         headers: {
@@ -32,6 +53,7 @@ function useAlbumActions() {
       addSentNotification(false, data.message);
     }
   }; //Sent to a user not in the album
+
 
   const acceptInvitation = async (requestId) => {
     const response = await fetch(
@@ -66,9 +88,37 @@ function useAlbumActions() {
     } else {
       addSentNotification(false, data.message);
     }
-  };
+  };//Accept collaboration invite from user in an album
 
-  const acceptRequest = () => {};
+
+  const acceptRequest = async (albumId, userId, setAlbum) => {
+    const response = await fetch(
+      `http://localhost:3002/albums/${albumId}/accept-request`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId: userId }),
+      }
+    );
+    const data = await response.json();
+    if (response.ok) {
+      addSentNotification(true, data.message);
+      setAlbum((prev) => ({
+        ...prev,
+        users: [...prev.users, data.user],
+        userRequests: prev.userRequests.filter(
+          (req) => req._id.toString() !== data.user._id.toString()
+        ),
+      }));
+    } else {
+      addSentNotification(false, data.message);
+    }
+  };//Accept collaboration request from user not in an album
+  
+
   const declineInvitation = async (requestId) => {
     const response = await fetch(
       `http://localhost:3002/albums/${requestId}/decline-invitation`,
@@ -92,31 +142,83 @@ function useAlbumActions() {
     } else {
       addSentNotification(false, data.message);
     }
-  };
-  const declineRequest = () => {};
-  const likeAlbum = async(albumId, setAlbum) => {
-    const response = await fetch(`http://localhost:3002/albums/${albumId}/like`,{
-      method:'PATCH',
-      body: JSON.stringify({userId:user._id}),
-      headers:{
-        "Content-Type":"application/json",
-        "Authorization":`Bearer ${token}`
+  };//Decline collaboration invitation from user in an album
+
+
+  const declineRequest = async(albumId, userId, setAlbum) => {
+    const response = await fetch(
+      `http://localhost:3002/albums/${albumId}/decline-request`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId: userId }),
       }
+    );
+    const data = await response.json();
+    if (response.ok) {
+      addSentNotification(true, data.message);
+      setAlbum((prev) => ({
+        ...prev,
+        userRequests: prev.userRequests.filter(
+          (req) => req._id.toString() !== data.user._id.toString()
+        ),
+      }));
+    } else {
+      addSentNotification(false, data.message);
+    }
+  };//Decline collaboration request from user not in an album
+
+
+  const likeAlbum = async (albumId, setAlbum) => {
+    const response = await fetch(
+      `http://localhost:3002/albums/${albumId}/like`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ userId: user._id }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    if (response.status === 201) {
+      setAlbum((prev) => ({
+        ...prev,
+        likedBy: [...prev.likedBy, data.user._id],
+      }));
+    } else if (response.status === 200) {
+      setAlbum((prev) => ({
+        ...prev,
+        likedBy: prev.likedBy.filter(
+          (liker) => liker.toString() !== data.user._id.toString()
+        ),
+      }));
+    } else {
+      addSentNotification(false, data.message);
+    }
+  };
+
+
+  const deleteAlbum = async (albumId) => {
+    const response = await fetch(`http://localhost:3002/albums/${albumId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     const data = await response.json();
-    if(response.status===201){
-      setAlbum((prev)=>({...prev, likedBy:[...prev.likedBy,data.user._id]}));
-    }
-    else if(response.status===200){
-      setAlbum((prev)=>({...prev, likedBy: prev.likedBy.filter((liker)=>liker.toString()!==data.user._id.toString())}))
-    }
-    else{
-      addSentNotification(false, data.message)
+    if (response.ok) {
+      addSentNotification(true, data.message);
+    } else {
+      addSentNotification(false, data.message);
     }
   };
-  const deleteAlbum = () => {};
+
   return {
-    createAlbum,
     sendInvitation,
     sendRequest,
     acceptRequest,
