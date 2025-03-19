@@ -1,8 +1,8 @@
 function usePostActions(){
-  const createPost=()=>{
+  const likePost=()=>{
 
   }
-  const likePost=()=>{
+  const comment =()=>{
 
   }
   const deletePost=()=>{
@@ -11,5 +11,6 @@ function usePostActions(){
   const editPost=()=>{
     
   }
+  return {likePost, comment, deletePost, editPost};
 }
 export default usePostActions;

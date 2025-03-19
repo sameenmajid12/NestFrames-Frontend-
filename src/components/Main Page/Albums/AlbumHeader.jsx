@@ -86,8 +86,8 @@ function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collabo
             )}
           </div>
           <div className="album-interactions">
-            <div className={`album-interaction-icons ${album.likedBy.includes(user._id)?'album-liked':''}`}>
-              <i onClick={()=>likeAlbum(albumId, setAlbum)} className='fa-solid fa-heart '></i>
+            <div onClick={()=>likeAlbum(albumId, setAlbum)} className={`album-interaction-icons ${album.likedBy.includes(user._id)?'album-liked':''}`}>
+              <i className='fa-solid fa-heart '></i>
             </div>
             <div className="album-interaction-icons">
               <i className="fa-solid fa-plus"></i>
