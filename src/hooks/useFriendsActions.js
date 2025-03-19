@@ -56,7 +56,7 @@ function useFriendsActions() {
       const response = await fetch(
         `http://localhost:3002/friends/${username}/accept-request`,
         {
-          method: "PUT",
+          method: "PATCH",
           body: JSON.stringify({ userUsername: user.username }),
           headers: {
             "Content-Type": "application/json",
@@ -97,7 +97,7 @@ function useFriendsActions() {
       const response = await fetch(
         `http://localhost:3002/friends/${username}/ignore-request`,
         {
-          method: "PUT",
+          method: "PATCH",
           body: JSON.stringify({ userUsername: user.username }),
           headers: {
             "Content-Type": "application/json",
@@ -121,6 +121,46 @@ function useFriendsActions() {
       setLoading(false);
     }
   };
-  return { ignoreRequest, sendRequest, acceptRequest, loading, error };
+  const removeFriend = async (username) => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `http://localhost:3002/friends/${username}/remove`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setUser((prev) => ({
+          ...prev,
+          friends: prev.friends.filter(
+            (friend) => friend.username !== username
+          ),
+        }));
+        addSentNotification(true, data.message);
+      } else {
+        setError(data.message)
+        addSentNotification(false, data.message);
+      }
+    } catch (error) {
+      setError(error.message);
+      addSentNotification(false, error.message);
+    }
+    finally{
+      setLoading(false);
+    }
+  };
+  return {
+    ignoreRequest,
+    sendRequest,
+    acceptRequest,
+    removeFriend,
+    loading,
+    error,
+  };
 }
 export default useFriendsActions;
