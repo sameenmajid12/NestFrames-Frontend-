@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../Contexts/UserContext";
+import { AuthContext } from "../../Contexts/AuthContext";
+import { NotificationContext } from "../../Contexts/NotificationContext";
 
 function CreatePostBody({
   file,
@@ -11,7 +13,10 @@ function CreatePostBody({
   const [caption, setCaption] = useState("");
   const [album, setAlbum] = useState(albumName ? albumName : null);
   const [isPublic, setIsPublic] = useState(true);
-  const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+  const {addSentNotification} = useContext(NotificationContext);
+  const { user, setUser } = useContext(UserContext);
+  const {token} = useContext(AuthContext);
   const selectAlbum = (album) => {
     if (!albumName) {
       setAlbum(album);
@@ -26,17 +31,41 @@ function CreatePostBody({
   const handleAlbumChange = (e) => {
     setAlbum(e.target.value);
   };
-  const uploadPost = () => {
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("userId", user._id);
-      fetch("http://localhost:3002/photos/upload", {
-        method: "POST",
-        body: formData,
-      });
-      setFilePresent(false);
+  const uploadPost = async() => {
+    try{
+      if (file) {
+        setLoading(true);
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("album",album);
+        formData.append("caption",caption);
+        formData.append("public",isPublic);
+        const response = await fetch(`http://localhost:3002/photos/${user._id}/upload`, {
+          method: "POST",
+          body: formData,
+          headers:{
+            "Authorization":`Bearer ${token}`
+          }
+        });
+        const data = await response.json();
+        if(response.ok){
+          setUser((prev)=>({...prev, posts:[...prev.posts, data.post]}));
+          addSentNotification(true, data.message);
+          setFilePresent(false);
+        }
+        else{
+          addSentNotification(false, data.message);
+          setLoading(false);
+        }
+      }
     }
+    catch(error){
+      addSentNotification(false, error.message);
+    }
+    finally{
+      setLoading(false);
+    }
+    
   };
   const uploadForAlbum = () => {
     if (file) {

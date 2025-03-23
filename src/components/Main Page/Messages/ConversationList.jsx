@@ -1,0 +1,140 @@
+import { useNavigate } from "react-router-dom";
+import MessagesCSS from "../../../styles/messages.module.css";
+import { useState } from "react";
+import { checkRead, getLastMessage, formatMessage } from "../Utils/messages";
+function ConversationList({screen1000, activeConversation, toggleListVisibility, messageThreads, setActiveConversation, user, loading}) {
+  const navigate = useNavigate();
+  const [searchTerm ,setSearchTerm] = useState("");
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  return (
+    <>
+      {!screen1000 || !activeConversation ? (
+        <div className={MessagesCSS.messagesFriendsSelector}>
+          <div className={MessagesCSS.messagesHeaderContainer}>
+            <div className={MessagesCSS.messagesFriendsHeader}>
+              <h1>Messages</h1>
+              <i
+                onClick={toggleListVisibility}
+                className={`fa-solid fa-pen-to-square ${MessagesCSS.addMessage}`}
+              ></i>
+            </div>
+            <div className={MessagesCSS.searchMessage}>
+              <i
+                className={`fa-solid fa-magnifying-glass ${MessagesCSS.searchIcon}`}
+              ></i>
+              <input
+                placeholder="Search Messages"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </div>
+          </div>
+          {loading ? (
+            <div></div>
+          ) : (
+            <div
+              id="conversationsContainer"
+              className={MessagesCSS.messageThreadsContainer}
+            >
+              {messageThreads.map((conversation) => {
+                const lastUnreadMessage = checkRead(conversation, user._id);
+                return (
+                  <div
+                    onClick={() => {
+                      navigate(`/Messages/${conversation._id}`);
+                      setActiveConversation(conversation);
+                    }}
+                    key={conversation._id}
+                    className={`${MessagesCSS.threads} ${
+                      activeConversation
+                        ? activeConversation._id === conversation._id
+                          ? MessagesCSS.activeConversation
+                          : ""
+                        : ""
+                    }`}
+                  >
+                    {lastUnreadMessage ? (
+                      !lastUnreadMessage.read ? (
+                        <i
+                          class={`fa-solid fa-circle-dot ${MessagesCSS.unreadMessageDot}`}
+                        ></i>
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      ""
+                    )}
+                    <div className={MessagesCSS.activeLine}></div>
+                    <div className={MessagesCSS.threadReceiverInfo}>
+                      <img
+                        src={
+                          conversation[
+                            conversation.user1.username === user.username
+                              ? "user2"
+                              : "user1"
+                          ].profilePic
+                            ? conversation[
+                                conversation.user1.username === user.username
+                                  ? "user2"
+                                  : "user1"
+                              ].profilePic.fileUrl
+                            : "/assets/default-avatar.png"
+                        }
+                      ></img>
+                      <div className={MessagesCSS.threadReceiverText}>
+                        <p className={MessagesCSS.threadReceiverUsername}>
+                          {
+                            conversation[
+                              conversation.user1.username === user.username
+                                ? "user2"
+                                : "user1"
+                            ].fullname
+                          }
+                        </p>
+                        <p
+                          className={`${
+                            lastUnreadMessage
+                              ? !lastUnreadMessage.read
+                                ? MessagesCSS.unreadMessageText
+                                : MessagesCSS.lastMessageSent
+                              : MessagesCSS.lastMessageSent
+                          }`}
+                        >
+                          {conversation.messages.length !== 0
+                            ? formatMessage(
+                                conversation.messages[
+                                  conversation.messages.length - 1
+                                ].text
+                              )
+                            : ""}
+                        </p>
+                        <p className={MessagesCSS.messageTime}>
+                          {conversation.messages.length !== 0
+                            ? getLastMessage(
+                                conversation.messages[
+                                  conversation.messages.length - 1
+                                ].createdAt
+                              )
+                            : ""}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          <div className={MessagesCSS.addMoreMessages}>
+            <i className="fa-solid fa-circle-plus"></i>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+    </>
+  );
+}
+export default ConversationList;
