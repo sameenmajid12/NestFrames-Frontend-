@@ -148,6 +148,11 @@ label{
   padding:10px;
   font-family:'Itim';
   border-radius: 10px;;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.post-upload-button:hover{
+  background-color: var(--accent-hover);
 }
 .create-exit{
   position:absolute;

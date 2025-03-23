@@ -76,13 +76,13 @@ function AlbumHeader({ albumName, setAlbumName, albumId,album, setAlbum, collabo
                 ></i>
               </div>
             ) : (
-              <>
+              <p>
                 {albumName}{" "}
                 <i
                   onClick={toggleNameChange}
                   className="fa-solid fa-edit edit-album-name"
                 ></i>
-              </>
+              </p>
             )}
           </div>
           <div className="album-interactions">

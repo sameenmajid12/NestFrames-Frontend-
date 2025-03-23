@@ -3,6 +3,7 @@ import MessagesCSS from "../../../styles/messages.module.css";
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
 import MessageMenu from "../Utils/MessageMenu";
+import {checkRead} from '../Utils/messages';
 function Conversation() {
   const [loaded, setLoaded] = useState(false);
   const [message, setMessage] = useState("");
@@ -14,9 +15,9 @@ function Conversation() {
     screen1000,
     socket,
     user,
-    checkRead,
     conversationContainer,
     scrollToBottom,
+ 
   } = useOutletContext();
   const [messageList, setMessageList] = useState([]);
   useEffect(() => {

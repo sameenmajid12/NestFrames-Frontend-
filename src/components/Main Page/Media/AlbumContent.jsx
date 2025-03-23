@@ -45,7 +45,7 @@ function AlbumContent({albumProps}) {
                     <div className="album-info-right">
                       <div>
                         <i className="fa-solid fa-heart heart"></i>
-                        <p>{formatNum(album.likes) || 0}</p>
+                        <p>{formatNum(album.likedBy.length) || 0}</p>
                       </div>
                      
                       <div>
