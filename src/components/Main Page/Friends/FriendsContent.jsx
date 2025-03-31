@@ -1,9 +1,9 @@
 import FriendsCSS from "../../../styles/friends.module.css";
 import Loading from "../Utils/Loading";
-import useFriendsActions from "../../../hooks/useFriendsActions";
+import useMessageActions from '../../../hooks/useMessageActions';
 import { useOutletContext } from "react-router-dom";
 function FriendsContent({ friendProp }) {
-  const {messageFriend} = useFriendsActions();
+  const {messageFriend} = useMessageActions();
   const {friends: contextFriends } = useOutletContext() || {};
   const {searchRef} = useOutletContext();
   let friends = contextFriends || friendProp;

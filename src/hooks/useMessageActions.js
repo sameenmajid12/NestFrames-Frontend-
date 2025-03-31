@@ -2,11 +2,13 @@ import { useContext } from "react";
 import { UserContext } from "../components/Main Page/Contexts/UserContext";
 import { AuthContext } from "../components/Main Page/Contexts/AuthContext";
 import { NotificationContext } from "../components/Main Page/Contexts/NotificationContext";
+import { useNavigate } from "react-router-dom";
 
 function useMessageActions(){
   const {user, setUser} = useContext(UserContext);
   const {token} = useContext(AuthContext);
   const {addSentNotification} = useContext(NotificationContext);
+  const navigate = useNavigate();
   const getMessages = async(setMessageThreads)=>{
     try{
       const response = await fetch(`http://localhost:3002/messages/conversations`,{
@@ -35,7 +37,7 @@ function useMessageActions(){
       const response = await fetch(
         `http://localhost:3002/messages/message/${friendId}`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -43,8 +45,7 @@ function useMessageActions(){
       );
       const data = await response.json();
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to fetch conversation.");
+        addSentNotification(false, data.message);
       }
 
       if (data.conversation && data.conversation._id) {
