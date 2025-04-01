@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
   Outlet,
   useLocation,
@@ -10,22 +10,31 @@ import SelectorList from "../Utils/SelectorList";
 import { SocketContext } from "../Contexts/SocketContext";
 import useMessageActions from "../../../hooks/useMessageActions";
 import ConversationList from "./ConversationList";
-import { handleAddFriendToMessages } from "../Utils/messages";
 import MessagesEmptyState from "./MessagesEmptyState";
 function Messages() {
   const { socket } = useContext(SocketContext);
-  const [messageThreads, setMessageThreads] = useState([]);
   const [activeConversation, setActiveConversation] = useState(null);
   const [friendListVisibility, setFriendListVisibility] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const conversationContainer = useRef(null);
   const { user } = useContext(UserContext);
   const { screen1000 } = useOutletContext();
-  const { getMessages, getConversation } = useMessageActions();
+  const { getMessages, getConversation ,handleAddFriendToMessages } = useMessageActions();
   const location = useLocation();
+  const messageThreads = useMemo(()=>{
+    if (user.conversations.every(id => typeof id === 'string')) {
+      setLoading(true);
+      getMessages(); 
+      return [];
+    }
+    return user.conversations;
+  },[user]);
+  useEffect(()=>{
+    if(messageThreads.length!==0 && user.conversations.length!==0){
+      setLoading(false);
+    }
+  },[messageThreads])
   useEffect(() => {
-    getMessages(setMessageThreads);
-    setLoading(false);
     document.body.className = "body-default";
     return () => {
       setActiveConversation(null);
@@ -37,10 +46,9 @@ function Messages() {
       }
     
   }, [location]);
+  
   useEffect(() => {
     if (!socket) return;
-
-
     const addToMessageList = (message, conversation) => {
       if (message.text.length < 600) {
         if (conversation) {
@@ -80,7 +88,6 @@ function Messages() {
       socket.off("messageReceived", addToMessageList);
     };
   }, [socket, messageThreads, activeConversation]);
-
   const scrollToBottom = () => {
     if (conversationContainer.current) {
       conversationContainer.current?.lastElementChild?.scrollIntoView({

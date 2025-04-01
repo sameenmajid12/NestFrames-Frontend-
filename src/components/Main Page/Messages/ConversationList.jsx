@@ -2,12 +2,18 @@ import { useNavigate } from "react-router-dom";
 import MessagesCSS from "../../../styles/messages.module.css";
 import { useState } from "react";
 import { checkRead, getLastMessage, formatMessage } from "../Utils/messages";
+import Loading from "../Utils/Loading";
 function ConversationList({screen1000, activeConversation, toggleListVisibility, messageThreads, setActiveConversation, user, loading}) {
   const navigate = useNavigate();
   const [searchTerm ,setSearchTerm] = useState("");
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
+  if(loading){
+    return <Loading/>
+  }
+
   return (
     <>
       {!screen1000 || !activeConversation ? (
