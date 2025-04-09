@@ -17,16 +17,12 @@ function Messages() {
   const [friendListVisibility, setFriendListVisibility] = useState(false);
   const [loading, setLoading] = useState(false);
   const conversationContainer = useRef(null);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const { screen1000 } = useOutletContext();
-  const { getMessages, getConversation ,handleAddFriendToMessages } = useMessageActions();
+  const { getConversation ,handleAddFriendToMessages } = useMessageActions();
   const location = useLocation();
+  console.log(user);
   const messageThreads = useMemo(()=>{
-    if (user.conversations.every(id => typeof id === 'string')) {
-      setLoading(true);
-      getMessages(); 
-      return [];
-    }
     return user.conversations;
   },[user]);
   useEffect(()=>{
@@ -52,28 +48,25 @@ function Messages() {
     const addToMessageList = (message, conversation) => {
       if (message.text.length < 600) {
         if (conversation) {
-          if (activeConversation?._id === conversation._id) {
+          if (activeConversation?._id.toString() === conversation._id.toString()) {
             setActiveConversation((prev) => ({
               ...prev,
               messages: [...prev.messages, message],
             }));
           }
-
-          setMessageThreads((prevThreads) => {
-            const conversationIndex = prevThreads.findIndex(
-              (thread) => thread._id === conversation._id
-            );
-            console.log(conversationIndex);
-            let newThreads = prevThreads;
-            if (conversationIndex !== undefined) {
-              const firstThread = newThreads[0];
-              if (firstThread._id !== conversation._id) {
+          const conversationIndex = user.conversations.findIndex((thread)=>thread._id.toString() === conversation._id.toString());
+          let newThreads = user.conversations;
+          if(conversationIndex!==undefined){
+            const firstThread = newThreads[0];
+              if (firstThread._id.toString() !== conversation._id.toString()) {
                 newThreads.splice(conversationIndex, 1);
                 newThreads.unshift(conversation);
               }
-            }
-            return newThreads;
-          });
+              else{
+                newThreads[0].messages =  [...newThreads[0].messages, message];
+              }
+          }
+          setUser((prev)=>({...prev, conversations:newThreads}))
         }
       } else {
         throw new Error("Message too big");
@@ -98,17 +91,6 @@ function Messages() {
   const toggleListVisibility = () => {
     setFriendListVisibility((prev) => !prev);
   };
-  useEffect(() => {
-    if (messageThreads && activeConversation) {
-      setMessageThreads((prev) =>
-        prev.map((conversation) => {
-          return conversation._id === activeConversation._id
-            ? activeConversation
-            : conversation;
-        })
-      );
-    }
-  }, [activeConversation]);
   return (
     <>
       <div className={MessagesCSS.messagesPageContainer}>
@@ -130,7 +112,6 @@ function Messages() {
               socket,
               user,
               messageThreads,
-              setMessageThreads,
               conversationContainer,
               scrollToBottom,
             }}

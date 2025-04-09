@@ -7,9 +7,7 @@ function MainSearch({searchRef}) {
   const [searchResults, setSearchResults] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  useEffect(()=>{
-    console.log(searchRef);
-  },[])
+
   const handleChange = ({ target }) => {
     setSearchQuery(target.value);
     if (target.value.length > 0) {

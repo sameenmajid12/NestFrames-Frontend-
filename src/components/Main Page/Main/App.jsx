@@ -98,21 +98,20 @@ function App() {
         const localUser = JSON.parse(localStorage.getItem("user"));
         if (localUser) {
           const response = await fetch(
-            `http://localhost:3002/users/${localUser.username}`,
+            `http://localhost:3002/users/refresh`,
             {
               method: "GET",
               headers: {
                 Authorization: `Bearer ${currentToken}`,
-              },
-              credentials: "include",
+              }
             }
           );
           if (!response.ok) {
             throw new Error(`Error: ${response.statusText}`);
           }
-
           const userUpdates = await response.json();
           setUser(userUpdates);
+
           localStorage.setItem("user", JSON.stringify(userUpdates));
           setLoadingUser(false);
         } else {
@@ -133,9 +132,6 @@ function App() {
       }
     };
   }, []);
-  useEffect(()=>{
-    console.log(searchRef);
-  },[searchRef.current])
   useEffect(() => {
     if (!user && !loadingUser) {
       navigate("/sign-in");

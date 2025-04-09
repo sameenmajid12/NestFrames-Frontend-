@@ -70,6 +70,7 @@ function Conversation() {
   let receiverUsername;
   let receiverName;
   let receiverProfilePicUrl;
+  let receiverId;
   if (conversation) {
     userUsername = user.username;
     receiverUsername =
@@ -84,16 +85,21 @@ function Conversation() {
       conversation[
         `user${conversation.user1.username === userUsername ? 2 : 1}`
       ].profilePic;
+    receiverId = conversation[
+      `user${conversation.user1.username === userUsername ? 2 : 1}`
+    ]._id;
   }
 
   const handleMessage = (e) => setMessage(e.target.value);
   const sendMessage = async () => {
     if (message) {
       if (socket && conversationContainer.current) {
+        console.log(conversation._id);
         const sentMessage = {
           sentBy: user._id,
-          receivedBy: receiverUsername,
+          receivedBy: receiverId,
           createdAt: Date.now(),
+          conversation: conversation._id,
           text: message,
         };
         socket.emit("messageSent", sentMessage);

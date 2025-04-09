@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import MessagesCSS from "../../../styles/messages.module.css";
 import { useState } from "react";
-import { checkRead, getLastMessage, formatMessage } from "../Utils/messages";
+import { checkRead, formatMessage } from "../Utils/messages";
 import Loading from "../Utils/Loading";
 function ConversationList({screen1000, activeConversation, toggleListVisibility, messageThreads, setActiveConversation, user, loading}) {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ function ConversationList({screen1000, activeConversation, toggleListVisibility,
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-
+  
   if(loading){
     return <Loading/>
   }
@@ -108,21 +108,15 @@ function ConversationList({screen1000, activeConversation, toggleListVisibility,
                               : MessagesCSS.lastMessageSent
                           }`}
                         >
-                          {conversation.messages.length !== 0
+                          {conversation.lastMessage !== null
                             ? formatMessage(
-                                conversation.messages[
-                                  conversation.messages.length - 1
-                                ].text
+                                conversation.lastMessage.text
                               )
                             : ""}
                         </p>
                         <p className={MessagesCSS.messageTime}>
-                          {conversation.messages.length !== 0
-                            ? getLastMessage(
-                                conversation.messages[
-                                  conversation.messages.length - 1
-                                ].createdAt
-                              )
+                          {conversation.lastMessage !== null
+                            ? conversation.lastMessage.createdAt
                             : ""}
                         </p>
                       </div>
