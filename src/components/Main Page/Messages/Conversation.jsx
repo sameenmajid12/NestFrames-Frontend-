@@ -1,14 +1,17 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import MessagesCSS from "../../../styles/messages.module.css";
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
 import MessageMenu from "../Utils/MessageMenu";
-import {checkRead} from '../Utils/messages';
+import { checkRead } from "../Utils/messages";
+import { AuthContext } from "../Contexts/AuthContext";
 function Conversation() {
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [messageMenuVis, setMessageMenuVis] = useState(false);
   const inputRef = useRef(null);
+  const { token } = useContext(AuthContext);
   const {
     conversation,
     setConversation,
@@ -17,84 +20,55 @@ function Conversation() {
     user,
     conversationContainer,
     scrollToBottom,
- 
+    messageList,
+    setMessageList,
   } = useOutletContext();
-  const [messageList, setMessageList] = useState([]);
   useEffect(() => {
     if (conversation) {
-      const lastMessage = checkRead(conversation);
-      if(lastMessage?!lastMessage.read:false){
+      if (!checkRead(conversation, user._id)) {
+        socket.emit("read", {
+          conversation: conversation,
+        });
+        console.log({
+          ...conversation,
+          lastMessage: { ...conversation.lastMessage, read: true },
+        });
         setConversation((prev) => ({
           ...prev,
-          messages: prev.messages.map((message) =>
-            message._id === lastMessage._id ? { ...message, read: true } : message
-          ),
-        }));        
-        socket.emit("read",{conversation:conversation, lastMessage:lastMessage});
-        
+          lastMessage: { ...prev.lastMessage, read: true },
+        }));
+      }
+      scrollToBottom();
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+      return () => {
+        setMessage("");
       };
+    }
+  }, [conversation]);
+  useEffect(() => {
+    console.log(messageList);
+    if (messageList) {
       setLoaded(true);
-      setMessageList(conversation.messages);
     }
-
-    return () => {};
-  }, [conversation]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [conversation]);
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-    return () => {
-      setMessage("");
-    };
-  }, [conversation]);
-
+  }, [messageList]);
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       sendMessage();
     }
   };
-  const toggleMenuVisibility=()=>{
-    setMessageMenuVis(prev=>!prev);
-    console.log(messageMenuVis);
-  }
-  let userUsername;
-  let receiverUsername;
-  let receiverName;
-  let receiverProfilePicUrl;
-  let receiverId;
-  if (conversation) {
-    userUsername = user.username;
-    receiverUsername =
-      conversation[
-        `user${conversation.user1.username === userUsername ? 2 : 1}`
-      ].username;
-    receiverName =
-      conversation[
-        `user${conversation.user1.username === userUsername ? 2 : 1}`
-      ].fullname;
-    receiverProfilePicUrl =
-      conversation[
-        `user${conversation.user1.username === userUsername ? 2 : 1}`
-      ].profilePic;
-    receiverId = conversation[
-      `user${conversation.user1.username === userUsername ? 2 : 1}`
-    ]._id;
-  }
+  const toggleMenuVisibility = () => {
+    setMessageMenuVis((prev) => !prev);
+  };
+  const isUser1 =  conversation.user1.username === user.username ? true : false;
+  const receiver =  isUser1 ? conversation.user2:conversation.user1;
+ 
 
   const handleMessage = (e) => setMessage(e.target.value);
   const sendMessage = async () => {
     if (message) {
       if (socket && conversationContainer.current) {
-        console.log(conversation._id);
         const sentMessage = {
           sentBy: user._id,
           receivedBy: receiverId,
@@ -112,11 +86,28 @@ function Conversation() {
     <div className={MessagesCSS.conversationContainer}>
       <div className={MessagesCSS.conversationHeader}>
         <div>
-          {screen1000 ? <i onClick={()=>setConversation(null)}className="fa-solid fa-circle-chevron-left"></i> : ""}
-          {receiverName}
+          {screen1000 ? (
+            <i
+              onClick={() => setConversation(null)}
+              className="fa-solid fa-circle-chevron-left"
+            ></i>
+          ) : (
+            ""
+          )}
+          {receiver.fullname}
         </div>
 
-        <i onClick={toggleMenuVisibility} className={`fa-solid fa-ellipsis ${MessagesCSS.ellipsis}`}>{messageMenuVis && <MessageMenu setVisibility={toggleMenuVisibility} conversation={conversation}/>}</i>
+        <i
+          onClick={toggleMenuVisibility}
+          className={`fa-solid fa-ellipsis ${MessagesCSS.ellipsis}`}
+        >
+          {messageMenuVis && (
+            <MessageMenu
+              setVisibility={toggleMenuVisibility}
+              conversation={conversation}
+            />
+          )}
+        </i>
       </div>
       <div
         key={conversation._id}
@@ -127,16 +118,16 @@ function Conversation() {
             <img
               className={MessagesCSS.conversationStartImage}
               src={
-                receiverProfilePicUrl
-                  ? receiverProfilePicUrl.fileUrl
+                receiver.profilePic
+                  ? receiver.profilePic.fileUrl
                   : "/assets/default-avatar.png"
               }
             ></img>
             <p className={MessagesCSS.conversationStartFullName}>
-              {receiverName}
+              {receiver.fullname}
             </p>
             <p className={MessagesCSS.conversationStartUsername}>
-              {receiverUsername}
+              {receiver.username}
             </p>
             <p className={MessagesCSS.conversationStartMessage}>
               This is the beginning of your conversation
@@ -223,7 +214,7 @@ function Conversation() {
                         ""
                       ) : (
                         <div className={MessagesCSS.receiverUsername}>
-                          {receiverName}
+                          {receiver.fullname}
                         </div>
                       )}
                       <p>{message.text}</p>
@@ -233,8 +224,8 @@ function Conversation() {
                       <img
                         key={`image-${index}`}
                         src={
-                          receiverProfilePicUrl
-                            ? receiverProfilePicUrl.fileUrl
+                          receiver.profilePic
+                            ? receiver.profilePic.fileUrl
                             : "/assets/default-avatar.png"
                         }
                         alt="receiver"
@@ -247,7 +238,7 @@ function Conversation() {
                           ""
                         ) : (
                           <div className={MessagesCSS.receiverUsername}>
-                            {receiverName}
+                            {receiver.fullname}
                           </div>
                         )}
                         <p>{message.text}</p>

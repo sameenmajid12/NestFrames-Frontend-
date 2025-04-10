@@ -1,17 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import MessagesCSS from "../../../styles/messages.module.css";
 import { useState } from "react";
-import { checkRead, formatMessage } from "../Utils/messages";
+import { checkRead, formatMessage, formatTime } from "../Utils/messages";
 import Loading from "../Utils/Loading";
-function ConversationList({screen1000, activeConversation, toggleListVisibility, messageThreads, setActiveConversation, user, loading}) {
+function ConversationList({
+  screen1000,
+  activeConversation,
+  toggleListVisibility,
+  messageThreads,
+  setActiveConversation,
+  user,
+  loading,
+}) {
   const navigate = useNavigate();
-  const [searchTerm ,setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-  
-  if(loading){
-    return <Loading/>
+  if (loading) {
+    return <Loading />;
   }
 
   return (
@@ -45,7 +52,6 @@ function ConversationList({screen1000, activeConversation, toggleListVisibility,
               className={MessagesCSS.messageThreadsContainer}
             >
               {messageThreads.map((conversation) => {
-                const lastUnreadMessage = checkRead(conversation, user._id);
                 return (
                   <div
                     onClick={() => {
@@ -61,14 +67,10 @@ function ConversationList({screen1000, activeConversation, toggleListVisibility,
                         : ""
                     }`}
                   >
-                    {lastUnreadMessage ? (
-                      !lastUnreadMessage.read ? (
-                        <i
-                          class={`fa-solid fa-circle-dot ${MessagesCSS.unreadMessageDot}`}
-                        ></i>
-                      ) : (
-                        ""
-                      )
+                    {!checkRead(conversation, user._id) ? (
+                      <i
+                        class={`fa-solid fa-circle-dot ${MessagesCSS.unreadMessageDot}`}
+                      ></i>
                     ) : (
                       ""
                     )}
@@ -101,22 +103,18 @@ function ConversationList({screen1000, activeConversation, toggleListVisibility,
                         </p>
                         <p
                           className={`${
-                            lastUnreadMessage
-                              ? !lastUnreadMessage.read
-                                ? MessagesCSS.unreadMessageText
-                                : MessagesCSS.lastMessageSent
+                            !checkRead(conversation, user._id)
+                              ? MessagesCSS.unreadMessageText
                               : MessagesCSS.lastMessageSent
                           }`}
                         >
                           {conversation.lastMessage !== null
-                            ? formatMessage(
-                                conversation.lastMessage.text
-                              )
+                            ? formatMessage(conversation.lastMessage.text)
                             : ""}
                         </p>
                         <p className={MessagesCSS.messageTime}>
                           {conversation.lastMessage !== null
-                            ? conversation.lastMessage.createdAt
+                            ? formatTime(conversation.lastMessage.createdAt)
                             : ""}
                         </p>
                       </div>

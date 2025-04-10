@@ -9,30 +9,27 @@ function useMessageActions() {
   const { token } = useContext(AuthContext);
   const { addSentNotification } = useContext(NotificationContext);
   const navigate = useNavigate();
-  const getMessages = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3002/messages/conversations`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+  const getMessages = async(conversationId, setMessageList)=>{
+      try{
+        const response = await fetch(`http://localhost:3002/messages/${conversationId}/getMessages`,{
+          method:"GET",
+          headers:{
+            "Authorization":`Bearer ${token}`
+          }
+        });
+        if(!response.ok){
+          setError(true);
+          return false;
         }
-      );
-      const data = await response.json();
-      if (response.ok && data.conversations) {
-        setUser(prev=>({...prev, conversations:data.conversations}));
+        const data = await response.json();
+        setMessageList(data);
         return true;
-      } else {
-        addSentNotification(false, data.message);
+      }
+      catch(error){
+        setError(true);
         return false;
       }
-    } catch (error) {
-      console.error(error);
-      addSentNotification(false, error.message);
     }
-  };
   const messageFriend = async (friendId) => {
     try {
       const response = await fetch(
@@ -64,27 +61,7 @@ function useMessageActions() {
       addSentNotification(false, error.message);
     }
   };
-  const getConversation = async (conversationId, setActiveConversation) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3002/Messages/Conversation/${conversationId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      if (response.ok) {
-        setActiveConversation(data.conversation);
-      } else {
-        addSentNotification(false, data.message);
-      }
-    } catch (error) {
-      addSentNotification(false, error.message);
-    }
-  };
+  
   const handleAddFriendToMessages = async (friend) => {
     try {
       const friendId = friend[0]._id;
@@ -117,7 +94,6 @@ function useMessageActions() {
   return {
     messageFriend,
     getMessages,
-    getConversation,
     handleAddFriendToMessages,
   };
 }

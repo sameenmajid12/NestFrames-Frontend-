@@ -15,13 +15,13 @@ function Messages() {
   const { socket } = useContext(SocketContext);
   const [activeConversation, setActiveConversation] = useState(null);
   const [friendListVisibility, setFriendListVisibility] = useState(false);
+  const [messageList, setMessageList] = useState(null);
   const [loading, setLoading] = useState(false);
   const conversationContainer = useRef(null);
   const { user, setUser } = useContext(UserContext);
   const { screen1000 } = useOutletContext();
-  const { getConversation ,handleAddFriendToMessages } = useMessageActions();
+  const { handleAddFriendToMessages, getMessages } = useMessageActions();
   const location = useLocation();
-  console.log(user);
   const messageThreads = useMemo(()=>{
     return user.conversations;
   },[user]);
@@ -36,12 +36,15 @@ function Messages() {
       setActiveConversation(null);
     };
   }, []);
-  useEffect(() => {
-      if(location.pathname.split("/")[2]){
-        getConversation(location.pathname.split("/")[2], setActiveConversation);
-      }
-    
-  }, [location]);
+  useEffect(()=>{
+    const conversationId = location.pathname.split("/")[2];
+
+    if(conversationId){
+      const conversation = messageThreads.find((thread)=>thread._id.toString()===conversationId);
+      setActiveConversation(conversation);
+      getMessages(conversationId,setMessageList);
+    }
+  },[location]);
   
   useEffect(() => {
     if (!socket) return;
@@ -114,6 +117,8 @@ function Messages() {
               messageThreads,
               conversationContainer,
               scrollToBottom,
+              messageList,
+              setMessageList
             }}
           />
         ) : (

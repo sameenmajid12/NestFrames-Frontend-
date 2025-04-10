@@ -6,17 +6,17 @@ export const formatMessage = (message) => {
 };
 
 export const checkRead = (conversation, userId) => {
-  if (!conversation.messages || conversation.messages.length === 0) {
-    return null;
+
+  if (!conversation.lastMessage) {
+    return true;
   }
-  let index = conversation.messages.length - 1;
-  if (conversation.messages[index].sentBy !== userId) {
-    return conversation.messages[index];
+  if(conversation.lastMessage.sentBy.toString() !== userId.toString()){
+    return conversation.lastMessage.read;
   }
-  return null;
+  return true;
 };
 
-export const getLastMessage = (lastTime) => {
+export const formatTime = (lastTime)=>{
   const messageTime = new Date(lastTime);
   if (Date.now() - messageTime.getTime() >= 1000 * 60 * 60 * 24) {
     return (
@@ -33,4 +33,4 @@ export const getLastMessage = (lastTime) => {
   minutes = minutes < 10 ? "0" + minutes : minutes;
   const timeString = `${hours}:${minutes}${ampm}`;
   return timeString;
-};
+}
