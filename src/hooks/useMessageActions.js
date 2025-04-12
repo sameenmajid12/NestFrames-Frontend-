@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../components/Main Page/Contexts/UserContext";
 import { AuthContext } from "../components/Main Page/Contexts/AuthContext";
 import { NotificationContext } from "../components/Main Page/Contexts/NotificationContext";
@@ -8,6 +8,16 @@ function useMessageActions() {
   const { user, setUser } = useContext(UserContext);
   const { token } = useContext(AuthContext);
   const { addSentNotification } = useContext(NotificationContext);
+  const [pendingConversation, setPendingConversation] = useState(null);
+  useEffect(()=>{
+    if(pendingConversation){
+      if(user.conversations.find((c)=>c._id===pendingConversation._id)){
+        navigate(`/messages/${pendingConversation._id}`);
+        setPendingConversation(null);
+      }
+    }
+    
+  },[pendingConversation])
   const navigate = useNavigate();
   const getMessages = async(conversationId, setMessageList)=>{
       try{
@@ -79,13 +89,14 @@ function useMessageActions() {
         addSentNotification(false, data.message);
       }
       if (response.status == 201) {
+        const initiallength = user.conversations.length;
         setUser((prev) => ({
           ...prev,
-          conversations: [...prev.conversations, data.conversation],
+          conversations: [data.conversation, ...prev.conversations],
         }));
-        navigate(`/Messages/${data.conversation._id}`);
+        setPendingConversation(data.conversation);
       } else {
-        navigate(`/Messages/${data.conversation._id}`);
+        setPendingConversation(data.conversation)
       }
     } catch (error) {
       addSentNotification(false, error.message);

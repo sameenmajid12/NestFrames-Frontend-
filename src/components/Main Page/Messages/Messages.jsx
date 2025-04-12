@@ -1,9 +1,5 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import {
-  Outlet,
-  useLocation,
-  useOutletContext,
-} from "react-router-dom";
+import { Outlet, useLocation, useOutletContext } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
 import MessagesCSS from "../../../styles/messages.module.css";
 import SelectorList from "../Utils/SelectorList";
@@ -12,78 +8,109 @@ import useMessageActions from "../../../hooks/useMessageActions";
 import ConversationList from "./ConversationList";
 import MessagesEmptyState from "./MessagesEmptyState";
 function Messages() {
+  const { user, setUser } = useContext(UserContext);
   const { socket } = useContext(SocketContext);
   const [activeConversation, setActiveConversation] = useState(null);
   const [friendListVisibility, setFriendListVisibility] = useState(false);
   const [messageList, setMessageList] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [messageThreads, setMessageThreads] = useState(user.conversations);
   const conversationContainer = useRef(null);
-  const { user, setUser } = useContext(UserContext);
   const { screen1000 } = useOutletContext();
   const { handleAddFriendToMessages, getMessages } = useMessageActions();
   const location = useLocation();
-  const messageThreads = useMemo(()=>{
-    return user.conversations;
-  },[user]);
   useEffect(()=>{
-    if(messageThreads.length!==0 && user.conversations.length!==0){
+    setMessageThreads(user.conversations);
+  },[user.conversations]);
+  useEffect(() => {
+    if (messageThreads.length !== 0 && user.conversations.length !== 0) {
       setLoading(false);
     }
-  },[messageThreads])
+  }, [messageThreads]);
   useEffect(() => {
     document.body.className = "body-default";
     return () => {
       setActiveConversation(null);
     };
   }, []);
-  useEffect(()=>{
-    const conversationId = location.pathname.split("/")[2];
 
-    if(conversationId){
-      const conversation = messageThreads.find((thread)=>thread._id.toString()===conversationId);
+  useEffect(() => {
+    const conversationId = location.pathname.split("/")[2];
+    if (conversationId) {
+      const conversation = messageThreads.find(
+        (thread) => thread._id.toString() === conversationId
+      );
+
       setActiveConversation(conversation);
-      getMessages(conversationId,setMessageList);
+      getMessages(conversationId, setMessageList);
     }
-  },[location]);
-  
+  }, [location]);
+
   useEffect(() => {
     if (!socket) return;
-    const addToMessageList = (message, conversation) => {
+    const addToMessageList = (message, conversation, eventType) => {
       if (message.text.length < 600) {
         if (conversation) {
-          if (activeConversation?._id.toString() === conversation._id.toString()) {
-            setActiveConversation((prev) => ({
-              ...prev,
-              messages: [...prev.messages, message],
-            }));
+          if (
+            activeConversation?._id.toString() === conversation._id.toString()
+          ) {
+            setMessageList((prev) => [...prev, message]);
           }
-          const conversationIndex = user.conversations.findIndex((thread)=>thread._id.toString() === conversation._id.toString());
-          let newThreads = user.conversations;
-          if(conversationIndex!==undefined){
-            const firstThread = newThreads[0];
-              if (firstThread._id.toString() !== conversation._id.toString()) {
-                newThreads.splice(conversationIndex, 1);
-                newThreads.unshift(conversation);
+          setMessageThreads((prev) => {
+            const convoIndex = prev.findIndex(
+              (c) => c._id.toString() === conversation._id.toString()
+            );
+            let newThreads = [...prev];
+
+            if (convoIndex !== -1) {
+              const updatedThread = {
+                ...prev[convoIndex],
+                lastMessage: message,
+              };
+              if (
+                eventType === "messageReceived" &&
+                activeConversation._id.toString() ===
+                  conversation._id.toString()
+              ) {
+                updatedThread.lastMessage = {
+                  ...updatedThread.lastMessage,
+                  read: true,
+                };
+                socket.emit("read", {
+                  conversation: conversation,
+                });
               }
-              else{
-                newThreads[0].messages =  [...newThreads[0].messages, message];
-              }
-          }
-          setUser((prev)=>({...prev, conversations:newThreads}))
+              newThreads.splice(convoIndex, 1);
+              newThreads.unshift(updatedThread);
+            } else {
+              newThreads.unshift({
+                ...conversation,
+                lastMessage: message,
+              });
+            }
+            return newThreads;
+          });
         }
       } else {
         throw new Error("Message too big");
       }
     };
+    const handleMessageSent = (message, conversation) => {
+      addToMessageList(message, conversation, "messageSent");
+    };
 
-    socket.on("messageSent", addToMessageList);
-    socket.on("messageReceived", addToMessageList);
+    const handleMessageReceived = (message, conversation) => {
+      addToMessageList(message, conversation, "messageReceived");
+    };
+
+    socket.on("messageSent", handleMessageSent);
+    socket.on("messageReceived", handleMessageReceived);
 
     return () => {
-      socket.off("messageSent", addToMessageList);
-      socket.off("messageReceived", addToMessageList);
+      socket.off("messageSent", handleMessageSent);
+      socket.off("messageReceived", handleMessageReceived);
     };
-  }, [socket, messageThreads, activeConversation]);
+  }, [socket, activeConversation]);
   const scrollToBottom = () => {
     if (conversationContainer.current) {
       conversationContainer.current?.lastElementChild?.scrollIntoView({
@@ -118,11 +145,12 @@ function Messages() {
               conversationContainer,
               scrollToBottom,
               messageList,
-              setMessageList
+              setMessageList,
+              setMessageThreads,
             }}
           />
         ) : (
-          <MessagesEmptyState/>
+          <MessagesEmptyState />
         )}
       </div>
       {friendListVisibility && (

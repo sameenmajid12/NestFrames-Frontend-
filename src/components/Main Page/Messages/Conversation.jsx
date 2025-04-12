@@ -5,13 +5,12 @@ import { useEffect } from "react";
 import MessageMenu from "../Utils/MessageMenu";
 import { checkRead } from "../Utils/messages";
 import { AuthContext } from "../Contexts/AuthContext";
+import { UserContext } from "../Contexts/UserContext";
 function Conversation() {
   const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [messageMenuVis, setMessageMenuVis] = useState(false);
   const inputRef = useRef(null);
-  const { token } = useContext(AuthContext);
   const {
     conversation,
     setConversation,
@@ -21,7 +20,7 @@ function Conversation() {
     conversationContainer,
     scrollToBottom,
     messageList,
-    setMessageList,
+    setMessageThreads
   } = useOutletContext();
   useEffect(() => {
     if (conversation) {
@@ -29,14 +28,16 @@ function Conversation() {
         socket.emit("read", {
           conversation: conversation,
         });
-        console.log({
-          ...conversation,
-          lastMessage: { ...conversation.lastMessage, read: true },
-        });
-        setConversation((prev) => ({
-          ...prev,
-          lastMessage: { ...prev.lastMessage, read: true },
-        }));
+        setMessageThreads((prev) =>
+          prev.map((thread) =>
+            thread._id.toString() === conversation._id.toString()
+              ? {
+                  ...conversation,
+                  lastMessage: { ...conversation.lastMessage, read: true },
+                }
+              : thread
+          )
+        );
       }
       scrollToBottom();
       if (inputRef.current) {
@@ -48,7 +49,6 @@ function Conversation() {
     }
   }, [conversation]);
   useEffect(() => {
-    console.log(messageList);
     if (messageList) {
       setLoaded(true);
     }
@@ -61,9 +61,8 @@ function Conversation() {
   const toggleMenuVisibility = () => {
     setMessageMenuVis((prev) => !prev);
   };
-  const isUser1 =  conversation.user1.username === user.username ? true : false;
-  const receiver =  isUser1 ? conversation.user2:conversation.user1;
- 
+  const isUser1 = conversation.user1.username === user.username ? true : false;
+  const receiver = isUser1 ? conversation.user2 : conversation.user1;
 
   const handleMessage = (e) => setMessage(e.target.value);
   const sendMessage = async () => {
@@ -71,7 +70,7 @@ function Conversation() {
       if (socket && conversationContainer.current) {
         const sentMessage = {
           sentBy: user._id,
-          receivedBy: receiverId,
+          receivedBy: receiver._id,
           createdAt: Date.now(),
           conversation: conversation._id,
           text: message,

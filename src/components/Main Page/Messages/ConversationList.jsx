@@ -69,7 +69,7 @@ function ConversationList({
                   >
                     {!checkRead(conversation, user._id) ? (
                       <i
-                        class={`fa-solid fa-circle-dot ${MessagesCSS.unreadMessageDot}`}
+                        className={`fa-solid fa-circle-dot ${MessagesCSS.unreadMessageDot}`}
                       ></i>
                     ) : (
                       ""
@@ -114,7 +114,7 @@ function ConversationList({
                         </p>
                         <p className={MessagesCSS.messageTime}>
                           {conversation.lastMessage !== null
-                            ? formatTime(conversation.lastMessage.createdAt)
+                            ? formatTime(conversation.lastUpdate)
                             : ""}
                         </p>
                       </div>

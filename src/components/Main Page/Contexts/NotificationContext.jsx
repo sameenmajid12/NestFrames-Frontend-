@@ -14,7 +14,6 @@ export const NotificationProvider = ({ children }) => {
     const response = await fetch(
       `http://localhost:3002/notifications/${user._id}/getNotifications`
     );
-    console.log(response);
     if (response.ok) {
       const { notifications } = await response.json();
       setReceivedNotifications(notifications);
@@ -50,7 +49,6 @@ export const NotificationProvider = ({ children }) => {
   useEffect(() => {
     if (user && socket) {
       socket.on("notification", (notification) => {
-        console.log(notification);
         addReceivedNotification(notification);
       });
     }
