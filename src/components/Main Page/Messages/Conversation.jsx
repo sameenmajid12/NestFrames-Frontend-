@@ -1,11 +1,9 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef } from "react";
 import MessagesCSS from "../../../styles/messages.module.css";
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
 import MessageMenu from "../Utils/MessageMenu";
 import { checkRead } from "../Utils/messages";
-import { AuthContext } from "../Contexts/AuthContext";
-import { UserContext } from "../Contexts/UserContext";
 function Conversation() {
   const [loaded, setLoaded] = useState(false);
   const [message, setMessage] = useState("");
